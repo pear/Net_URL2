@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<package version="1.0">
+
+    <name>Net_URL2</name>
+    <summary>Easy parsing of Urls</summary>
+    <description>Provides easy parsing of URLs and their constituent parts.</description>
+
+    <maintainers>
+        <maintainer>
+            <user>richard</user>
+            <name>Richard heyes</name>
+            <email>richard@php.net</email>
+            <role>lead</role>
+        </maintainer>
+    </maintainers>
+
+    <release>
+        <version>0.1.0</version>
+        <date>2005-11-04</date>
+        <license>BSD</license>
+        <state>stable</state>
+        <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
+
+        <filelist>
+            <file role="php" baseinstalldir="Net" name="URL2.php"/>
+            <file role="doc" baseinstalldir="Net" name="docs/example.php"/>
+        </filelist>
+
+        <deps>
+            <dep type="php" rel="ge" version="5.0" />
+        </deps>
+
+    </release>
+
+</package>
