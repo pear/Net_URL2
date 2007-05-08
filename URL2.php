@@ -36,9 +36,20 @@
 //
 // Net_URL2 Class (PHP5 Only)
 
-
 class Net_URL2
 {
+    /**
+     * Options
+     *
+     * This is the options available for the neturl
+     * options.
+     *
+     * @var array $options  The options of Net_URL2
+     */
+    public static $options = array(
+        'encode_query_keys' => false,
+    );
+
     /**
     * Full url
     * @var string
@@ -215,10 +226,15 @@ class Net_URL2
     *
     * @param  string $name       Name of item
     * @param  string $value      Value of item
-    * @param  bool   $preencoded Whether value is urlencoded or not, default = not
+    * @param  bool   $preencoded Whether value is rawurlencoded or not, default = not
     */
     public function addQueryString($name, $value, $preencoded = false)
     {
+        if ($this->getOption('encode_query_keys')) {
+            $name = rawurlencode($name);
+        }
+
+
         if ($preencoded) {
             $this->querystring[$name] = $value;
         } else {
@@ -233,6 +249,10 @@ class Net_URL2
     */
     public function removeQueryString($name)
     {
+        if ($this->getOption('encode_query_keys')) {
+            $name = rawurlencode($name);
+        }
+        
         if (isset($this->querystring[$name])) {
             unset($this->querystring[$name]);
         }
@@ -366,6 +386,7 @@ class Net_URL2
 
         foreach ($parts as $part) {
             if (strpos($part, '=') !== false) {
+                
                 $value = substr($part, strpos($part, '=') + 1);
                 $key   = substr($part, 0, strpos($part, '='));
             } else {
@@ -373,7 +394,9 @@ class Net_URL2
                 $key   = $part;
             }
 
-            $key = rawurldecode($key);
+            if (!$this->getOption('encode_query_keys')) {
+                $key = urldecode($key);
+            }
 
             if (preg_match('#^(.*)\[([0-9a-z_-]*)\]#i', $key, $matches)) {
                 $key = $matches[1];
@@ -403,5 +426,36 @@ class Net_URL2
         return $return;
     }
 
+    /**
+     * Set a private option
+     *
+     * This function sets a private option
+     *
+     * @param string $optionName   The option name
+     * @param string $value        The value of this option
+     */
+    public static function setOption($optionName, $value)
+    {
+        self::$options[$optionName] = $value;
+    }
+
+    /**
+     * Get an option
+     *
+     * This function will get an option
+     * from the options private variable.
+     *
+     * @see $this->options
+     * @return mixed   Bool false if the key doesn't exist and the value
+     *                 of the option if it exists.
+     */
+    public function getOption($optionName)
+    {
+        if (!isset(self::$options[$optionName])) {
+            return false;
+        }
+
+        return self::$options[$optionName];
+    }
 }
 ?>
