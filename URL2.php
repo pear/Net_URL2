@@ -312,6 +312,26 @@ class Net_URL2
     }
 
     /**
+     * Set an anchor
+     *
+     * Set a part of an url.
+     *
+     * @param string $anchorValue      The value of the anchor
+     * @param bool   $prEencodedValue  Wether the value is pre-encoded or not. Default false.
+     * @see   $this->anchor
+     */
+    public function setAnchor($anchorValue, $preEncodedValue = false)
+    {
+        if (is_string($anchorValue)) {
+            if ($preEncodedValue) {
+                $this->anchor = $anchorValue;
+            } else {
+                $this->anchor = rawurlencode($anchorValue);
+            }
+        }   
+    }
+
+    /**
     * Resolves //, ../ and ./ from a path and returns
     * the result. Eg:
     *
