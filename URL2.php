@@ -204,9 +204,10 @@ class Net_URL2
     /**
     * Returns full url
     *
+    * @param  bool $resolvedUrl  The resolved url.  Default false
     * @return string Full url
     */
-    public function getURL()
+    public function getURL($resolvedUrl = false)
     {
         $querystring = $this->getQueryString();
 
@@ -217,6 +218,10 @@ class Net_URL2
                    . $this->path
                    . (!empty($querystring) ? '?' . $querystring : '')
                    . (!empty($this->anchor) ? '#' . $this->anchor : '');
+
+        if ($resolvedUrl) {
+            return self::resolvePath($this->url);
+        }
 
         return $this->url;
     }
