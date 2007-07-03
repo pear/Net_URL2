@@ -194,7 +194,7 @@ class Net_URL2
                         break;
 
                     case 'fragment':
-                        $this->anchor = $value;
+                        $this->setAnchor($value);
                         break;
                 }
             }
