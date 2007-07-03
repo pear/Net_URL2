@@ -243,6 +243,32 @@ class Net_URL2
     }
 
     /**
+     * Add Array Query Strings
+     *
+     * This function is used to add a query string using an associative array.
+     *
+     * <code>
+     *  $queryStrings = array(
+     *                      'name' => 'david', 
+     *                      'pear' => 'fun'
+     *  );
+     *
+     *  $netUrlObject->addQueryStringArray($queryArray, false);
+     * </code>
+     *
+     * @param Array $queryArray       The assoc array of keys and values to set in the query
+     * @param bool  $preEncodedValues Are the values pre-encoded ? :O Default no!
+     * @see   $this->addQueryString
+     */
+    public function addQueryStringArray(Array $queryArray, $preEncodedValue = false)
+    {
+        foreach ($query as $name => $value) {
+            $this->addQueryString($name, $value, $preEncodedValue);
+        }
+    }
+
+    
+    /**
     * Removes a querystring item
     *
     * @param  string $name Name of item
