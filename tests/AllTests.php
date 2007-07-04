@@ -6,8 +6,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-
-require_once 'Net/URL2Test.php';
+chdir(dirname(__FILE__));
+require_once 'URL2Test.php';
 
 
 class Net_URL2_AllTests
