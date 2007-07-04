@@ -36,6 +36,11 @@
 //
 // Net_URL2 Class (PHP5 Only)
 
+/**
+ * Net_URL Class definition. This class handles the manipulation of URLs.
+ * 
+ * @package Net_URL
+ */
 class Net_URL2
 {
     /**
@@ -168,34 +173,34 @@ class Net_URL2
 
             foreach ($urlinfo as $key => $value) {
                 switch ($key) {
-                    case 'scheme':
-                        $this->protocol = $value;
-                        $this->port     = $this->getStandardPort($value);
-                        break;
+                case 'scheme':
+                    $this->protocol = $value;
+                    $this->port     = $this->getStandardPort($value);
+                    break;
 
-                    case 'user':
-                    case 'pass':
-                    case 'host':
-                    case 'port':
-                        $this->$key = $value;
-                        break;
+                case 'user':
+                case 'pass':
+                case 'host':
+                case 'port':
+                    $this->$key = $value;
+                    break;
 
-                    case 'path':
-                        if ($value{0} == '/') {
-                            $this->path = $value;
-                        } else {
-                            $path = dirname($this->path) == DIRECTORY_SEPARATOR ? '' : dirname($this->path);
-                            $this->path = sprintf('%s/%s', $path, $value);
-                        }
-                        break;
+                case 'path':
+                    if ($value{0} == '/') {
+                        $this->path = $value;
+                    } else {
+                        $path = dirname($this->path) == DIRECTORY_SEPARATOR ? '' : dirname($this->path);
+                        $this->path = sprintf('%s/%s', $path, $value);
+                    }
+                    break;
 
-                    case 'query':
-                        $this->querystring = $this->_parseRawQueryString($value);
-                        break;
+                case 'query':
+                    $this->querystring = $this->_parseRawQueryString($value);
+                    break;
 
-                    case 'fragment':
-                        $this->setAnchor($value);
-                        break;
+                case 'fragment':
+                    $this->setAnchor($value);
+                    break;
                 }
             }
         }
@@ -258,7 +263,7 @@ class Net_URL2
      *                      'pear' => 'fun'
      *  );
      *
-     *  $netUrlObject->addQueryStringArray($queryArray, false);
+     *  $netUrlObject->addQueryStringArray($queryStrings, false);
      * </code>
      *
      * @param Array $queryArray       The assoc array of keys and values to set in the query
@@ -267,7 +272,7 @@ class Net_URL2
      */
     public function addQueryStringArray(Array $queryArray, $preEncodedValue = false)
     {
-        foreach ($query as $name => $value) {
+        foreach ($queryArray as $name => $value) {
             $this->addQueryString($name, $value, $preEncodedValue);
         }
     }
@@ -286,6 +291,27 @@ class Net_URL2
         
         if (isset($this->querystring[$name])) {
             unset($this->querystring[$name]);
+        }
+    }
+
+    /**
+    * Removes multiple querystring items
+    *
+    * <code>
+    *  $queryStrings = array(
+    *                      'name', 
+    *                      'pear'
+    *  );
+    *
+    *  $netUrlObject->removeQueryStringArray($queryStrings);
+    * </code>
+    * 
+    * @param  array  $queryArray      Array of names to remove
+    */
+    public function removeQueryStringArray(Array $queryArray)
+    {
+        foreach ($queryArray as $name) {
+            $this->removeQueryString($name);
         }
     }
 
@@ -413,15 +439,15 @@ class Net_URL2
     public static function getStandardPort($scheme)
     {
         switch (strtolower($scheme)) {
-            case 'http':    return 80;
-            case 'https':   return 443;
-            case 'ftp':     return 21;
-            case 'imap':    return 143;
-            case 'imaps':   return 993;
-            case 'pop3':    return 110;
-            case 'pop3s':   return 995;
-            default:        return null;
-       }
+        case 'http':    return 80;
+        case 'https':   return 443;
+        case 'ftp':     return 21;
+        case 'imap':    return 143;
+        case 'imaps':   return 993;
+        case 'pop3':    return 110;
+        case 'pop3s':   return 995;
+        default:        return null;
+        }
     }
 
     /**
