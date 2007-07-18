@@ -20,7 +20,7 @@ class Net_URL2_AllTests
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Net_URL2Test');
+        $suite = new PHPUnit_Framework_TestSuite('Net_URL2 tests');
         /** Add testsuites, if there is. */
         $suite->addTestSuite('Net_URL2Test');
 
