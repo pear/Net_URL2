@@ -1,6 +1,6 @@
 <?php
 // +-----------------------------------------------------------------------+
-// | Copyright (c) 2007-2008, Christian Schmidt, Peytz & Co. ApS            |
+// | Copyright (c) 2007-2008, Christian Schmidt, Peytz & Co. A/S           |
 // | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
@@ -119,12 +119,15 @@ class Net_URL2
     private $fragment = false;
 
     /**
-     * @param  string  an absolute or relative URL
+     * @param string $url     an absolute or relative URL
+     * @param array  $options
      */
     public function __construct($url, $options = null)
     {
-        $this->setOption(self::OPTION_SEPARATOR_INPUT,  ini_get('arg_separator.input'));
-        $this->setOption(self::OPTION_SEPARATOR_OUTPUT, ini_get('arg_separator.output'));
+        $this->setOption(self::OPTION_SEPARATOR_INPUT,
+                         ini_get('arg_separator.input'));
+        $this->setOption(self::OPTION_SEPARATOR_OUTPUT,
+                         ini_get('arg_separator.output'));
         if (is_array($options)) {
             foreach ($options as $optionName => $value) {
                 $this->setOption($optionName);
@@ -158,6 +161,7 @@ class Net_URL2
     /**
      * Returns the scheme, e.g. "http" or "urn", or false if there is no
      * scheme specified, i.e. if this is a relative URL.
+     *
      * @return  string|bool
      */
     public function getScheme()
@@ -166,7 +170,9 @@ class Net_URL2
     }
 
     /**
-     * @param  string|bool
+     * @param string|bool $scheme
+     *
+     * @return void
      * @see    getScheme()
      */
     public function setScheme($scheme)
@@ -177,6 +183,7 @@ class Net_URL2
     /**
      * Returns the user part of the userinfo part (the part preceding the first
      *  ":"), or false if there is no userinfo part.
+     *
      * @return  string|bool
      */
     public function getUser()
@@ -189,6 +196,7 @@ class Net_URL2
      *  ":"), or false if there is no userinfo part (i.e. the URL does not
      * contain "@" in front of the hostname) or the userinfo part does not
      * contain ":".
+     *
      * @return  string|bool
      */
     public function getPassword()
@@ -199,6 +207,7 @@ class Net_URL2
     /**
      * Returns the userinfo part, or false if there is none, i.e. if the
      * authority part does not contain "@".
+     *
      * @return  string|bool
      */
     public function getUserinfo()
@@ -209,8 +218,11 @@ class Net_URL2
     /**
      * Sets the userinfo part. If two arguments are passed, they are combined
      * in the userinfo part as username ":" password.
-     * @param  string|bool  userinfo or username
-     * @param  string|bool
+     *
+     * @param string|bool $userinfo userinfo or username
+     * @param string|bool $password
+     *
+     * @return void
      */
     public function setUserinfo($userinfo, $password = false)
     {
@@ -223,6 +235,7 @@ class Net_URL2
     /**
      * Returns the host part, or false if there is no authority part, e.g.
      * relative URLs.
+     *
      * @return  string|bool
      */
     public function getHost()
@@ -231,7 +244,9 @@ class Net_URL2
     }
 
     /**
-     * @param  string|bool
+     * @param string|bool $host
+     *
+     * @return void
      */
     public function setHost($host)
     {
@@ -241,6 +256,7 @@ class Net_URL2
     /**
      * Returns the port number, or false if there is no port number specified,
      * i.e. if the default port is to be used.
+     *
      * @return  int|bool
      */
     public function getPort()
@@ -249,7 +265,9 @@ class Net_URL2
     }
 
     /**
-     * @param  int|bool
+     * @param int|bool $port
+     *
+     * @return void
      */
     public function setPort($port)
     {
@@ -259,7 +277,8 @@ class Net_URL2
     /**
      * Returns the authority part, i.e. [ userinfo "@" ] host [ ":" port ], or
      * false if there is no authority none.
-     * @return  string|bool
+     *
+     * @return string|bool
      */
     public function getAuthority()
     {
@@ -283,7 +302,9 @@ class Net_URL2
     }
 
     /**
-     * @param  string|false
+     * @param string|false $authority
+     *
+     * @return void
      */
     public function setAuthority($authority)
     {
@@ -305,7 +326,8 @@ class Net_URL2
 
     /**
      * Returns the path part (possibly an empty string).
-     * @return  string
+     *
+     * @return string
      */
     public function getPath()
     {
@@ -313,7 +335,9 @@ class Net_URL2
     }
 
     /**
-     * @param  string
+     * @param string $path
+     *
+     * @return void
      */
     public function setPath($path)
     {
@@ -323,6 +347,7 @@ class Net_URL2
     /**
      * Returns the query string (excluding the leading "?"), or false if "?"
      * isn't present in the URL.
+     *
      * @return  string|bool
      * @see     self::getQueryVariables()
      */
@@ -332,8 +357,10 @@ class Net_URL2
     }
 
     /**
-     * @param  string|bool
-     * @see    self::setQueryVariables()
+     * @param string|bool $query
+     *
+     * @return void
+     * @see   self::setQueryVariables()
      */
     public function setQuery($query)
     {
@@ -342,17 +369,20 @@ class Net_URL2
 
     /**
      * Returns the fragment name, or false if "#" isn't present in the URL.
+     *
      * @return  string|bool
      */
-    public function getfragment()
+    public function getFragment()
     {
         return $this->fragment;
     }
 
     /**
-     * @param  string|bool
+     * @param string|bool $fragment
+     *
+     * @return void
      */
-    public function setfragment($fragment)
+    public function setFragment($fragment)
     {
         $this->fragment = $fragment;
     }
@@ -360,13 +390,16 @@ class Net_URL2
     /**
      * Returns the query string like an array as the variables would appear in
      * $_GET in a PHP script.
+     *
      * @return  array
      */
     public function getQueryVariables()
     {
-        $pattern = '/[' . preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT), '/') . ']/';
-        $parts  = preg_split($pattern, $this->query, -1, PREG_SPLIT_NO_EMPTY);
-        $return = array();
+        $pattern = '/[' .
+                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT), '/') .
+                   ']/';
+        $parts   = preg_split($pattern, $this->query, -1, PREG_SPLIT_NO_EMPTY);
+        $return  = array();
 
         foreach ($parts as $part) {
             if (strpos($part, '=') !== false) {
@@ -398,7 +431,9 @@ class Net_URL2
                 } else {
                     $return[$key][$idx] = $value;
                 }
-            } elseif (!$this->getOption(self::OPTION_USE_BRACKETS) && !empty($return[$key])) {
+            } elseif (!$this->getOption(self::OPTION_USE_BRACKETS)
+                      && !empty($return[$key])
+            ) {
                 $return[$key]   = (array) $return[$key];
                 $return[$key][] = $value;
             } else {
@@ -410,7 +445,9 @@ class Net_URL2
     }
 
     /**
-     * @param  array  (name => value) array
+     * @param array $array (name => value) array
+     *
+     * @return void
      */
     public function setQueryVariables(array $array)
     {
@@ -425,7 +462,8 @@ class Net_URL2
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
                         $parts[] = $this->getOption(self::OPTION_USE_BRACKETS)
-                            ? sprintf('%s[%s]=%s', $name, $k, $v) : ($name . '=' . $v);
+                            ? sprintf('%s[%s]=%s', $name, $k, $v)
+                            : ($name . '=' . $v);
                     }
                 } elseif (!is_null($value)) {
                     $parts[] = $name . '=' . $value;
@@ -433,13 +471,15 @@ class Net_URL2
                     $parts[] = $name;
                 }
             }
-            $this->query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT), $parts);
+            $this->query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT),
+                                   $parts);
         }
     }
 
     /**
-     * @param  string
-     * @param  mixed
+     * @param string $name
+     * @param mixed  $value
+     *
      * @return  array
      */
     public function setQueryVariable($name, $value)
@@ -450,7 +490,9 @@ class Net_URL2
     }
 
     /**
-     * @param  string
+     * @param string $name
+     *
+     * @return void
      */
     public function unsetQueryVariable($name)
     {
@@ -461,6 +503,7 @@ class Net_URL2
 
     /**
      * Returns a string representation of this URL.
+     *
      * @return  string
      */
     public function getURL()
@@ -492,6 +535,7 @@ class Net_URL2
     /** 
      * Returns a normalized string representation of this URL. This is useful
      * for comparison of URLs.
+     *
      * @return  string
      */
     public function getNormalizedURL()
@@ -503,6 +547,7 @@ class Net_URL2
 
     /** 
      * Returns a normalized Net_URL2 instance.
+     *
      * @return  Net_URL2
      */
     public function normalize()
@@ -545,6 +590,7 @@ class Net_URL2
 
     /**
      * Returns whether this instance represents an absolute URL.
+     *
      * @return  bool
      */
     public function isAbsolute()
@@ -555,8 +601,10 @@ class Net_URL2
     /**
      * Returns an Net_URL2 instance representing an absolute URL relative to
      * this URL.
-     * @param  Net_URL2|string  relative URL
-     * @param  Net_URL2
+     *
+     * @param Net_URL2|string $reference relative URL
+     *
+     * @return Net_URL2
      */
     public function resolve($reference)
     {
@@ -575,24 +623,24 @@ class Net_URL2
 
         $target = new self('');
         if ($reference->scheme !== false) {
-            $target->scheme  = $reference->scheme;
+            $target->scheme = $reference->scheme;
             $target->setAuthority($reference->getAuthority());
-            $target->path      = self::removeDotSegments($reference->path);
-            $target->query     = $reference->query;
+            $target->path  = self::removeDotSegments($reference->path);
+            $target->query = $reference->query;
         } else {
             $authority = $reference->getAuthority();
             if ($authority !== false) {
                 $target->setAuthority($authority);
-                $target->path     = self::removeDotSegments($reference->path);
-                $target->query    = $reference->query;
+                $target->path  = self::removeDotSegments($reference->path);
+                $target->query = $reference->query;
             } else {
                 if ($reference->path == '') {
-                   $target->path = $this->path;
-                   if ($reference->query !== false) {
-                      $target->query = $reference->query;
-                   } else {
-                      $target->query = $this->query;
-                   }
+                    $target->path = $this->path;
+                    if ($reference->query !== false) {
+                        $target->query = $reference->query;
+                    } else {
+                        $target->query = $this->query;
+                    }
                 } else {
                     if (substr($reference->path, 0, 1) == '/') {
                         $target->path = self::removeDotSegments($reference->path);
@@ -624,8 +672,10 @@ class Net_URL2
     /**
      * Removes dots as described in RFC 3986, section 5.2.4, e.g.
      * "/foo/../bar/baz" => "/bar/baz"
-     * @param   string  a path
-     * @return  string  a path
+     *
+     * @param string $path a path
+     *
+     * @return string a path
      */
     private static function removeDotSegments($path)
     {
@@ -675,6 +725,7 @@ class Net_URL2
     /**
      * Returns a Net_URL2 instance representing the canonical URL of the
      * currently executing PHP script.
+     * 
      * @return  string
      */
     public static function getCanonical()
@@ -699,6 +750,7 @@ class Net_URL2
 
     /**
      * Returns the URL used to retrieve the current request.
+     *
      * @return  string
      */
     public static function getRequestedURL()
@@ -709,6 +761,7 @@ class Net_URL2
     /**
      * Returns a Net_URL2 instance representing the URL used to retrieve the
      * current request.
+     *
      * @return  Net_URL2
      */
     public static function getRequested()
@@ -728,8 +781,11 @@ class Net_URL2
 
     /**
      * Sets the specified option.
-     * @param  string   a self::OPTION_ constant
-     * @param  mixed    option value  
+     *
+     * @param string $optionName a self::OPTION_ constant
+     * @param mixed  $value      option value  
+     *
+     * @return void
      * @see  self::OPTION_STRICT
      * @see  self::OPTION_USE_BRACKETS
      * @see  self::OPTION_ENCODE_KEYS
@@ -744,7 +800,9 @@ class Net_URL2
 
     /**
      * Returns the value of the specified option.
-     * @param   string $optionName  The name of the option to retrieve
+     *
+     * @param string $optionName The name of the option to retrieve
+     *
      * @return  mixed
      */
     function getOption($optionName)
