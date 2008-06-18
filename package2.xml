@@ -9,30 +9,31 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <description>Provides easy parsing of URLs and their constituent parts.
  </description>
  <lead>
-  <name>Richard heyes</name>
-  <user>richard</user>
-  <email>richard@php.net</email>
-  <active>no</active>
- </lead>
- <lead>
   <name>David Coallier</name>
   <user>davidc</user>
   <email>davidc@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-05-07</date>
- <time>17:30:17</time>
+ <lead>
+  <name>Christian Schmidt</name>
+  <user>schmidt</user>
+  <email>schmidt@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2008-06-18</date>
+ <time>21:00:00</time>
  <version>
-  <release>0.1.0</release>
-  <api>0.1.0</api>
+  <release>0.2.0</release>
+  <api>0.2.0</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15
- </notes>
+ <notes>Major rewrite to comply with RFC3986 (bug 11574).
+Much better support for resolving relative URLs.
+WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT BACKWARDS COMPATIBLE WITH VERSION 0.1.0.</notes>
  <contents>
   <dir name="/">
    <dir name="docs">
@@ -53,4 +54,13 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </required>
  </dependencies>
  <phprelease />
+ <changelog>
+  <release>
+   <version>0.1.0</version>
+   <date>2007-05-08</date>
+   <license>BSD</license>
+   <state>beta</state>
+   <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
+  </release>
+ </changelog>
 </package>
