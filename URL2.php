@@ -46,17 +46,17 @@ class Net_URL2
      * Do strict parsing in resolve() (see RFC 3986, section 5.2.2). Default
      * is true.
      */
-    const OPTION_STRICT           = 'strict';
+    const OPTION_STRICT = 'strict';
 
     /**
      * Represent arrays in query using PHP's [] notation. Default is true.
      */
-    const OPTION_USE_BRACKETS     = 'use_brackets';
+    const OPTION_USE_BRACKETS = 'use_brackets';
 
     /**
      * URL-encode query variable keys. Default is true.
      */
-    const OPTION_ENCODE_KEYS      = 'encode_keys';
+    const OPTION_ENCODE_KEYS = 'encode_keys';
 
     /**
      * Query variable separators when parsing the query string. Every character
@@ -75,7 +75,7 @@ class Net_URL2
     /**
      * Default options corresponds to how PHP handles $_GET.
      */
-    private $options = array(
+    private $_options = array(
         self::OPTION_STRICT           => true,
         self::OPTION_USE_BRACKETS     => true,
         self::OPTION_ENCODE_KEYS      => true,
@@ -86,41 +86,41 @@ class Net_URL2
     /**
      * @var  string|bool
      */
-    private $scheme = false;
+    private $_scheme = false;
 
     /**
      * @var  string|bool
      */
-    private $userinfo = false;
+    private $_userinfo = false;
 
     /**
      * @var  string|bool
      */
-    private $host = false;
+    private $_host = false;
 
     /**
      * @var  int|bool
      */
-    private $port = false;
+    private $_port = false;
 
     /**
      * @var  string
      */
-    private $path = '';
+    private $_path = '';
 
     /**
      * @var  string|bool
      */
-    private $query = false;
+    private $_query = false;
 
     /**
      * @var  string|bool
      */
-    private $fragment = false;
+    private $_fragment = false;
 
     /**
      * @param string $url     an absolute or relative URL
-     * @param array  $options
+     * @param array  $options an array of OPTION_xxx constants
      */
     public function __construct($url, $options = null)
     {
@@ -135,7 +135,7 @@ class Net_URL2
         }
 
         if (preg_match('@^([a-z][a-z0-9.+-]*):@i', $url, $reg)) {
-            $this->scheme = $reg[1];
+            $this->_scheme = $reg[1];
             $url = substr($url, strlen($reg[0]));
         }
 
@@ -145,16 +145,16 @@ class Net_URL2
         }
 
         $i = strcspn($url, '?#');
-        $this->path = substr($url, 0, $i);
+        $this->_path = substr($url, 0, $i);
         $url = substr($url, $i);
 
         if (preg_match('@^\?([^#]*)@', $url, $reg)) {
-            $this->query = $reg[1];
+            $this->_query = $reg[1];
             $url = substr($url, strlen($reg[0]));
         }
 
         if ($url) {
-            $this->fragment = substr($url, 1);
+            $this->_fragment = substr($url, 1);
         }
     }
 
@@ -166,18 +166,20 @@ class Net_URL2
      */
     public function getScheme()
     {
-        return $this->scheme;
+        return $this->_scheme;
     }
 
     /**
-     * @param string|bool $scheme
+     * @param string|bool $scheme e.g. "http" or "urn", or false if there is no
+     *                            scheme specified, i.e. if this is a relative
+     *                            URL
      *
      * @return void
      * @see    getScheme()
      */
     public function setScheme($scheme)
     {
-        $this->scheme = $scheme;
+        $this->_scheme = $scheme;
     }
 
     /**
@@ -188,7 +190,9 @@ class Net_URL2
      */
     public function getUser()
     {
-        return $this->userinfo !== false ? preg_replace('@:.*$@', '', $this->userinfo) : false;
+        return $this->_userinfo !== false
+            ? preg_replace('@:.*$@', '', $this->_userinfo)
+            : false;
     }
 
     /**
@@ -201,7 +205,7 @@ class Net_URL2
      */
     public function getPassword()
     {
-        return $this->userinfo !== false ? substr(strstr($this->userinfo, ':'), 1) : false;
+        return $this->_userinfo !== false ? substr(strstr($this->_userinfo, ':'), 1) : false;
     }
 
     /**
@@ -212,7 +216,7 @@ class Net_URL2
      */
     public function getUserinfo()
     {
-        return $this->userinfo;
+        return $this->_userinfo;
     }
 
     /**
@@ -220,15 +224,15 @@ class Net_URL2
      * in the userinfo part as username ":" password.
      *
      * @param string|bool $userinfo userinfo or username
-     * @param string|bool $password
+     * @param string|bool $password optional password, or false
      *
      * @return void
      */
     public function setUserinfo($userinfo, $password = false)
     {
-        $this->userinfo = $userinfo;
+        $this->_userinfo = $userinfo;
         if ($password !== false) {
-            $this->userinfo .= ':' . $password;
+            $this->_userinfo .= ':' . $password;
         }
     }
 
@@ -240,7 +244,7 @@ class Net_URL2
      */
     public function getHost()
     {
-        return $this->host;
+        return $this->_host;
     }
 
     /**
@@ -250,7 +254,7 @@ class Net_URL2
      */
     public function setHost($host)
     {
-        $this->host = $host;
+        $this->_host = $host;
     }
 
     /**
@@ -261,7 +265,7 @@ class Net_URL2
      */
     public function getPort()
     {
-        return $this->port;
+        return $this->_port;
     }
 
     /**
@@ -271,7 +275,7 @@ class Net_URL2
      */
     public function setPort($port)
     {
-        $this->port = intval($port);
+        $this->_port = intval($port);
     }
 
     /**
@@ -282,20 +286,20 @@ class Net_URL2
      */
     public function getAuthority()
     {
-        if (!$this->host) {
+        if (!$this->_host) {
             return false;
         }
 
         $authority = '';
 
-        if ($this->userinfo !== false) {
-            $authority .= $this->userinfo . '@';
+        if ($this->_userinfo !== false) {
+            $authority .= $this->_userinfo . '@';
         }
 
-        $authority .= $this->host;
+        $authority .= $this->_host;
 
-        if ($this->port !== false) {
-            $authority .= ':' . $this->port;
+        if ($this->_port !== false) {
+            $authority .= ':' . $this->_port;
         }
 
         return $authority;
@@ -308,18 +312,18 @@ class Net_URL2
      */
     public function setAuthority($authority)
     {
-        $this->user = false;
-        $this->pass = false;
-        $this->host = false;
-        $this->port = false;
+        $this->_user = false;
+        $this->_pass = false;
+        $this->_host = false;
+        $this->_port = false;
         if (preg_match('@^(([^\@]+)\@)?([^:]+)(:(\d*))?$@', $authority, $reg)) {
             if ($reg[1]) {
-                $this->userinfo = $reg[2];
+                $this->_userinfo = $reg[2];
             }
 
-            $this->host = $reg[3];
+            $this->_host = $reg[3];
             if (isset($reg[5])) {
-                $this->port = intval($reg[5]);
+                $this->_port = intval($reg[5]);
             }
         }
     }
@@ -331,7 +335,7 @@ class Net_URL2
      */
     public function getPath()
     {
-        return $this->path;
+        return $this->_path;
     }
 
     /**
@@ -341,7 +345,7 @@ class Net_URL2
      */
     public function setPath($path)
     {
-        $this->path = $path;
+        $this->_path = $path;
     }
 
     /**
@@ -353,7 +357,7 @@ class Net_URL2
      */
     public function getQuery()
     {
-        return $this->query;
+        return $this->_query;
     }
 
     /**
@@ -364,7 +368,7 @@ class Net_URL2
      */
     public function setQuery($query)
     {
-        $this->query = $query;
+        $this->_query = $query;
     }
 
     /**
@@ -374,7 +378,7 @@ class Net_URL2
      */
     public function getFragment()
     {
-        return $this->fragment;
+        return $this->_fragment;
     }
 
     /**
@@ -384,7 +388,7 @@ class Net_URL2
      */
     public function setFragment($fragment)
     {
-        $this->fragment = $fragment;
+        $this->_fragment = $fragment;
     }
 
     /**
@@ -398,7 +402,7 @@ class Net_URL2
         $pattern = '/[' .
                    preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT), '/') .
                    ']/';
-        $parts   = preg_split($pattern, $this->query, -1, PREG_SPLIT_NO_EMPTY);
+        $parts   = preg_split($pattern, $this->_query, -1, PREG_SPLIT_NO_EMPTY);
         $return  = array();
 
         foreach ($parts as $part) {
@@ -452,7 +456,7 @@ class Net_URL2
     public function setQueryVariables(array $array)
     {
         if (!$array) {
-            $this->query = false;
+            $this->_query = false;
         } else {
             foreach ($array as $name => $value) {
                 if ($this->getOption(self::OPTION_ENCODE_KEYS)) {
@@ -471,8 +475,8 @@ class Net_URL2
                     $parts[] = $name;
                 }
             }
-            $this->query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT),
-                                   $parts);
+            $this->_query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT),
+                                    $parts);
         }
     }
 
@@ -511,22 +515,22 @@ class Net_URL2
         // See RFC 3986, section 5.3
         $url = "";
 
-        if ($this->scheme !== false) {
-            $url .= $this->scheme . ':';
+        if ($this->_scheme !== false) {
+            $url .= $this->_scheme . ':';
         }
 
         $authority = $this->getAuthority();
         if ($authority !== false) {
             $url .= '//' . $authority;
         }
-        $url .= $this->path;
+        $url .= $this->_path;
 
-        if ($this->query !== false) {
-            $url .= '?' . $this->query;
+        if ($this->_query !== false) {
+            $url .= '?' . $this->_query;
         }
 
-        if ($this->fragment !== false) {
-            $url .= '#' . $this->fragment;
+        if ($this->_fragment !== false) {
+            $url .= '#' . $this->_fragment;
         }
     
         return $url;
@@ -555,36 +559,38 @@ class Net_URL2
         // See RFC 3886, section 6
 
         // Schemes are case-insensitive
-        if ($this->scheme) {
-            $this->scheme = strtolower($this->scheme);
+        if ($this->_scheme) {
+            $this->_scheme = strtolower($this->_scheme);
         }
 
         // Hostnames are case-insensitive
-        if ($this->host) {
-            $this->host = strtolower($this->host);
+        if ($this->_host) {
+            $this->_host = strtolower($this->_host);
         }
 
         // Remove default port number for known schemes (RFC 3986, section 6.2.3)
-        if ($this->port &&
-            $this->scheme &&
-            $this->port == getservbyname($this->scheme, 'tcp')) {
+        if ($this->_port &&
+            $this->_scheme &&
+            $this->_port == getservbyname($this->_scheme, 'tcp')) {
 
-            $this->port = false;
+            $this->_port = false;
         }
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
-        foreach (array('userinfo', 'host', 'path') as $part) {
+        foreach (array('_userinfo', '_host', '_path') as $part) {
             if ($this->$part) {
-                $this->$part  = preg_replace('/%[0-9a-f]{2}/ie', 'strtoupper("\0")', $this->$part);
+                $this->$part = preg_replace('/%[0-9a-f]{2}/ie',
+                                            'strtoupper("\0")',
+                                            $this->$part);
             }
         }
 
         // Path segment normalization (RFC 3986, section 6.2.2.3)
-        $this->path = self::removeDotSegments($this->path);
+        $this->_path = self::removeDotSegments($this->_path);
 
         // Scheme based normalization (RFC 3986, section 6.2.3)
-        if ($this->host && !$this->path) {
-            $this->path = '/';
+        if ($this->_host && !$this->_path) {
+            $this->_path = '/';
         }
     }
 
@@ -595,7 +601,7 @@ class Net_URL2
      */
     public function isAbsolute()
     {
-        return (bool) $this->scheme;
+        return (bool) $this->_scheme;
     }
 
     /**
@@ -617,54 +623,54 @@ class Net_URL2
 
         // A non-strict parser may ignore a scheme in the reference if it is
         // identical to the base URI's scheme.
-        if (!$this->getOption(self::OPTION_STRICT) && $reference->scheme == $this->scheme) {
-            $reference->scheme = false;
+        if (!$this->getOption(self::OPTION_STRICT) && $reference->_scheme == $this->_scheme) {
+            $reference->_scheme = false;
         }
 
         $target = new self('');
-        if ($reference->scheme !== false) {
-            $target->scheme = $reference->scheme;
+        if ($reference->_scheme !== false) {
+            $target->_scheme = $reference->_scheme;
             $target->setAuthority($reference->getAuthority());
-            $target->path  = self::removeDotSegments($reference->path);
-            $target->query = $reference->query;
+            $target->_path  = self::removeDotSegments($reference->_path);
+            $target->_query = $reference->_query;
         } else {
             $authority = $reference->getAuthority();
             if ($authority !== false) {
                 $target->setAuthority($authority);
-                $target->path  = self::removeDotSegments($reference->path);
-                $target->query = $reference->query;
+                $target->_path  = self::removeDotSegments($reference->_path);
+                $target->_query = $reference->_query;
             } else {
-                if ($reference->path == '') {
-                    $target->path = $this->path;
-                    if ($reference->query !== false) {
-                        $target->query = $reference->query;
+                if ($reference->_path == '') {
+                    $target->_path = $this->_path;
+                    if ($reference->_query !== false) {
+                        $target->_query = $reference->_query;
                     } else {
-                        $target->query = $this->query;
+                        $target->_query = $this->_query;
                     }
                 } else {
-                    if (substr($reference->path, 0, 1) == '/') {
-                        $target->path = self::removeDotSegments($reference->path);
+                    if (substr($reference->_path, 0, 1) == '/') {
+                        $target->_path = self::removeDotSegments($reference->_path);
                     } else {
                         // Merge paths (RFC 3986, section 5.2.3)
-                        if ($this->host !== false && $this->path == '') {
-                            $target->path = '/' . $this->path;
+                        if ($this->_host !== false && $this->_path == '') {
+                            $target->_path = '/' . $this->_path;
                         } else {
-                            $i = strrpos($this->path, '/');
+                            $i = strrpos($this->_path, '/');
                             if ($i !== false) {
-                                $target->path = substr($this->path, 0, $i + 1);
+                                $target->_path = substr($this->_path, 0, $i + 1);
                             }
-                            $target->path .= $reference->path;
+                            $target->_path .= $reference->_path;
                         }
-                        $target->path = self::removeDotSegments($target->path);
+                        $target->_path = self::removeDotSegments($target->_path);
                     }
-                    $target->query = $reference->query;
+                    $target->_query = $reference->_query;
                 }
                 $target->setAuthority($this->getAuthority());
             }
-            $target->scheme = $this->scheme;
+            $target->_scheme = $this->_scheme;
         }
 
-        $target->fragment = $reference->fragment;
+        $target->_fragment = $reference->_fragment;
 
         return $target;
     }
@@ -737,13 +743,13 @@ class Net_URL2
 
         // Begin with a relative URL
         $url = new self($_SERVER['PHP_SELF']);
-        $url->scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
-        $url->host = $_SERVER['SERVER_NAME'];
+        $url->_scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $url->_host = $_SERVER['SERVER_NAME'];
         $port = intval($_SERVER['SERVER_PORT']);
-        if ($url->scheme == 'http' && $port != 80 ||
-            $url->scheme == 'https' && $port != 443) {
+        if ($url->_scheme == 'http' && $port != 80 ||
+            $url->_scheme == 'https' && $port != 443) {
 
-            $url->port = $port;
+            $url->_port = $port;
         }
         return $url;
     }
@@ -773,7 +779,7 @@ class Net_URL2
 
         // Begin with a relative URL
         $url = new self($_SERVER['REQUEST_URI']);
-        $url->scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $url->_scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         // Set host and possibly port
         $url->setAuthority($_SERVER['HTTP_HOST']);
         return $url;
@@ -792,10 +798,10 @@ class Net_URL2
      */
     function setOption($optionName, $value)
     {
-        if (!array_key_exists($optionName, $this->options)) {
+        if (!array_key_exists($optionName, $this->_options)) {
             return false;
         }
-        $this->options[$optionName] = $value;
+        $this->_options[$optionName] = $value;
     }
 
     /**
@@ -807,7 +813,7 @@ class Net_URL2
      */
     function getOption($optionName)
     {
-        return isset($this->options[$optionName])
-            ? $this->options[$optionName] : false;
+        return isset($this->_options[$optionName])
+            ? $this->_options[$optionName] : false;
     }
 }
