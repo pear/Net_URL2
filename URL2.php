@@ -1,44 +1,56 @@
 <?php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2007-2008, Christian Schmidt, Peytz & Co. A/S           |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Christian Schmidt <schmidt at php dot net>                    |
-// +-----------------------------------------------------------------------+
-//
-// $Id$
-//
-// Net_URL2 Class (PHP5 Only)
-
-// This code is released under the BSD License - http://www.opensource.org/licenses/bsd-license.php
 /**
- * @license BSD License
+ * Net_URL2, a class representing a URL as per RFC 3986. 
+ *
+ * PHP version 5
+ *
+ * LICENSE:
+ *
+ * Copyright (c) 2007-2008, Peytz & Co. A/S
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the PHP_LexerGenerator nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category  Networking
+ * @package   Net_URL2
+ * @author    Christian Schmidt <chsc@peytz.dk>
+ * @copyright 2007-2008 Peytz & Co. A/S
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   CVS: $Id$
+ * @link      http://www.rfc-editor.org/rfc/rfc3986.txt
+ */
+
+/**
+ * @category  Networking
+ * @package   Net_URL2
+ * @author    Christian Schmidt <chsc@peytz.dk>
+ * @copyright 2007-2008 Peytz & Co. ApS
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/Net_URL2
  */
 class Net_URL2
 {
@@ -63,7 +75,7 @@ class Net_URL2
      * is considered a separator. Default is specified by the
      * arg_separator.input php.ini setting (this defaults to "&").
      */
-    const OPTION_SEPARATOR_INPUT  = 'input_separator';
+    const OPTION_SEPARATOR_INPUT = 'input_separator';
 
     /**
      * Query variable separator used when generating the query string. Default
@@ -119,6 +131,8 @@ class Net_URL2
     private $_fragment = false;
 
     /**
+     * Constructor.
+     *
      * @param string $url     an absolute or relative URL
      * @param array  $options an array of OPTION_xxx constants
      */
@@ -170,6 +184,9 @@ class Net_URL2
     }
 
     /**
+     * Sets the scheme, e.g. "http" or "urn". Specify false if there is no
+     * scheme specified, i.e. if this is a relative URL.
+     *
      * @param string|bool $scheme e.g. "http" or "urn", or false if there is no
      *                            scheme specified, i.e. if this is a relative
      *                            URL
@@ -205,7 +222,9 @@ class Net_URL2
      */
     public function getPassword()
     {
-        return $this->_userinfo !== false ? substr(strstr($this->_userinfo, ':'), 1) : false;
+        return $this->_userinfo !== false
+            ? substr(strstr($this->_userinfo, ':'), 1)
+            : false;
     }
 
     /**
@@ -240,7 +259,7 @@ class Net_URL2
      * Returns the host part, or false if there is no authority part, e.g.
      * relative URLs.
      *
-     * @return  string|bool
+     * @return  string|bool a hostname, an IP address, or false
      */
     public function getHost()
     {
@@ -248,7 +267,10 @@ class Net_URL2
     }
 
     /**
-     * @param string|bool $host
+     * Sets the host part. Specify false if there is no authority part, e.g.
+     * relative URLs.
+     *
+     * @param string|bool $host a hostname, an IP address, or false
      *
      * @return void
      */
@@ -269,6 +291,9 @@ class Net_URL2
     }
 
     /**
+     * Sets the port number. Specify false if there is no port number specified,
+     * i.e. if the default port is to be used.
+     *
      * @param int|bool $port
      *
      * @return void
@@ -280,7 +305,7 @@ class Net_URL2
 
     /**
      * Returns the authority part, i.e. [ userinfo "@" ] host [ ":" port ], or
-     * false if there is no authority none.
+     * false if there is no authority.
      *
      * @return string|bool
      */
@@ -306,6 +331,9 @@ class Net_URL2
     }
 
     /**
+     * Sets the authority part, i.e. [ userinfo "@" ] host [ ":" port ]. Specify
+     * false if there is no authority.
+     *
      * @param string|false $authority
      *
      * @return void
@@ -339,6 +367,8 @@ class Net_URL2
     }
 
     /**
+     * Sets the path part (possibly an empty string).
+     *
      * @param string $path
      *
      * @return void
@@ -350,7 +380,7 @@ class Net_URL2
 
     /**
      * Returns the query string (excluding the leading "?"), or false if "?"
-     * isn't present in the URL.
+     * is not present in the URL.
      *
      * @return  string|bool
      * @see     self::getQueryVariables()
@@ -361,6 +391,9 @@ class Net_URL2
     }
 
     /**
+     * Sets the query string (excluding the leading "?"). Specify false if "?"
+     * is not present in the URL.
+     *
      * @param string|bool $query
      *
      * @return void
@@ -372,7 +405,7 @@ class Net_URL2
     }
 
     /**
-     * Returns the fragment name, or false if "#" isn't present in the URL.
+     * Returns the fragment name, or false if "#" is not present in the URL.
      *
      * @return  string|bool
      */
@@ -382,6 +415,8 @@ class Net_URL2
     }
 
     /**
+     * Sets the fragment name. Specify false if "#" is not present in the URL.
+     *
      * @param string|bool $fragment
      *
      * @return void
@@ -393,7 +428,8 @@ class Net_URL2
 
     /**
      * Returns the query string like an array as the variables would appear in
-     * $_GET in a PHP script.
+     * $_GET in a PHP script. If the URL does not contain a "?", an empty array
+     * is returned.
      *
      * @return  array
      */
@@ -683,7 +719,7 @@ class Net_URL2
      *
      * @return string a path
      */
-    private static function removeDotSegments($path)
+    public static function removeDotSegments($path)
     {
         $output = '';
 
@@ -691,28 +727,25 @@ class Net_URL2
         // method
         $j = 0; 
         while ($path && $j++ < 100) {
-            // Step A
             if (substr($path, 0, 2) == './') {
+                // Step 2.A
                 $path = substr($path, 2);
             } elseif (substr($path, 0, 3) == '../') {
+                // Step 2.A
                 $path = substr($path, 3);
-
-            // Step B
             } elseif (substr($path, 0, 3) == '/./' || $path == '/.') {
+                // Step 2.B
                 $path = '/' . substr($path, 3);
-
-            // Step C
             } elseif (substr($path, 0, 4) == '/../' || $path == '/..') {
+                // Step 2.C
                 $path = '/' . substr($path, 4);
                 $i = strrpos($output, '/');
                 $output = $i === false ? '' : substr($output, 0, $i);
-
-            // Step D
             } elseif ($path == '.' || $path == '..') {
+                // Step 2.D
                 $path = '';
-
-            // Step E
             } else {
+                // Step 2.E
                 $i = strpos($path, '/');
                 if ($i === 0) {
                     $i = strpos($path, '/', 1);
@@ -744,7 +777,7 @@ class Net_URL2
         // Begin with a relative URL
         $url = new self($_SERVER['PHP_SELF']);
         $url->_scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
-        $url->_host = $_SERVER['SERVER_NAME'];
+        $url->_host   = $_SERVER['SERVER_NAME'];
         $port = intval($_SERVER['SERVER_PORT']);
         if ($url->_scheme == 'http' && $port != 80 ||
             $url->_scheme == 'https' && $port != 443) {
