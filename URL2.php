@@ -294,7 +294,7 @@ class Net_URL2
      * Sets the port number. Specify false if there is no port number specified,
      * i.e. if the default port is to be used.
      *
-     * @param int|bool $port
+     * @param int|bool $port a port number, or false
      *
      * @return void
      */
@@ -334,7 +334,9 @@ class Net_URL2
      * Sets the authority part, i.e. [ userinfo "@" ] host [ ":" port ]. Specify
      * false if there is no authority.
      *
-     * @param string|false $authority
+     * @param string|false $authority a hostname or an IP addresse, possibly
+     *                                with userinfo prefixed and port number
+     *                                appended, e.g. "foo:bar@example.org:81".
      *
      * @return void
      */
@@ -369,7 +371,7 @@ class Net_URL2
     /**
      * Sets the path part (possibly an empty string).
      *
-     * @param string $path
+     * @param string $path a path
      *
      * @return void
      */
@@ -394,7 +396,7 @@ class Net_URL2
      * Sets the query string (excluding the leading "?"). Specify false if "?"
      * is not present in the URL.
      *
-     * @param string|bool $query
+     * @param string|bool $query a query string, e.g. "foo=1&bar=2"
      *
      * @return void
      * @see   self::setQueryVariables()
@@ -417,7 +419,8 @@ class Net_URL2
     /**
      * Sets the fragment name. Specify false if "#" is not present in the URL.
      *
-     * @param string|bool $fragment
+     * @param string|bool $fragment a fragment excluding the leading "#", or
+     *                              false
      *
      * @return void
      */
@@ -485,6 +488,8 @@ class Net_URL2
     }
 
     /**
+     * Sets the query string to the specified variable in the query string.
+     *
      * @param array $array (name => value) array
      *
      * @return void
@@ -517,6 +522,8 @@ class Net_URL2
     }
 
     /**
+     * Sets the specified variable in the query string.
+     *
      * @param string $name
      * @param mixed  $value
      *
@@ -530,7 +537,9 @@ class Net_URL2
     }
 
     /**
-     * @param string $name
+     * Removes the specifed variable from the query string.
+     *
+     * @param string $name a query string variable, e.g. "foo" in "?foo=1"
      *
      * @return void
      */
@@ -738,8 +747,8 @@ class Net_URL2
                 $path = '/' . substr($path, 3);
             } elseif (substr($path, 0, 4) == '/../' || $path == '/..') {
                 // Step 2.C
-                $path = '/' . substr($path, 4);
-                $i = strrpos($output, '/');
+                $path   = '/' . substr($path, 4);
+                $i      = strrpos($output, '/');
                 $output = $i === false ? '' : substr($output, 0, $i);
             } elseif ($path == '.' || $path == '..') {
                 // Step 2.D
