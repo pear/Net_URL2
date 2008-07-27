@@ -144,7 +144,7 @@ class Net_URL2
                          ini_get('arg_separator.output'));
         if (is_array($options)) {
             foreach ($options as $optionName => $value) {
-                $this->setOption($optionName);
+                $this->setOption($optionName, $value);
             }
         }
 
@@ -342,11 +342,10 @@ class Net_URL2
      */
     public function setAuthority($authority)
     {
-        $this->_user = false;
-        $this->_pass = false;
-        $this->_host = false;
-        $this->_port = false;
-        if (preg_match('@^(([^\@]+)\@)?([^:]+)(:(\d*))?$@', $authority, $reg)) {
+        $this->_userinfo = false;
+        $this->_host     = false;
+        $this->_port     = false;
+        if (preg_match('@^(([^\@]*)\@)?([^:]+)(:(\d*))?$@', $authority, $reg)) {
             if ($reg[1]) {
                 $this->_userinfo = $reg[2];
             }
