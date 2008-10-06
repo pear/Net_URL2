@@ -510,7 +510,7 @@ class Net_URL2
                             : ($name . '=' . $v);
                     }
                 } elseif (!is_null($value)) {
-                    $parts[] = $name . '=' . $value;
+                    $parts[] = $name . '=' . rawurlencode($value);
                 } else {
                     $parts[] = $name;
                 }
