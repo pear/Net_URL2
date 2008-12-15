@@ -44,6 +44,8 @@
  */
 
 /**
+ * Represents a URL as per RFC 3986.
+ *
  * @category  Networking
  * @package   Net_URL2
  * @author    Christian Schmidt <chsc@peytz.dk>
@@ -523,8 +525,8 @@ class Net_URL2
     /**
      * Sets the specified variable in the query string.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param string $name  variable name
+     * @param mixed  $value variable value
      *
      * @return  array
      */
