@@ -1,12 +1,12 @@
 <?php
 /**
- * Net_URL2, a class representing a URL as per RFC 3986. 
+ * Net_URL2, a class representing a URL as per RFC 3986.
  *
  * PHP version 5
  *
  * LICENSE:
  *
- * Copyright (c) 2007-2008, Peytz & Co. A/S
+ * Copyright (c) 2007-2009, Peytz & Co. A/S
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -580,6 +580,17 @@ class Net_URL2
         }
     
         return $url;
+    }
+
+    /**
+     * Returns a string representation of this URL.
+     *
+     * @return  string
+     * @see toString()
+     */
+    public function __toString()
+    {
+        return $this->getURL();
     }
 
     /** 
