@@ -502,7 +502,7 @@ class Net_URL2
         } else {
             foreach ($array as $name => $value) {
                 if ($this->getOption(self::OPTION_ENCODE_KEYS)) {
-                    $name = rawurlencode($name);
+                    $name = self::urlencode($name);
                 }
 
                 if (is_array($value)) {
@@ -512,7 +512,7 @@ class Net_URL2
                             : ($name . '=' . $v);
                     }
                 } elseif (!is_null($value)) {
-                    $parts[] = $name . '=' . rawurlencode($value);
+                    $parts[] = $name . '=' . self::urlencode($value);
                 } else {
                     $parts[] = $name;
                 }
@@ -780,6 +780,22 @@ class Net_URL2
         }
 
         return $output;
+    }
+
+    /**
+     * Percent-encodes all non-alphanumeric characters except these: _ . - ~
+     * Similar to PHP's rawurlencode(), except that it also encodes ~ in PHP
+     * 5.2.x and earlier.
+     *
+     * @param  $raw the string to encode
+     * @return string
+     */
+    public static function urlencode($string)
+    {
+    	$encoded = rawurlencode($string);
+	// This is only necessary in PHP < 5.3.
+	$encoded = str_replace('%7E', '~', $encoded);
+	return $encoded;
     }
 
     /**
