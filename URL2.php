@@ -183,11 +183,18 @@ class Net_URL2
      *
      * @param  string $var      The private variable to set.
      * @param  mixed  $arg      An argument of any type.
-     * @return void
+     * @return bool             Either true if the method exists
+     *                          or false if the method does not.
      */
     public function __set($var, $arg)
     {
-        $this->$var = $arg;
+        $method = 'set' . $var;
+        if (method_exists($this, $method)) {
+            $this->$method($arg);
+            return true;
+        }
+        
+        return false;
     }
     
     /**
@@ -207,7 +214,12 @@ class Net_URL2
      */
     public function __get($var)
     {
-        return isset($this->$var) ? $this->$var : false;
+        $method = 'get' . $var;
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        }
+        
+        return false;
     }
     
     /**
