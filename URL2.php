@@ -177,36 +177,27 @@ class Net_URL2
     /**
      * Magic Setter.
      *
-     * This method will magically set the
-     * value of a private variable ($var)
+     * This method will magically set the value of a private variable ($var)
      * with the value passed as the args
      *
      * @param  string $var      The private variable to set.
      * @param  mixed  $arg      An argument of any type.
-     * @return bool             Either true if the method exists
-     *                          or false if the method does not.
+     * @return void
      */
     public function __set($var, $arg)
     {
         $method = 'set' . $var;
         if (method_exists($this, $method)) {
             $this->$method($arg);
-            return true;
         }
-        
-        return false;
     }
     
     /**
-     * Magic get
+     * Magic Getter.
      *
-     * This is the magic get method to retrieve
-     * the private variable that was set by either
-     * __set() or it's setter...
-     *
-     * As of php 5.3.0 we could retrieve the property
-     * using property_exists -- retrieve private variables.
-     *
+     * This is the magic get method to retrieve the private variable 
+     * that was set by either __set() or it's setter...
+     * 
      * @param  string $var         The property name to retrieve.
      * @return mixed  $this->$var  Either a boolean false if the
      *                             property is not set or the value
