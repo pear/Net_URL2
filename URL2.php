@@ -710,7 +710,7 @@ class Net_URL2
      */
     public function resolve($reference)
     {
-        if (is_string($reference)) {
+        if (!$reference instanceof Net_URL2) {
             $reference = new self($reference);
         }
         if (!$this->isAbsolute()) {
