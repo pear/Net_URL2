@@ -5,9 +5,8 @@ http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd">
  <name>Net_URL2</name>
  <channel>pear.php.net</channel>
- <summary>Easy parsing of Urls</summary>
- <description>Provides easy parsing of URLs and their constituent parts.
- </description>
+ <summary>Class for parsing and handling URL.</summary>
+ <description>Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.</description>
  <lead>
   <name>David Coallier</name>
   <user>davidc</user>
@@ -20,20 +19,22 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>schmidt@php.net</email>
   <active>yes</active>
  </lead>
- <date>2008-06-18</date>
- <time>21:00:00</time>
+ <date>2009-09-05</date>
+ <time>22:00:00</time>
  <version>
-  <release>0.2.0</release>
-  <api>0.2.0</api>
+  <release>0.3.0</release>
+  <api>0.3.0</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>Major rewrite to comply with RFC3986 (bug 11574).
-Much better support for resolving relative URLs.
-WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT BACKWARDS COMPATIBLE WITH VERSION 0.1.0.</notes>
+ <notes>* Fixed #14399 (Errors in URL parsing (items #1 and #3))
+* Fixed #14735 (Encode query string values)
+* Fixed #15546 (Add adding __toString())
+* Fixed #15367 (Use RFC 3986-compliant version of rawurlencode() in PHP &lt; 5.2)
+* Fixed #14289 (Add __get() and __set())</notes>
  <contents>
   <dir name="/">
    <dir name="docs">
@@ -55,6 +56,15 @@ WARNING: Method and property names has changed to reflect the terminology used i
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>0.2.0</version>
+   <date>2008-06-18</date>
+   <license>BSD</license>
+   <state>beta</state>
+   <notes>Major rewrite to comply with RFC3986 (bug 11574).
+   Much better support for resolving relative URLs.
+   WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT BACKWARDS COMPATIBLE WITH VERSION 0.1.0.</notes>
+  </release>
   <release>
    <version>0.1.0</version>
    <date>2007-05-08</date>
