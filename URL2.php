@@ -150,28 +150,19 @@ class Net_URL2
             }
         }
 
-        if (preg_match('@^([a-z][a-z0-9.+-]*):@i', $url, $reg)) {
-            $this->_scheme = $reg[1];
-            $url = substr($url, strlen($reg[0]));
-        }
+        // The regular expression is copied verbatim from RFC 3986, appendix B.
+        // The expression does not validate the URL but matches any string.
+        preg_match('!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
+                   $url,
+                   $matches);
 
-        if (preg_match('@^//([^/#?]+)@', $url, $reg)) {
-            $this->setAuthority($reg[1]);
-            $url = substr($url, strlen($reg[0]));
-        }
-
-        $i = strcspn($url, '?#');
-        $this->_path = substr($url, 0, $i);
-        $url = substr($url, $i);
-
-        if (preg_match('@^\?([^#]*)@', $url, $reg)) {
-            $this->_query = $reg[1];
-            $url = substr($url, strlen($reg[0]));
-        }
-
-        if ($url) {
-            $this->_fragment = substr($url, 1);
-        }
+        // "path" is always present (possibly as an empty string); the rest
+        // are optional.
+        $this->_scheme = !empty($matches[1]) ? $matches[2] : false;
+        $this->setAuthority(!empty($matches[3]) ? $matches[4] : false);
+        $this->_path = $matches[5];
+        $this->_query = !empty($matches[6]) ? $matches[7] : false;
+        $this->_fragment = !empty($matches[8]) ? $matches[9] : false;
     }
 
     /**
