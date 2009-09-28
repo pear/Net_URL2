@@ -18,9 +18,9 @@
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the distribution.
- *   * Neither the name of the PHP_LexerGenerator nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   * Neither the name of the Net_URL2 nor the names of its contributors may
+ *     be used to endorse or promote products derived from this software
+ *     without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -36,8 +36,8 @@
  *
  * @category  Networking
  * @package   Net_URL2
- * @author    Christian Schmidt <chsc@peytz.dk>
- * @copyright 2007-2008 Peytz & Co. A/S
+ * @author    Christian Schmidt <schmidt@php.net>
+ * @copyright 2007-2009 Peytz & Co. A/S
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
  * @link      http://www.rfc-editor.org/rfc/rfc3986.txt
@@ -48,8 +48,8 @@
  *
  * @category  Networking
  * @package   Net_URL2
- * @author    Christian Schmidt <chsc@peytz.dk>
- * @copyright 2007-2008 Peytz & Co. ApS
+ * @author    Christian Schmidt <schmidt@php.net>
+ * @copyright 2007-2009 Peytz & Co. A/S
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Net_URL2
@@ -113,7 +113,7 @@ class Net_URL2
     private $_host = false;
 
     /**
-     * @var  int|bool
+     * @var  string|bool
      */
     private $_port = false;
 
@@ -324,7 +324,7 @@ class Net_URL2
      * Returns the port number, or false if there is no port number specified,
      * i.e. if the default port is to be used.
      *
-     * @return  int|bool
+     * @return  string|bool
      */
     public function getPort()
     {
@@ -335,13 +335,13 @@ class Net_URL2
      * Sets the port number. Specify false if there is no port number specified,
      * i.e. if the default port is to be used.
      *
-     * @param int|bool $port a port number, or false
+     * @param string|bool $port a port number, or false
      *
      * @return void
      */
     public function setPort($port)
     {
-        $this->_port = intval($port);
+        $this->_port = $port;
     }
 
     /**
@@ -393,7 +393,7 @@ class Net_URL2
 
             $this->_host = $reg[3];
             if (isset($reg[5])) {
-                $this->_port = intval($reg[5]);
+                $this->_port = $reg[5];
             }
         }
     }
@@ -854,7 +854,7 @@ class Net_URL2
         $url = new self($_SERVER['PHP_SELF']);
         $url->_scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $url->_host   = $_SERVER['SERVER_NAME'];
-        $port = intval($_SERVER['SERVER_PORT']);
+        $port = $_SERVER['SERVER_PORT'];
         if ($url->_scheme == 'http' && $port != 80 ||
             $url->_scheme == 'https' && $port != 443) {
 
