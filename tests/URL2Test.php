@@ -61,9 +61,9 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     public function testSetQueryVariables() {
         $url = new Net_URL2('http://www.example.com/');
         $url->setQueryVariables(array('pear'=>'fun'));
-        $this->assertEquals($url->getURL(), 'http://www.example.com/?pear=fun');
+        $this->assertEquals('http://www.example.com/?pear=fun', $url->getURL());
         $url->setQueryVariables(array('pear'=>'fun for sure'));
-        $this->assertEquals($url->getURL(), 'http://www.example.com/?pear=fun%20for%20sure');
+        $this->assertEquals('http://www.example.com/?pear=fun%20for%20sure', $url->getURL());
     }
 
     /**
