@@ -74,15 +74,13 @@ class Net_URL2
 
     /**
      * Query variable separators when parsing the query string. Every character
-     * is considered a separator. Default is specified by the
-     * arg_separator.input php.ini setting (this defaults to "&").
+     * is considered a separator. Defaults to "&".
      */
     const OPTION_SEPARATOR_INPUT = 'input_separator';
 
     /**
-     * Query variable separator used when generating the query string. Default
-     * is specified by the arg_separator.output php.ini setting (this defaults
-     * to "&").
+     * Query variable separator used when generating the query string. Defaults
+     * to "&".
      */
     const OPTION_SEPARATOR_OUTPUT = 'output_separator';
 
@@ -93,8 +91,8 @@ class Net_URL2
         self::OPTION_STRICT           => true,
         self::OPTION_USE_BRACKETS     => true,
         self::OPTION_ENCODE_KEYS      => true,
-        self::OPTION_SEPARATOR_INPUT  => 'x&',
-        self::OPTION_SEPARATOR_OUTPUT => 'x&',
+        self::OPTION_SEPARATOR_INPUT  => '&',
+        self::OPTION_SEPARATOR_OUTPUT => '&',
         );
 
     /**
@@ -140,10 +138,6 @@ class Net_URL2
      */
     public function __construct($url, $options = null)
     {
-        $this->setOption(self::OPTION_SEPARATOR_INPUT,
-                         ini_get('arg_separator.input'));
-        $this->setOption(self::OPTION_SEPARATOR_OUTPUT,
-                         ini_get('arg_separator.output'));
         if (is_array($options)) {
             foreach ($options as $optionName => $value) {
                 $this->setOption($optionName, $value);
