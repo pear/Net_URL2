@@ -74,13 +74,13 @@ class Net_URL2
 
     /**
      * Query variable separators when parsing the query string. Every character
-     * is considered a separator. Defaults to "&".
+     * is considered a separator. Default is "&".
      */
     const OPTION_SEPARATOR_INPUT = 'input_separator';
 
     /**
-     * Query variable separator used when generating the query string. Defaults
-     * to "&".
+     * Query variable separator used when generating the query string. Default
+     * is "&".
      */
     const OPTION_SEPARATOR_OUTPUT = 'output_separator';
 
