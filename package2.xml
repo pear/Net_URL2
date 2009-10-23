@@ -57,19 +57,31 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <phprelease />
  <changelog>
   <release>
-   <version>0.2.0</version>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
    <date>2008-06-18</date>
    <license>BSD</license>
-   <state>beta</state>
    <notes>Major rewrite to comply with RFC3986 (bug 11574).
    Much better support for resolving relative URLs.
    WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT BACKWARDS COMPATIBLE WITH VERSION 0.1.0.</notes>
   </release>
   <release>
-   <version>0.1.0</version>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
    <date>2007-05-08</date>
    <license>BSD</license>
-   <state>beta</state>
    <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
   </release>
  </changelog>
