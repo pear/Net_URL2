@@ -136,11 +136,11 @@ class Net_URL2
      * @param string $url     an absolute or relative URL
      * @param array  $options an array of OPTION_xxx constants
      */
-    public function __construct($url, $options = null)
+    public function __construct($url, array $options = array())
     {
-        if (is_array($options)) {
-            foreach ($options as $optionName => $value) {
-                $this->setOption($optionName, $value);
+        foreach ($options as $optionName => $value) {
+            if (array_key_exists($optionName, $this->_options)) {
+                $this->_options[$optionName] = $value;
             }
         }
 
@@ -877,25 +877,6 @@ class Net_URL2
         // Set host and possibly port
         $url->setAuthority($_SERVER['HTTP_HOST']);
         return $url;
-    }
-
-    /**
-     * Sets the specified option.
-     *
-     * @param string $optionName a self::OPTION_ constant
-     * @param mixed  $value      option value  
-     *
-     * @return void
-     * @see  self::OPTION_STRICT
-     * @see  self::OPTION_USE_BRACKETS
-     * @see  self::OPTION_ENCODE_KEYS
-     */
-    function setOption($optionName, $value)
-    {
-        if (!array_key_exists($optionName, $this->_options)) {
-            return false;
-        }
-        $this->_options[$optionName] = $value;
     }
 
     /**

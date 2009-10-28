@@ -176,7 +176,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $this->assertEquals($absoluteURL, $base->resolve($relativeURL)->getURL());
         }
 
-        $base->setOption(Net_URL2::OPTION_STRICT, false);
+        $base = new Net_URL2($baseURL, array(Net_URL2::OPTION_STRICT => false));
         $relativeURL = 'http:g';
         $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL)->getURL());
     }
