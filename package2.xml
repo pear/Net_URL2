@@ -19,10 +19,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>schmidt@php.net</email>
   <active>yes</active>
  </lead>
- <date>2009-09-05</date>
- <time>22:00:00</time>
+ <date>2010-01-21</date>
+ <time>15:18:00</time>
  <version>
-  <release>0.3.0</release>
+  <release>0.3.1</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -30,11 +30,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>* Fixed #14399 (Errors in URL parsing (items #1 and #3))
-* Fixed #14735 (Encode query string values)
-* Fixed #15546 (Add adding __toString())
-* Fixed #15367 (Use RFC 3986-compliant version of rawurlencode() in PHP &lt; 5.2)
-* Fixed #14289 (Add __get() and __set())</notes>
+ <notes>
+ * Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
+ </notes>
  <contents>
   <dir name="/">
    <dir name="docs">
@@ -56,6 +54,23 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-05</date>
+   <license>BSD</license>
+    <notes>* Fixed #14399 (Errors in URL parsing (items #1 and #3))
+* Fixed #14735 (Encode query string values)
+* Fixed #15546 (Add adding __toString())
+* Fixed #15367 (Use RFC 3986-compliant version of rawurlencode() in PHP &lt; 5.2)
+* Fixed #14289 (Add __get() and __set())</notes>
+  </release>
   <release>
    <version>
     <release>0.2.0</release>
