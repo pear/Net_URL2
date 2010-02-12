@@ -3,7 +3,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Net_URL2_AllTests::main');
 }
 
-require_once 'PHPUnit/Framework/TestSuite.php';
+
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 chdir(dirname(__FILE__) .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
