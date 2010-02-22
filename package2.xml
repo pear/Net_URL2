@@ -31,7 +31,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes>
+ * BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
  * Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
+ * Fixed Bug #16651: Port may be an empty string
+ * Fixed Bug #16653: Don't make OPTION_SEPARATOR_(IN|OUT)PUT default to arg_separator.(in|out)put
  </notes>
  <contents>
   <dir name="/">
