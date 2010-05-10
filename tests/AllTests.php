@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Net_URL2_AllTests::main');
 }
