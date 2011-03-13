@@ -236,6 +236,29 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             strval($url)
         );
     }
+
+    public function testUseBrackets()
+    {
+        $url = new Net_URL2('http://example.org/');
+        $url->setQueryVariables(array('foo' => array('bar', 'foobar')));
+        $this->assertEquals(
+            'http://example.org/?foo[0]=bar&foo[1]=foobar',
+            strval($url)
+        );
+    }
+
+    public function testDontUseBrackets()
+    {
+        $url = new Net_URL2(
+            'http://example.org/',
+            array(Net_URL2::OPTION_USE_BRACKETS => false)
+        );
+        $url->setQueryVariables(array('foo' => array('bar', 'foobar')));
+        $this->assertEquals(
+            'http://example.org/?foo=bar&foo=foobar',
+            strval($url)
+        );
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.

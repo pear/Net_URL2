@@ -897,7 +897,11 @@ class Net_URL2
                 $name = rawurlencode($name);
             }
             if ($key !== null) {
-                $name = $key . '[' . $name . ']';
+                if ($this->getOption(self::OPTION_USE_BRACKETS) === true) {
+                    $name = $key . '[' . $name . ']';
+                } else {
+                    $name = $key;
+                }
             }
             if (is_array($value)) {
                 $query[] = $this->buildQuery($value, $separator, $name);
