@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Net/URL2.php';
+require_once __DIR__ . './../URL2.php';
 
 /**
  * Test class for Net_URL2.
@@ -179,6 +179,24 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $base = new Net_URL2($baseURL, array(Net_URL2::OPTION_STRICT => false));
         $relativeURL = 'http:g';
         $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL)->getURL());
+    }
+
+    /**
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=18267
+     */
+    public function testUrlEncoding()
+    {
+        $url = new Net_URL2('http://localhost/bug.php');
+        $url->setQueryVariables(
+            array(
+                'indexed' => array('first value', 'second value', array('foo', 'bar'))
+            )
+        );
+        $this->assertEquals(
+            'http://localhost/bug.php?indexed[0]=first%20value&indexed[1]=second%20value&indexed[2][0]=foo&indexed[2][1]=bar',
+            strval($url)
+        );
     }
 }
 
