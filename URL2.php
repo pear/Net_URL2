@@ -217,12 +217,13 @@ class Net_URL2
      *                            scheme specified, i.e. if this is a relative
      *                            URL
      *
-     * @return void
+     * @return $this
      * @see    getScheme()
      */
     public function setScheme($scheme)
     {
         $this->_scheme = $scheme;
+        return $this;
     }
 
     /**
@@ -271,7 +272,7 @@ class Net_URL2
      * @param string|bool $userinfo userinfo or username
      * @param string|bool $password optional password, or false
      *
-     * @return void
+     * @return $this
      */
     public function setUserinfo($userinfo, $password = false)
     {
@@ -279,6 +280,7 @@ class Net_URL2
         if ($password !== false) {
             $this->_userinfo .= ':' . $password;
         }
+        return $this;
     }
 
     /**
@@ -298,11 +300,12 @@ class Net_URL2
      *
      * @param string|bool $host a hostname, an IP address, or false
      *
-     * @return void
+     * @return $this
      */
     public function setHost($host)
     {
         $this->_host = $host;
+        return $this;
     }
 
     /**
@@ -322,11 +325,12 @@ class Net_URL2
      *
      * @param string|bool $port a port number, or false
      *
-     * @return void
+     * @return $this
      */
     public function setPort($port)
     {
         $this->_port = $port;
+        return $this;
     }
 
     /**
@@ -364,7 +368,7 @@ class Net_URL2
      *                                with userinfo prefixed and port number
      *                                appended, e.g. "foo:bar@example.org:81".
      *
-     * @return void
+     * @return $this
      */
     public function setAuthority($authority)
     {
@@ -381,6 +385,7 @@ class Net_URL2
                 $this->_port = $reg[5];
             }
         }
+        return $this;
     }
 
     /**
@@ -398,11 +403,12 @@ class Net_URL2
      *
      * @param string $path a path
      *
-     * @return void
+     * @return $this
      */
     public function setPath($path)
     {
         $this->_path = $path;
+        return $this;
     }
 
     /**
@@ -423,12 +429,13 @@ class Net_URL2
      *
      * @param string|bool $query a query string, e.g. "foo=1&bar=2"
      *
-     * @return void
-     * @see   self::setQueryVariables()
+     * @return $this
+     * @see    self::setQueryVariables()
      */
     public function setQuery($query)
     {
         $this->_query = $query;
+        return $this;
     }
 
     /**
@@ -447,11 +454,12 @@ class Net_URL2
      * @param string|bool $fragment a fragment excluding the leading "#", or
      *                              false
      *
-     * @return void
+     * @return $this
      */
     public function setFragment($fragment)
     {
         $this->_fragment = $fragment;
+        return $this;
     }
 
     /**
@@ -517,7 +525,7 @@ class Net_URL2
      *
      * @param array $array (name => value) array
      *
-     * @return void
+     * @return $this
      */
     public function setQueryVariables(array $array)
     {
@@ -544,6 +552,7 @@ class Net_URL2
             $this->_query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT),
                                     $parts);
         }
+        return $this;
     }
 
     /**
@@ -552,13 +561,14 @@ class Net_URL2
      * @param string $name  variable name
      * @param mixed  $value variable value
      *
-     * @return  array
+     * @return $this
      */
     public function setQueryVariable($name, $value)
     {
         $array = $this->getQueryVariables();
         $array[$name] = $value;
         $this->setQueryVariables($array);
+        return $this;
     }
 
     /**
