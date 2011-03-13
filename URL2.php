@@ -523,25 +523,10 @@ class Net_URL2
         if (!$array) {
             $this->_query = false;
         } else {
-            foreach ($array as $name => $value) {
-                if ($this->getOption(self::OPTION_ENCODE_KEYS)) {
-                    $name = self::urlencode($name);
-                }
-
-                if (is_array($value)) {
-                    foreach ($value as $k => $v) {
-                        $parts[] = $this->getOption(self::OPTION_USE_BRACKETS)
-                            ? sprintf('%s[%s]=%s', $name, $k, $v)
-                            : ($name . '=' . $v);
-                    }
-                } elseif (!is_null($value)) {
-                    $parts[] = $name . '=' . self::urlencode($value);
-                } else {
-                    $parts[] = $name;
-                }
-            }
-            $this->_query = implode($this->getOption(self::OPTION_SEPARATOR_OUTPUT),
-                                    $parts);
+            $this->_query = $this->buildQuery(
+                $array,
+                $this->getOption(self::OPTION_SEPARATOR_OUTPUT)
+            );
         }
         return $this;
     }
@@ -891,6 +876,33 @@ class Net_URL2
     {
         return isset($this->_options[$optionName])
             ? $this->_options[$optionName] : false;
+    }
+
+    /**
+     * A simple version of http_build_query in userland. The encoded string is
+     * percentage encoded according to RFC 3986.
+     *
+     * @param array  $data      An array, which has to be converted into
+     *                          QUERY_STRING. Anything is possible.
+     * @param string $seperator See {@link self::OPTION_SEPARATOR_OUTPUT}
+     * @param string $key       For stacked values (arrays in an array).
+     *
+     * @return string
+     */
+    protected function buildQuery(array $data, $separator, $key = null)
+    {
+        $query = array();
+        foreach ($data as $name => $value) {
+            if ($key !== null) {
+                $name = $key . '[' . rawurlencode($name) . ']';
+            }
+            if (is_array($value)) {
+                $query[] = $this->buildQuery($value, $separator, $name);
+            } else {
+                $query[] = $name . '=' . rawurlencode($value);
+            }
+        }
+        return implode($separator, $query);
     }
 
     /**
