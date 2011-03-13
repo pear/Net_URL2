@@ -135,6 +135,9 @@ class Net_URL2
      *
      * @param string $url     an absolute or relative URL
      * @param array  $options an array of OPTION_xxx constants
+     *
+     * @return $this
+     * @uses   self::parseUrl()
      */
     public function __construct($url, array $options = array())
     {
@@ -144,19 +147,7 @@ class Net_URL2
             }
         }
 
-        // The regular expression is copied verbatim from RFC 3986, appendix B.
-        // The expression does not validate the URL but matches any string.
-        preg_match('!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
-                   $url,
-                   $matches);
-
-        // "path" is always present (possibly as an empty string); the rest
-        // are optional.
-        $this->_scheme = !empty($matches[1]) ? $matches[2] : false;
-        $this->setAuthority(!empty($matches[3]) ? $matches[4] : false);
-        $this->_path = $matches[5];
-        $this->_query = !empty($matches[6]) ? $matches[7] : false;
-        $this->_fragment = !empty($matches[8]) ? $matches[9] : false;
+        $this->parseUrl($url);
     }
 
     /**
@@ -900,5 +891,32 @@ class Net_URL2
     {
         return isset($this->_options[$optionName])
             ? $this->_options[$optionName] : false;
+    }
+
+    /**
+     * This method uses a funky regex to parse the url into the designated parts.
+     *
+     * @param string $url
+     *
+     * @return void
+     * @uses   self::$_scheme, self::setAuthority(), self::$_path, self::$_query,
+     *         self::$_fragment
+     * @see    self::__construct()
+     */
+    protected function parseUrl($url)
+    {
+        // The regular expression is copied verbatim from RFC 3986, appendix B.
+        // The expression does not validate the URL but matches any string.
+        preg_match('!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
+                   $url,
+                   $matches);
+
+        // "path" is always present (possibly as an empty string); the rest
+        // are optional.
+        $this->_scheme   = !empty($matches[1]) ? $matches[2] : false;
+        $this->setAuthority(!empty($matches[3]) ? $matches[4] : false);
+        $this->_path     = $matches[5];
+        $this->_query    = !empty($matches[6]) ? $matches[7] : false;
+        $this->_fragment = !empty($matches[8]) ? $matches[9] : false;
     }
 }
