@@ -896,7 +896,7 @@ class Net_URL2
      *
      * @return  mixed
      */
-    function getOption($optionName)
+    public function getOption($optionName)
     {
         return isset($this->_options[$optionName])
             ? $this->_options[$optionName] : false;
