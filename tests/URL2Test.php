@@ -231,6 +231,10 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             array(Net_URL2::OPTION_ENCODE_KEYS => false)
         );
         $url->setQueryVariables(array('till rulez' => 'helgi too'));
+        $this->assertEquals(
+            'http://example.org?till rulez=helgi%20too',
+            strval($url)
+        );
     }
 }
 
