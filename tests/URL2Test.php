@@ -259,10 +259,33 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             strval($url)
         );
     }
+
+    /**
+     * A dataProvider for {@link self::testRemoveDotSegments()}.
+     *
+     * @return array
+     */
+    public static function pathProvider()
+    {
+        return array(
+            array('../foo/bar.php', '../foo/bar.php'),
+	        array('/foo/../bar/boo.php', '/bar/boo.php'),
+            array('/boo/..//foo//bar.php', '//foo//bar.php'),
+            array('/./foo/././bar.php', '/foo/bar.php'),
+            array('./.', './'),
+        );
+    }
+
+    /**
+     * @dataProvider pathProvider
+     */
+    public function testRemoveDotSegments($path, $assertion)
+    {
+        $this->assertEquals($assertion, Net_URL2::removeDotSegments($path));
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.
 if (PHPUnit_MAIN_METHOD == "Net_URL2Test::main") {
     Net_URL2Test::main();
 }
-?>
