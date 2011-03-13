@@ -198,6 +198,40 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             strval($url)
         );
     }
+
+    /**
+     * A test to verify that keys in QUERY_STRING are encoded by default.
+     *
+     * @return void
+     * @see    Net_URL2::OPTION_ENCODE_KEYS
+     * @see    Net_URL2::buildQuery()
+     */
+    public function testEncodeKeys()
+    {
+        $url = new Net_URL2('http://example.org');
+        $url->setQueryVariables(array('helgi rulez' => 'till too'));
+        $this->assertEquals(
+            'http://example.org?helgi%20rulez=till%20too',
+            strval($url)
+        );
+    }
+
+    /**
+     * A test to verify that keys in QUERY_STRING are not encoded when we supply
+     * 'false' via {@link Net_URL2::__construct()}.
+     *
+     * @return void
+     * @see    Net_URL2::OPTION_ENCODE_KEYS
+     * @see    Net_URL2::buildQuery()
+     */
+    public function testDontEncodeKeys()
+    {
+        $url = new Net_URL2(
+            'http://example.org',
+            array(Net_URL2::OPTION_ENCODE_KEYS => false)
+        );
+        $url->setQueryVariables(array('till rulez' => 'helgi too'));
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.

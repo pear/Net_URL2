@@ -893,8 +893,11 @@ class Net_URL2
     {
         $query = array();
         foreach ($data as $name => $value) {
+            if ($this->getOption(self::OPTION_ENCODE_KEYS) === true) {
+                $name = rawurlencode($name);
+            }
             if ($key !== null) {
-                $name = $key . '[' . rawurlencode($name) . ']';
+                $name = $key . '[' . $name . ']';
             }
             if (is_array($value)) {
                 $query[] = $this->buildQuery($value, $separator, $name);
