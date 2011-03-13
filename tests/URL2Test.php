@@ -283,6 +283,23 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($assertion, Net_URL2::removeDotSegments($path));
     }
+
+    /**
+     * This is some example code from a bugreport. Trying to proof that
+     * the parsing works indeed.
+     *
+     * @return void
+     * @link   http://pear.php.net/bugs/bug.php?id=17036
+     */
+    public function testQueryVariables()
+    {
+        $queryString = 'start=10&test[0][first][1.1][20]=coucou';
+        $url = new Net_URL2("?{$queryString}");
+        $vars = array(); parse_str($url->getQuery(), $vars);
+
+        $this->assertEquals('10', $vars['start']);
+        $this->assertEquals('coucou', $vars['test'][0]['first']['1.1'][20]);
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.
