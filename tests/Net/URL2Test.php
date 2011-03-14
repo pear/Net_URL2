@@ -10,7 +10,7 @@ require_once "PHPUnit/Framework/TestSuite.php";
 $classFile = '';
 if (strstr('@package_version@', '@package')) {
     // we run from a svn checkout
-    $classFile .= __DIR__ . './../Net/URL2.php';
+    $classFile .= __DIR__ . './../../Net/URL2.php';
 } else {
     $classFile .= 'Net/URL2.php';
 }

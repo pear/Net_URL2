@@ -7,8 +7,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-chdir(dirname(__FILE__) .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
-require_once 'URL2Test.php';
+chdir(__DIR__ .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+require_once 'Net/URL2Test.php';
 
 
 class Net_URL2_AllTests
