@@ -7,7 +7,14 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once __DIR__ . './../URL2.php';
+$classFile = '';
+if (strstr('@package_version@', '@package')) {
+    // we run from a svn checkout
+    $classFile .= __DIR__ . './../Net/URL2.php';
+} else {
+    $classFile .= 'Net/URL2.php';
+}
+require_once $classFile;
 
 /**
  * Test class for Net_URL2.
