@@ -756,7 +756,7 @@ class Net_URL2
 
         // Make sure not to be trapped in an infinite loop due to a bug in this
         // method
-        $j = 0; 
+        $j = 0;
         while ($path && $j++ < 100) {
             if (substr($path, 0, 2) == './') {
                 // Step 2.A
@@ -803,15 +803,16 @@ class Net_URL2
     public static function urlencode($string)
     {
     	$encoded = rawurlencode($string);
-	// This is only necessary in PHP < 5.3.
-	$encoded = str_replace('%7E', '~', $encoded);
-	return $encoded;
+
+        // This is only necessary in PHP < 5.3.
+        $encoded = str_replace('%7E', '~', $encoded);
+        return $encoded;
     }
 
     /**
      * Returns a Net_URL2 instance representing the canonical URL of the
      * currently executing PHP script.
-     * 
+     *
      * @return  string
      */
     public static function getCanonical()

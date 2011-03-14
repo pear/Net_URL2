@@ -42,7 +42,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file baseinstalldir="Net" name="example.php" role="doc" />
     <file baseinstalldir="Net" name="6470.php" role="doc" />
    </dir> <!-- //docs -->
-   <file baseinstalldir="Net" name="URL2.php" role="php" />
+   <dir name="Net">
+    <file baseinstalldir="Net" name="URL2.php" role="php" />
+   </dir>
   </dir> <!-- / -->
  </contents>
  <dependencies>
