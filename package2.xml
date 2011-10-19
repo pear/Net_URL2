@@ -19,22 +19,24 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>schmidt@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-01-21</date>
- <time>15:18:00</time>
+ <date>2011-10-20</date>
+ <time>01:29:00</time>
  <version>
-  <release>0.3.1</release>
-  <api>0.3.0</api>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>
- * BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
- * Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
- * Fixed Bug #16651: Port may be an empty string
- * Fixed Bug #16653: Don't make OPTION_SEPARATOR_(IN|OUT)PUT default to arg_separator.(in|out)put
+ <notes> 
+* Fixed Bug #17036: Problem with parsed query string
+* Fixed Bug #17087: setOption() function is gone
+* Fixed #17166: Fluent Interface
+* Fixed #17167: Refactor __construct
+* Fixed Bug #18267: setQueryVariables() fails to encode array values
+* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.) 
  </notes>
  <contents>
   <dir name="/">
@@ -59,6 +61,24 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </dependencies>
  <phprelease />
  <changelog>
+  <release>
+    <version>
+      <release>0.3.1</release>
+      <api>0.3.0</api>
+    </version>
+    <stability>
+      <release>beta</release>
+      <api>beta</api>
+    </stability>
+    <date>2011-02-22</date>
+    <license>BSD</license>
+    <notes>
+* BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
+* Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
+* Fixed Bug #16651: Port may be an empty string
+* Fixed Bug #16653: Don't make OPTION_SEPARATOR_(IN|OUT)PUT default to arg_separator.(in|out)put
+    </notes>
+  </release>
   <release>
    <version>
     <release>0.3.0</release>
