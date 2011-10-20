@@ -7,7 +7,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'PHPUnit/Autoload.php';
 
-chdir(__DIR__ .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+chdir(dirname(__FILE__) .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 require_once 'Net/URL2Test.php';
 
 
