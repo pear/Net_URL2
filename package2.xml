@@ -45,7 +45,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file baseinstalldir="Net" name="6470.php" role="doc" />
    </dir> <!-- //docs -->
    <dir name="Net">
-    <file baseinstalldir="Net" name="URL2.php" role="php" />
+    <file name="URL2.php" role="php" />
    </dir>
   </dir> <!-- / -->
  </contents>
