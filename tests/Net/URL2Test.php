@@ -4,8 +4,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "Net_URL2Test::main");
 }
 
-require_once "PHPUnit/Framework/TestCase.php";
-require_once "PHPUnit/Framework/TestSuite.php";
+require_once 'PHPUnit/Autoload.php';
 
 $classFile = '';
 if (strstr('@package_version@', '@package')) {

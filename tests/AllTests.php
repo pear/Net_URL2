@@ -5,7 +5,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Autoload.php';
 
 chdir(__DIR__ .  DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
 require_once 'Net/URL2Test.php';
