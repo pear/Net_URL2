@@ -5,6 +5,7 @@ http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd">
  <name>Net_URL2</name>
  <channel>pear.php.net</channel>
+ <extends>Net_URL</extends>
  <summary>Class for parsing and handling URL.</summary>
  <description>Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.</description>
  <lead>
@@ -20,10 +21,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <active>yes</active>
  </lead>
  <date>2011-10-20</date>
- <time>01:29:00</time>
+ <time>10:43:00</time>
  <version>
-  <release>1.0.0</release>
-  <api>1.0.0</api>
+  <release>2.0.0</release>
+  <api>2.0.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -31,12 +32,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
  <notes> 
-* Fixed Bug #17036: Problem with parsed query string
-* Fixed Bug #17087: setOption() function is gone
-* Fixed #17166: Fluent Interface
-* Fixed #17167: Refactor __construct
-* Fixed Bug #18267: setQueryVariables() fails to encode array values
-* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.) 
+* Fixed the version of the release. Follow the convention for Package2.
+* Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
  </notes>
  <contents>
   <dir name="/">
@@ -44,6 +41,12 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file baseinstalldir="Net" name="example.php" role="doc" />
     <file baseinstalldir="Net" name="6470.php" role="doc" />
    </dir> <!-- //docs -->
+   <dir name="tests">
+    <file name="AllTests.php" role="test" />
+    <dir name="Net">
+      <file name="URL2Test.php" role="test" />
+    </dir>
+   </dir>
    <dir name="Net">
     <file name="URL2.php" role="php" />
    </dir>
@@ -61,6 +64,27 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </dependencies>
  <phprelease />
  <changelog>
+   <release>
+    <version>
+      <release>1.0.0</release>
+      <api>1.0.0</api>
+    </version>
+    <stability>
+      <release>stable</release>
+      <api>stable</api>
+    </stability>
+    <date>2011-10-20</date>
+    <license>BSD</license>
+    <notes>
+* Fixed Bug #17036: Problem with parsed query string
+* Fixed Bug #17087: setOption() function is gone
+* Fixed #17166: Fluent Interface
+* Fixed #17167: Refactor __construct
+* Fixed Bug #18267: setQueryVariables() fails to encode array values
+* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.) 
+    </notes>
+  </release>
+
   <release>
     <version>
       <release>0.3.1</release>
