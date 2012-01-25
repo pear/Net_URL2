@@ -44,11 +44,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <dir name="tests">
     <file name="AllTests.php" role="test" />
     <dir name="Net">
-      <file name="URL2Test.php" role="test" />
+      <file name="URL2Test.php" role="test">
+        <tasks:replace type="package-info" to="version" from="@package_version@"/>
+      </file>
     </dir>
    </dir>
    <dir name="Net">
-    <file name="URL2.php" role="php" />
+    <file name="URL2.php" role="php">
+      <tasks:replace type="package-info" to="version" from="@package_version@"/>
+    </file>
    </dir>
   </dir> <!-- / -->
  </contents>
