@@ -70,6 +70,23 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <changelog>
    <release>
     <version>
+      <release>1.0.1</release>
+      <api>1.0.0</api>
+    </version>
+    <stability>
+      <release>stable</release>
+      <api>stable</api>
+    </stability>
+    <date>2013-04-22</date>
+    <license>BSD</license>
+    <notes>
+* Fixed Bug #19176: resolve() does not merge the path if the base path is empty
+* Fixed Bug #19315: removeDotSegments("0") not working
+    </notes>
+  </release>
+
+   <release>
+    <version>
       <release>1.0.0</release>
       <api>1.0.0</api>
     </version>
