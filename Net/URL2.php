@@ -752,12 +752,13 @@ class Net_URL2
      */
     public static function removeDotSegments($path)
     {
+        $path = (string) $path;
         $output = '';
 
         // Make sure not to be trapped in an infinite loop due to a bug in this
         // method
         $j = 0;
-        while ($path && $j++ < 100) {
+        while ('' !== $path && $j++ < 100) {
             if (substr($path, 0, 2) == './') {
                 // Step 2.A
                 $path = substr($path, 2);

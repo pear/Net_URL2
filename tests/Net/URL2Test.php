@@ -320,6 +320,31 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $test = $foo->resolve('test.html')->getURL();
         $this->assertEquals('http://www.example.com/test.html', $test);
     }
+
+    /**
+     * This is a regression test that removeDotSegments('0') is
+     * working as it was reported as not-working in Bug #19315
+     * on 2012-03-04 04:18 UTC.
+     *
+     * @return void
+     */
+    public function test19315()
+    {
+        $actual = Net_URL2::removeDotSegments('0');
+        $this->assertSame('0', $actual);
+
+        $nonStringObject = (object) array();
+        try {
+            Net_URL2::removeDotSegments($nonStringObject);
+        } catch(PHPUnit_Framework_Error $error) {
+            $this->addToAssertionCount(1);
+        }
+
+        if (!isset($error)) {
+            $this->fail('Failed to verify that error was given.');
+        }
+        unset($error);
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.
