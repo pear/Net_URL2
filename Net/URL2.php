@@ -588,7 +588,7 @@ class Net_URL2
         if ($this->_fragment !== false) {
             $url .= '#' . $this->_fragment;
         }
-    
+
         return $url;
     }
 
@@ -603,7 +603,7 @@ class Net_URL2
         return $this->getURL();
     }
 
-    /** 
+    /**
      * Returns a normalized string representation of this URL. This is useful
      * for comparison of URLs.
      *
@@ -616,7 +616,7 @@ class Net_URL2
         return $url->getUrl();
     }
 
-    /** 
+    /**
      * Returns a normalized Net_URL2 instance.
      *
      * @return  Net_URL2
@@ -803,7 +803,7 @@ class Net_URL2
      */
     public static function urlencode($string)
     {
-    	$encoded = rawurlencode($string);
+        $encoded = rawurlencode($string);
 
         // This is only necessary in PHP < 5.3.
         $encoded = str_replace('%7E', '~', $encoded);

@@ -65,7 +65,7 @@ Anchor.....: <?php echo $url->anchor;?>
 Full URL...: <?php echo $url->getUrl(); ?>
 
 
-Resolve path (/.././/foo/bar/joe/./././../jabba): <b><?php Net_URL2::resolvePath('/.././/foo/bar/joe/./././../jabba'); ?></b>
+Resolve path (.././/foo/bar/joe/./././../jabba): <b><?php echo $url->resolve('.././/foo/bar/joe/./././../jabba'); ?></b>
 </pre>
 
 </body>

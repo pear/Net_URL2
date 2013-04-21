@@ -31,7 +31,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes> 
+ <notes>
 * Fixed the version of the release. Follow the convention for Package2.
 * Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
  </notes>
@@ -85,7 +85,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
 * Fixed #17166: Fluent Interface
 * Fixed #17167: Refactor __construct
 * Fixed Bug #18267: setQueryVariables() fails to encode array values
-* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.) 
+* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.)
     </notes>
   </release>
 

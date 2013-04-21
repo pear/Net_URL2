@@ -175,7 +175,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             "g#s/./x"       =>  "http://a/b/c/g#s/./x",
             "g#s/../x"      =>  "http://a/b/c/g#s/../x",
             "http:g"        =>  "http:g",
-        );  
+        );
         $baseURL = 'http://a/b/c/d;p?q';
         $base = new Net_URL2($baseURL);
         foreach ($tests as $relativeURL => $absoluteURL) {
@@ -275,7 +275,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         return array(
             //array('../foo/bar.php', '../foo/bar.php'),
-	        array('/foo/../bar/boo.php', '/bar/boo.php'),
+            array('/foo/../bar/boo.php', '/bar/boo.php'),
             array('/boo/..//foo//bar.php', '//foo//bar.php'),
             array('/./foo/././bar.php', '/foo/bar.php'),
             //array('./.', '/'),

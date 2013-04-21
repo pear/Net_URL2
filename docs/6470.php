@@ -40,9 +40,8 @@
 
     require_once 'Net/URL2.php';
 
-    Net_URL2::setOption('encode_query_keys', true);
-    $url = new Net_URL2;
-    
+    $url = new Net_URL2('https://www.example.com/foo/bar/index.php?foo=bar');
+
 ?>
 <html>
 <body>
@@ -66,8 +65,7 @@ Anchor.....: <?php echo $url->anchor;?>
 
 Full URL...: <?php echo $url->getUrl(); ?>
 
-
-Resolve path (/.././/foo/bar/joe/./././../jabba): <b><?php Net_URL2::resolvePath('/.././/foo/bar/joe/./././../jabba'); ?></b>
+Resolve path (/.././/foo/bar/joe/./././../jabba): <b><?php echo $url->resolve('/.././/foo/bar/joe/./././../jabba'); ?></b>
 </pre>
 
 </body>
