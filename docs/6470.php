@@ -40,7 +40,6 @@
 
     require_once 'Net/URL2.php';
 
-    //$url = &new Net_URL2('https://www.example.com/foo/bar/index.php?foo=bar');
     Net_URL2::setOption('encode_query_keys', true);
     $url = new Net_URL2;
     
