@@ -720,7 +720,7 @@ class Net_URL2
                     } else {
                         // Merge paths (RFC 3986, section 5.2.3)
                         if ($this->_host !== false && $this->_path == '') {
-                            $target->_path = '/' . $this->_path;
+                            $target->_path = '/' . $reference->_path;
                         } else {
                             $i = strrpos($this->_path, '/');
                             if ($i !== false) {

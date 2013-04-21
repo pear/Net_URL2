@@ -306,6 +306,20 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $this->assertEquals('10', $vars['start']);
         $this->assertEquals('coucou', $vars['test'][0]['first']['1.1'][20]);
     }
+
+    /**
+     * This is a regression test to test that resolve() does
+     * merge the path if the base path is empty as the opposite
+     * was reported as Bug #19176 on 2011-12-31 02:07 UTC
+     *
+     * @return void
+     */
+    public function test19176()
+    {
+        $foo = new Net_URL2('http://www.example.com');
+        $test = $foo->resolve('test.html')->getURL();
+        $this->assertEquals('http://www.example.com/test.html', $test);
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.
