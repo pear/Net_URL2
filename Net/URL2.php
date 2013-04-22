@@ -136,7 +136,7 @@ class Net_URL2
      * @param string $url     an absolute or relative URL
      * @param array  $options an array of OPTION_xxx constants
      *
-     * @return $this
+     * @return Net_URL2
      * @uses   self::parseUrl()
      */
     public function __construct($url, array $options = array())
@@ -156,8 +156,9 @@ class Net_URL2
      * This method will magically set the value of a private variable ($var)
      * with the value passed as the args
      *
-     * @param  string $var      The private variable to set.
-     * @param  mixed  $arg      An argument of any type.
+     * @param string $var The private variable to set.
+     * @param mixed  $arg An argument of any type.
+     *
      * @return void
      */
     public function __set($var, $arg)
@@ -174,10 +175,11 @@ class Net_URL2
      * This is the magic get method to retrieve the private variable
      * that was set by either __set() or it's setter...
      *
-     * @param  string $var         The property name to retrieve.
-     * @return mixed  $this->$var  Either a boolean false if the
-     *                             property is not set or the value
-     *                             of the private property.
+     * @param string $var The property name to retrieve.
+     *
+     * @return mixed  $this->$var Either a boolean false if the
+     *                            property is not set or the value
+     *                            of the private property.
      */
     public function __get($var)
     {
@@ -355,7 +357,7 @@ class Net_URL2
      * Sets the authority part, i.e. [ userinfo "@" ] host [ ":" port ]. Specify
      * false if there is no authority.
      *
-     * @param string|false $authority a hostname or an IP addresse, possibly
+     * @param string|bool $authority a hostname or an IP address, possibly
      *                                with userinfo prefixed and port number
      *                                appended, e.g. "foo:bar@example.org:81".
      *
@@ -481,8 +483,9 @@ class Net_URL2
             }
             $value = rawurldecode($value);
 
-            if ($this->getOption(self::OPTION_USE_BRACKETS) &&
-                preg_match('#^(.*)\[([0-9a-z_-]*)\]#i', $key, $matches)) {
+            if ($this->getOption(self::OPTION_USE_BRACKETS)
+                && preg_match('#^(.*)\[([0-9a-z_-]*)\]#i', $key, $matches)
+            ) {
 
                 $key = $matches[1];
                 $idx = $matches[2];
@@ -548,7 +551,7 @@ class Net_URL2
     }
 
     /**
-     * Removes the specifed variable from the query string.
+     * Removes the specified variable from the query string.
      *
      * @param string $name a query string variable, e.g. "foo" in "?foo=1"
      *
@@ -569,7 +572,7 @@ class Net_URL2
     public function getURL()
     {
         // See RFC 3986, section 5.3
-        $url = "";
+        $url = '';
 
         if ($this->_scheme !== false) {
             $url .= $this->_scheme . ':';
@@ -588,7 +591,7 @@ class Net_URL2
         if ($this->_fragment !== false) {
             $url .= '#' . $this->_fragment;
         }
-    
+
         return $url;
     }
 
@@ -603,7 +606,7 @@ class Net_URL2
         return $this->getURL();
     }
 
-    /** 
+    /**
      * Returns a normalized string representation of this URL. This is useful
      * for comparison of URLs.
      *
@@ -616,41 +619,41 @@ class Net_URL2
         return $url->getUrl();
     }
 
-    /** 
+    /**
      * Returns a normalized Net_URL2 instance.
      *
      * @return  Net_URL2
      */
     public function normalize()
     {
-        // See RFC 3886, section 6
+        // See RFC 3986, section 6
 
-        // Schemes are case-insensitive
+        // Scheme is case-insensitive
         if ($this->_scheme) {
             $this->_scheme = strtolower($this->_scheme);
         }
 
-        // Hostnames are case-insensitive
+        // Hostname is case-insensitive
         if ($this->_host) {
             $this->_host = strtolower($this->_host);
         }
 
         // Remove default port number for known schemes (RFC 3986, section 6.2.3)
-        if ($this->_port &&
-            $this->_scheme &&
-            $this->_port == getservbyname($this->_scheme, 'tcp')) {
-
+        if ('' === $this->_port
+            || $this->_port
+            && $this->_scheme
+            && $this->_port == getservbyname($this->_scheme, 'tcp')
+        ) {
             $this->_port = false;
         }
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
-        foreach (array('_userinfo', '_host', '_path') as $part) {
-            if ($this->$part) {
-                $this->$part = preg_replace('/%[0-9a-f]{2}/ie',
-                                            'strtoupper("\0")',
-                                            $this->$part);
-            }
-        }
+        // Normalize percentage-encoded unreserved character (RFC 3986, section 6.2.2.2)
+        list($this->_userinfo, $this->_host, $this->_path)
+            = preg_replace_callback(
+                '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                array($this->_userinfo, $this->_host, $this->_path)
+            );
 
         // Path segment normalization (RFC 3986, section 6.2.2.3)
         $this->_path = self::removeDotSegments($this->_path);
@@ -659,6 +662,18 @@ class Net_URL2
         if ($this->_host && !$this->_path) {
             $this->_path = '/';
         }
+    }
+
+    /**
+     * callback for normalize() of %XX percentage-encodings
+     *
+     * @param array $matches as by preg_replace_callback
+     *
+     * @return string
+     */
+    private static function _normalizeCallback($matches)
+    {
+        return self::urlencode(urldecode($matches[0]));
     }
 
     /**
@@ -677,7 +692,8 @@ class Net_URL2
      *
      * @param Net_URL2|string $reference relative URL
      *
-     * @return Net_URL2
+     * @throws Exception
+     * @return $this
      */
     public function resolve($reference)
     {
@@ -690,7 +706,9 @@ class Net_URL2
 
         // A non-strict parser may ignore a scheme in the reference if it is
         // identical to the base URI's scheme.
-        if (!$this->getOption(self::OPTION_STRICT) && $reference->_scheme == $this->_scheme) {
+        if (!$this->getOption(self::OPTION_STRICT)
+            && $reference->_scheme == $this->_scheme
+        ) {
             $reference->_scheme = false;
         }
 
@@ -720,7 +738,7 @@ class Net_URL2
                     } else {
                         // Merge paths (RFC 3986, section 5.2.3)
                         if ($this->_host !== false && $this->_path == '') {
-                            $target->_path = '/' . $this->_path;
+                            $target->_path = '/' . $reference->_path;
                         } else {
                             $i = strrpos($this->_path, '/');
                             if ($i !== false) {
@@ -752,12 +770,13 @@ class Net_URL2
      */
     public static function removeDotSegments($path)
     {
+        $path = (string) $path;
         $output = '';
 
         // Make sure not to be trapped in an infinite loop due to a bug in this
         // method
         $j = 0;
-        while ($path && $j++ < 100) {
+        while ('' !== $path && $j++ < 100) {
             if (substr($path, 0, 2) == './') {
                 // Step 2.A
                 $path = substr($path, 2);
@@ -797,12 +816,13 @@ class Net_URL2
      * Similar to PHP's rawurlencode(), except that it also encodes ~ in PHP
      * 5.2.x and earlier.
      *
-     * @param  $raw the string to encode
+     * @param string $string string to encode
+     *
      * @return string
      */
     public static function urlencode($string)
     {
-    	$encoded = rawurlencode($string);
+        $encoded = rawurlencode($string);
 
         // This is only necessary in PHP < 5.3.
         $encoded = str_replace('%7E', '~', $encoded);
@@ -813,7 +833,8 @@ class Net_URL2
      * Returns a Net_URL2 instance representing the canonical URL of the
      * currently executing PHP script.
      *
-     * @return  string
+     * @throws Exception
+     * @return string
      */
     public static function getCanonical()
     {
@@ -827,9 +848,9 @@ class Net_URL2
         $url->_scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $url->_host   = $_SERVER['SERVER_NAME'];
         $port = $_SERVER['SERVER_PORT'];
-        if ($url->_scheme == 'http' && $port != 80 ||
-            $url->_scheme == 'https' && $port != 443) {
-
+        if ($url->_scheme == 'http' && $port != 80
+            || $url->_scheme == 'https' && $port != 443
+        ) {
             $url->_port = $port;
         }
         return $url;
@@ -849,7 +870,8 @@ class Net_URL2
      * Returns a Net_URL2 instance representing the URL used to retrieve the
      * current request.
      *
-     * @return  Net_URL2
+     * @throws Exception
+     * @return $this
      */
     public static function getRequested()
     {
@@ -885,9 +907,10 @@ class Net_URL2
      *
      * @param array  $data      An array, which has to be converted into
      *                          QUERY_STRING. Anything is possible.
-     * @param string $seperator See {@link self::OPTION_SEPARATOR_OUTPUT}
+     * @param string $separator Separator
      * @param string $key       For stacked values (arrays in an array).
      *
+     * @internal param string $separator See {@link self::OPTION_SEPARATOR_OUTPUT}
      * @return string
      */
     protected function buildQuery(array $data, $separator, $key = null)
@@ -916,7 +939,7 @@ class Net_URL2
     /**
      * This method uses a funky regex to parse the url into the designated parts.
      *
-     * @param string $url
+     * @param string $url URL
      *
      * @return void
      * @uses   self::$_scheme, self::setAuthority(), self::$_path, self::$_query,
@@ -927,9 +950,10 @@ class Net_URL2
     {
         // The regular expression is copied verbatim from RFC 3986, appendix B.
         // The expression does not validate the URL but matches any string.
-        preg_match('!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
-                   $url,
-                   $matches);
+        preg_match(
+            '!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
+            $url, $matches
+        );
 
         // "path" is always present (possibly as an empty string); the rest
         // are optional.
