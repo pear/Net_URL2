@@ -1,7 +1,7 @@
 <?php
 // Call Net_URL2Test::main() if this source file is executed directly.
-if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "Net_URL2Test::main");
+if (!defined('PHPUnit_MAIN_METHOD')) {
+    define('PHPUnit_MAIN_METHOD', 'Net_URL2Test::main');
 }
 
 require_once 'PHPUnit/Autoload.php';
@@ -28,9 +28,9 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        require_once "PHPUnit/TextUI/TestRunner.php";
+        require_once 'PHPUnit/TextUI/TestRunner.php';
 
-        $suite  = new PHPUnit_Framework_TestSuite("Net_URL2Test");
+        $suite  = new PHPUnit_Framework_TestSuite('Net_URL2Test');
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
 
@@ -132,48 +132,48 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         // Examples from RFC 3986, section 5.4.
         // relative URL => absolute URL
         $tests = array(
-            "g:h"           =>  "g:h",
-            "g"             =>  "http://a/b/c/g",
-            "./g"           =>  "http://a/b/c/g",
-            "g/"            =>  "http://a/b/c/g/",
-            "/g"            =>  "http://a/g",
-            "//g"           =>  "http://g",
-            "?y"            =>  "http://a/b/c/d;p?y",
-            "g?y"           =>  "http://a/b/c/g?y",
-            "#s"            =>  "http://a/b/c/d;p?q#s",
-            "g#s"           =>  "http://a/b/c/g#s",
-            "g?y#s"         =>  "http://a/b/c/g?y#s",
-            ";x"            =>  "http://a/b/c/;x",
-            "g;x"           =>  "http://a/b/c/g;x",
-            "g;x?y#s"       =>  "http://a/b/c/g;x?y#s",
-            ""              =>  "http://a/b/c/d;p?q",
-            "."             =>  "http://a/b/c/",
-            "./"            =>  "http://a/b/c/",
-            ".."            =>  "http://a/b/",
-            "../"           =>  "http://a/b/",
-            "../g"          =>  "http://a/b/g",
-            "../.."         =>  "http://a/",
-            "../../"        =>  "http://a/",
-            "../../g"       =>  "http://a/g",
-            "../../../g"    =>  "http://a/g",
-            "../../../../g" =>  "http://a/g",
-            "/./g"          =>  "http://a/g",
-            "/../g"         =>  "http://a/g",
-            "g."            =>  "http://a/b/c/g.",
-            ".g"            =>  "http://a/b/c/.g",
-            "g.."           =>  "http://a/b/c/g..",
-            "..g"           =>  "http://a/b/c/..g",
-            "./../g"        =>  "http://a/b/g",
-            "./g/."         =>  "http://a/b/c/g/",
-            "g/./h"         =>  "http://a/b/c/g/h",
-            "g/../h"        =>  "http://a/b/c/h",
-            "g;x=1/./y"     =>  "http://a/b/c/g;x=1/y",
-            "g;x=1/../y"    =>  "http://a/b/c/y",
-            "g?y/./x"       =>  "http://a/b/c/g?y/./x",
-            "g?y/../x"      =>  "http://a/b/c/g?y/../x",
-            "g#s/./x"       =>  "http://a/b/c/g#s/./x",
-            "g#s/../x"      =>  "http://a/b/c/g#s/../x",
-            "http:g"        =>  "http:g",
+            'g:h'           =>  'g:h',
+            'g'             =>  'http://a/b/c/g',
+            './g'           =>  'http://a/b/c/g',
+            'g/'            =>  'http://a/b/c/g/',
+            '/g'            =>  'http://a/g',
+            '//g'           =>  'http://g',
+            '?y'            =>  'http://a/b/c/d;p?y',
+            'g?y'           =>  'http://a/b/c/g?y',
+            '#s'            =>  'http://a/b/c/d;p?q#s',
+            'g#s'           =>  'http://a/b/c/g#s',
+            'g?y#s'         =>  'http://a/b/c/g?y#s',
+            ';x'            =>  'http://a/b/c/;x',
+            'g;x'           =>  'http://a/b/c/g;x',
+            'g;x?y#s'       =>  'http://a/b/c/g;x?y#s',
+            ''              =>  'http://a/b/c/d;p?q',
+            '.'             =>  'http://a/b/c/',
+            './'            =>  'http://a/b/c/',
+            '..'            =>  'http://a/b/',
+            '../'           =>  'http://a/b/',
+            '../g'          =>  'http://a/b/g',
+            '../..'         =>  'http://a/',
+            '../../'        =>  'http://a/',
+            '../../g'       =>  'http://a/g',
+            '../../../g'    =>  'http://a/g',
+            '../../../../g' =>  'http://a/g',
+            '/./g'          =>  'http://a/g',
+            '/../g'         =>  'http://a/g',
+            'g.'            =>  'http://a/b/c/g.',
+            '.g'            =>  'http://a/b/c/.g',
+            'g..'           =>  'http://a/b/c/g..',
+            '..g'           =>  'http://a/b/c/..g',
+            './../g'        =>  'http://a/b/g',
+            './g/.'         =>  'http://a/b/c/g/',
+            'g/./h'         =>  'http://a/b/c/g/h',
+            'g/../h'        =>  'http://a/b/c/h',
+            'g;x=1/./y'     =>  'http://a/b/c/g;x=1/y',
+            'g;x=1/../y'    =>  'http://a/b/c/y',
+            'g?y/./x'       =>  'http://a/b/c/g?y/./x',
+            'g?y/../x'      =>  'http://a/b/c/g?y/../x',
+            'g#s/./x'       =>  'http://a/b/c/g#s/./x',
+            'g#s/../x'      =>  'http://a/b/c/g#s/../x',
+            'http:g'        =>  'http:g',
         );
         $baseURL = 'http://a/b/c/d;p?q';
         $base = new Net_URL2($baseURL);
@@ -299,7 +299,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     public function testQueryVariables()
     {
         $queryString = 'start=10&test[0][first][1.1][20]=coucou';
-        $url = new Net_URL2("?{$queryString}");
+        $url = new Net_URL2('?'.$queryString);
         $vars = array(); parse_str($url->getQuery(), $vars);
 
         $this->assertEquals('10', $vars['start']);
@@ -347,6 +347,6 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.
-if (PHPUnit_MAIN_METHOD == "Net_URL2Test::main") {
+if (PHPUnit_MAIN_METHOD == 'Net_URL2Test::main') {
     Net_URL2Test::main();
 }

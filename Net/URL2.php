@@ -572,7 +572,7 @@ class Net_URL2
     public function getURL()
     {
         // See RFC 3986, section 5.3
-        $url = "";
+        $url = '';
 
         if ($this->_scheme !== false) {
             $url .= $this->_scheme . ':';
