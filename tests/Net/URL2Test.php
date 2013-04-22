@@ -132,7 +132,6 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         // Examples from RFC 3986, section 5.4.
         // relative URL => absolute URL
         $tests = array(
-            ""              =>  "http://a/b/c/d;p?q",
             "g:h"           =>  "g:h",
             "g"             =>  "http://a/b/c/g",
             "./g"           =>  "http://a/b/c/g",
