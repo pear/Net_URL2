@@ -346,20 +346,55 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * data provider of equivalent URL pairs.
+     *
+     * @return array
+     */
+    public function provideEquivalentUrlLists()
+    {
+        return array(
+            // String equivalence:
+            array('http://example.com/', 'http://example.com/'),
+
+            // Originally first dataset:
+            array('http://www.example.com/%9a', 'http://www.example.com/%9A'),
+
+            // Example from RFC 3986 6.2.2.:
+            array('example://a/b/c/%7Bfoo%7D', 'eXAMPLE://a/./b/../b/%63/%7bfoo%7d'),
+
+            // Example from RFC 3986 6.2.2.1.:
+            array('HTTP://www.EXAMPLE.com/', 'http://www.example.com/'),
+
+            // Example from RFC 3986 6.2.3.:
+            array('http://example.com',   'http://example.com/',
+                  'http://example.com:/', 'http://example.com:80/'),
+        );
+    }
+
+    /**
      * This is a coverage test to invoke the normalize()
      * method.
      *
      * @return void
+     *
+     * @dataProvider provideEquivalentUrlLists
      */
     public function testNormalize()
     {
-        $abnormal = 'http://www.example.com/%9a';
-        $normal   = 'http://www.example.com/%9A';
+        $urls = func_get_args();
 
-        $url = new Net_Url2($abnormal);
-        $url->normalize();
+        $this->assertGreaterThanOrEqual(2, count($urls));
 
-        $this->assertSame($normal, (string) $url);
+        $last = null;
+
+        foreach ($urls as $index => $url) {
+            $url = new Net_Url2($url);
+            $url->normalize();
+            if ($index) {
+                $this->assertEquals((string) $last, (string) $url);
+            }
+            $last = $url;
+        }
     }
 }
 

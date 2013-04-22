@@ -626,7 +626,7 @@ class Net_URL2
      */
     public function normalize()
     {
-        // See RFC 3886, section 6
+        // See RFC 3986, section 6
 
         // Scheme is case-insensitive
         if ($this->_scheme) {
@@ -639,23 +639,21 @@ class Net_URL2
         }
 
         // Remove default port number for known schemes (RFC 3986, section 6.2.3)
-        if ($this->_port
+        if ('' === $this->_port
+            || $this->_port
             && $this->_scheme
             && $this->_port == getservbyname($this->_scheme, 'tcp')
         ) {
-
             $this->_port = false;
         }
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
-        foreach (array('_userinfo', '_host', '_path') as $part) {
-            if ($this->$part) {
-                $this->$part = preg_replace_callback(
-                    '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
-                    $this->$part
-                );
-            }
-        }
+        // Normalize percentage-encoded unreserved character (RFC 3986, section 6.2.2.2)
+        list($this->_userinfo, $this->_host, $this->_path)
+            = preg_replace_callback(
+                '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                array($this->_userinfo, $this->_host, $this->_path)
+            );
 
         // Path segment normalization (RFC 3986, section 6.2.2.3)
         $this->_path = self::removeDotSegments($this->_path);
@@ -675,7 +673,7 @@ class Net_URL2
      */
     private static function _normalizeCallback($matches)
     {
-        return strtoupper($matches[0]);
+        return self::urlencode(urldecode($matches[0]));
     }
 
     /**
