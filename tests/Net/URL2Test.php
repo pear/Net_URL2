@@ -344,6 +344,23 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         }
         unset($error);
     }
+
+    /**
+     * This is a coverage test to invoke the normalize()
+     * method.
+     *
+     * @return void
+     */
+    public function testNormalize()
+    {
+        $abnormal = 'http://www.example.com/%9a';
+        $normal   = 'http://www.example.com/%9A';
+
+        $url = new Net_Url2($abnormal);
+        $url->normalize();
+
+        $this->assertSame($normal, (string) $url);
+    }
 }
 
 // Call Net_URL2Test::main() if this source file is executed directly.

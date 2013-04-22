@@ -650,8 +650,9 @@ class Net_URL2
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
         foreach (array('_userinfo', '_host', '_path') as $part) {
             if ($this->$part) {
-                $this->$part = preg_replace(
-                    '/%[0-9a-f]{2}/ie', 'strtoupper("\0")', $this->$part
+                $this->$part = preg_replace_callback(
+                    '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                    $this->$part
                 );
             }
         }
@@ -663,6 +664,18 @@ class Net_URL2
         if ($this->_host && !$this->_path) {
             $this->_path = '/';
         }
+    }
+
+    /**
+     * callback for normalize() of %XX percentage-encodings
+     *
+     * @param array $matches as by preg_replace_callback
+     *
+     * @return string
+     */
+    private static function _normalizeCallback($matches)
+    {
+        return strtoupper($matches[0]);
     }
 
     /**
