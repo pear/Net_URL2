@@ -31,7 +31,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes> 
+ <notes>
 * Fixed the version of the release. Follow the convention for Package2.
 * Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
  </notes>
@@ -70,6 +70,23 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <changelog>
    <release>
     <version>
+      <release>1.0.1</release>
+      <api>1.0.0</api>
+    </version>
+    <stability>
+      <release>stable</release>
+      <api>stable</api>
+    </stability>
+    <date>2013-04-22</date>
+    <license>BSD</license>
+    <notes>
+* Fixed Bug #19176: resolve() does not merge the path if the base path is empty
+* Fixed Bug #19315: removeDotSegments("0") not working
+    </notes>
+  </release>
+
+   <release>
+    <version>
       <release>1.0.0</release>
       <api>1.0.0</api>
     </version>
@@ -85,7 +102,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
 * Fixed #17166: Fluent Interface
 * Fixed #17167: Refactor __construct
 * Fixed Bug #18267: setQueryVariables() fails to encode array values
-* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.) 
+* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.)
     </notes>
   </release>
 
