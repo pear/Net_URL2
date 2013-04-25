@@ -962,8 +962,40 @@ class Net_URL2
         // are optional.
         $this->_scheme   = !empty($matches[1]) ? $matches[2] : false;
         $this->setAuthority(!empty($matches[3]) ? $matches[4] : false);
-        $this->_path     = $matches[5];
-        $this->_query    = !empty($matches[6]) ? $matches[7] : false;
+        $this->_path     = $this->_encodeData($matches[5]);
+        $this->_query    = !empty($matches[6])
+                           ? $this->_encodeData($matches[7])
+                           : false
+            ;
         $this->_fragment = !empty($matches[8]) ? $matches[9] : false;
+    }
+
+    /**
+     * Encode characters that might have been forgotten to encode when passing
+     * in an URL. Applied onto Path and Query.
+     *
+     * @param string $url URL
+     *
+     * @return string
+     */
+    private function _encodeData($url)
+    {
+        return preg_replace_callback(
+            '~[\x0-\x20\x22\x3C\x3E\x7F-\xFF]+~',
+            array($this, '_encodeCallback'), $url
+        );
+    }
+
+    /**
+     * callback for encoding character data
+     *
+     * @param array $matches Matches
+     *
+     * @return string
+     * @see Net_URL2::_encodeData
+     */
+    private function _encodeCallback(array $matches)
+    {
+        return rawurlencode($matches[0]);
     }
 }

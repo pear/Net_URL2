@@ -446,6 +446,45 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * This is a regression test to test that recovering from
+     * a wrongly encoded URL is possible.
+     *
+     * It was requested as Request #19684 on 2011-12-31 02:07 UTC
+     * that redirects containing spaces should work.
+     *
+     * @return void
+     */
+    public function test19684()
+    {
+        // Location: URL obtained Thu, 25 Apr 2013 20:51:31 GMT
+        $urlWithSpace = 'http://www.sigmaaldrich.com/catalog/search?interface=CAS N'
+            . 'o.&term=108-88-3&lang=en&region=US&mode=match+partialmax&N=0+2200030'
+            . '48+219853269+219853286';
+
+        $urlCorrect = 'http://www.sigmaaldrich.com/catalog/search?interface=CAS%20N'
+            . 'o.&term=108-88-3&lang=en&region=US&mode=match+partialmax&N=0+2200030'
+            . '48+219853269+219853286';
+
+        $url = new Net_URL2($urlWithSpace);
+
+        $this->assertTrue($url->isAbsolute());
+
+        $urlPart = parse_url($urlCorrect, PHP_URL_PATH);
+        $this->assertSame($urlPart, $url->getPath());
+
+        $urlPart = parse_url($urlCorrect, PHP_URL_QUERY);
+        $this->assertSame($urlPart, $url->getQuery());
+
+        $this->assertSame($urlCorrect, (string) $url);
+
+        $input    = 'http://example.com/get + + to my nose/';
+        $expected = 'http://example.com/get%20+%20+%20to%20my%20nose/';
+        $actual   = new Net_URL2($input);
+        $this->assertEquals($expected, $actual);
+        $actual->normalize();
+    }
+
+    /**
      * data provider of equivalent URL pairs.
      *
      * @return array
