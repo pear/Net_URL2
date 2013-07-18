@@ -2,7 +2,7 @@
 	"name": "vube/php-pear-net_url2",
 	"type": "library",
 	"keywords": ["pear", "net", "url"],
-	"description": "Clone of pear/Net_URL2 - NO CHANGES except added composer support",
+	"description": "Clone of pear/Net_URL2 with bug fixes",
 	"license": "BSD-2-Clause",
 	"require": {
 		"php": ">=5.3"

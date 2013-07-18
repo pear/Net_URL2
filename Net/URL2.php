@@ -649,10 +649,15 @@ class Net_URL2
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
         // Normalize percentage-encoded unreserved character (RFC 3986, section 6.2.2.2)
-        list($this->_userinfo, $this->_host, $this->_path)
+        if($this->_userinfo !== false) {
+            $this->_userinfo = preg_replace_callback(
+                '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                $this->_userinfo);
+        }
+        list($this->_host, $this->_path)
             = preg_replace_callback(
                 '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
-                array($this->_userinfo, $this->_host, $this->_path)
+                array($this->_host, $this->_path)
             );
 
         // Path segment normalization (RFC 3986, section 6.2.2.3)

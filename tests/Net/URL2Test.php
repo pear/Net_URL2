@@ -371,6 +371,30 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         );
     }
 
+	/**
+	 * This tests that normalize() returns an expected result.
+	 * This is a regression test for bug #20013
+	 *
+	 * @see https://pear.php.net/bugs/bug.php?id=20013
+	 *
+	 * @return void
+	 */
+	public function testNormalizeDoesNotAddErroneousAts()
+	{
+		$expectedResults = array(
+			'http://example.com/',
+            'http://example.com:8080/',
+			'http://user:pass@example.com/',
+            '/path/with/no/host',
+		);
+
+		foreach($expectedResults as $expected)
+		{
+			$url = new Net_Url2($expected);
+			$this->assertSame($expected, $url->getNormalizedURL(), "getNormalizedURL must return the expected result");
+		}
+	}
+
     /**
      * This is a coverage test to invoke the normalize()
      * method.
