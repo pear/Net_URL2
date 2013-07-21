@@ -1,173 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
 http://pear.php.net/dtd/tasks-1.0.xsd
 http://pear.php.net/dtd/package-2.0
 http://pear.php.net/dtd/package-2.0.xsd">
- <name>Net_URL2</name>
- <channel>pear.php.net</channel>
- <extends>Net_URL</extends>
- <summary>Class for parsing and handling URL.</summary>
- <description>Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.</description>
- <lead>
-  <name>David Coallier</name>
-  <user>davidc</user>
-  <email>davidc@php.net</email>
-  <active>yes</active>
- </lead>
- <lead>
-  <name>Christian Schmidt</name>
-  <user>schmidt</user>
-  <email>schmidt@php.net</email>
-  <active>yes</active>
- </lead>
- <date>2011-10-20</date>
- <time>10:43:00</time>
- <version>
-  <release>2.0.0</release>
-  <api>2.0.0</api>
- </version>
- <stability>
-  <release>stable</release>
-  <api>stable</api>
- </stability>
- <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>
-* Fixed the version of the release. Follow the convention for Package2.
-* Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
- </notes>
- <contents>
-  <dir name="/">
-   <dir name="docs">
-    <file baseinstalldir="Net" name="example.php" role="doc" />
-    <file baseinstalldir="Net" name="6470.php" role="doc" />
-   </dir> <!-- //docs -->
-   <dir name="tests">
-    <file name="AllTests.php" role="test" />
-    <dir name="Net">
-      <file name="URL2Test.php" role="test">
-        <tasks:replace type="package-info" to="version" from="@package_version@"/>
-      </file>
+  <name>Net_URL2</name>
+  <channel>pear.php.net</channel>
+  <extends>Net_URL</extends>
+  <summary>Class for parsing and handling URL.</summary>
+  <description>Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and
+    resolving of relative URLs.
+  </description>
+  <lead>
+    <name>David Coallier</name>
+    <user>davidc</user>
+    <email>davidc@php.net</email>
+    <active>yes</active>
+  </lead>
+  <lead>
+    <name>Christian Schmidt</name>
+    <user>schmidt</user>
+    <email>schmidt@php.net</email>
+    <active>yes</active>
+  </lead>
+
+  <date>2013-04-22</date>
+  <time>16:45:00</time>
+  <version>
+    <release>2.0.1</release>
+    <api>2.0.0</api>
+  </version>
+  <stability>
+    <release>stable</release>
+    <api>stable</api>
+  </stability>
+  <license uri="http://www.opensource.org/licenses/BSD-2-Clause">BSD 2-clause "Simplified" License</license>
+  <notes>
+    * Fixed Bug #19176: resolve() does not merge the path if the base path is empty
+    * Fixed Bug #19315: removeDotSegments("0") not working
+  </notes>
+  <contents>
+    <dir name="/">
+      <dir name="docs">
+        <file baseinstalldir="Net" name="example.php" role="doc"/>
+        <file baseinstalldir="Net" name="6470.php" role="doc"/>
+      </dir>
+      <!-- //docs -->
+      <dir name="tests">
+        <file name="AllTests.php" role="test"/>
+        <dir name="Net">
+          <file name="URL2Test.php" role="test">
+            <tasks:replace type="package-info" to="version" from="@package_version@"/>
+          </file>
+        </dir>
+      </dir>
+      <dir name="Net">
+        <file name="URL2.php" role="php">
+          <tasks:replace type="package-info" to="version" from="@package_version@"/>
+        </file>
+      </dir>
     </dir>
-   </dir>
-   <dir name="Net">
-    <file name="URL2.php" role="php">
-      <tasks:replace type="package-info" to="version" from="@package_version@"/>
-    </file>
-   </dir>
-  </dir> <!-- / -->
- </contents>
- <dependencies>
-  <required>
-   <php>
-    <min>5.0</min>
-   </php>
-   <pearinstaller>
-    <min>1.4.0b1</min>
-   </pearinstaller>
-  </required>
- </dependencies>
- <phprelease />
- <changelog>
-   <release>
-    <version>
-      <release>1.0.1</release>
-      <api>1.0.0</api>
-    </version>
-    <stability>
-      <release>stable</release>
-      <api>stable</api>
-    </stability>
-    <date>2013-04-22</date>
-    <license>BSD</license>
-    <notes>
-* Fixed Bug #19176: resolve() does not merge the path if the base path is empty
-* Fixed Bug #19315: removeDotSegments("0") not working
-    </notes>
-  </release>
+    <!-- / -->
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.0</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.0b1</min>
+      </pearinstaller>
+    </required>
+  </dependencies>
+  <phprelease/>
+  <changelog>
+    <release>
+      <date>2011-10-20</date>
+      <time>10:43:00</time>
+      <version>
+        <release>2.0.0</release>
+        <api>2.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+      <notes>
+        * Fixed the version of the release. Follow the convention for Package2.
+        * Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
+      </notes>
+    </release>
 
-   <release>
-    <version>
-      <release>1.0.0</release>
-      <api>1.0.0</api>
-    </version>
-    <stability>
-      <release>stable</release>
-      <api>stable</api>
-    </stability>
-    <date>2011-10-20</date>
-    <license>BSD</license>
-    <notes>
-* Fixed Bug #17036: Problem with parsed query string
-* Fixed Bug #17087: setOption() function is gone
-* Fixed #17166: Fluent Interface
-* Fixed #17167: Refactor __construct
-* Fixed Bug #18267: setQueryVariables() fails to encode array values
-* Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.)
-    </notes>
-  </release>
+    <release>
+      <version>
+        <release>1.0.0</release>
+        <api>1.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <date>2011-10-20</date>
+      <license>BSD</license>
+      <notes>
+        * Fixed Bug #17036: Problem with parsed query string
+        * Fixed Bug #17087: setOption() function is gone
+        * Fixed #17166: Fluent Interface
+        * Fixed #17167: Refactor __construct
+        * Fixed Bug #18267: setQueryVariables() fails to encode array values
+        * Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.)
+      </notes>
+    </release>
 
-  <release>
-    <version>
-      <release>0.3.1</release>
-      <api>0.3.0</api>
-    </version>
-    <stability>
-      <release>beta</release>
-      <api>beta</api>
-    </stability>
-    <date>2011-02-22</date>
-    <license>BSD</license>
-    <notes>
-* BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
-* Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
-* Fixed Bug #16651: Port may be an empty string
-* Fixed Bug #16653: Don't make OPTION_SEPARATOR_(IN|OUT)PUT default to arg_separator.(in|out)put
-    </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.3.0</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2009-09-05</date>
-   <license>BSD</license>
-    <notes>* Fixed #14399 (Errors in URL parsing (items #1 and #3))
-* Fixed #14735 (Encode query string values)
-* Fixed #15546 (Add adding __toString())
-* Fixed #15367 (Use RFC 3986-compliant version of rawurlencode() in PHP &lt; 5.2)
-* Fixed #14289 (Add __get() and __set())</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.2.0</release>
-    <api>0.2.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2008-06-18</date>
-   <license>BSD</license>
-   <notes>Major rewrite to comply with RFC3986 (bug 11574).
-   Much better support for resolving relative URLs.
-   WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT BACKWARDS COMPATIBLE WITH VERSION 0.1.0.</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.1.0</release>
-    <api>0.1.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-05-08</date>
-   <license>BSD</license>
-   <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
-  </release>
- </changelog>
+    <release>
+      <version>
+        <release>0.3.1</release>
+        <api>0.3.0</api>
+      </version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <date>2011-02-22</date>
+      <license>BSD</license>
+      <notes>
+        * BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
+        * Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
+        * Fixed Bug #16651: Port may be an empty string
+        * Fixed Bug #16653: Don't make OPTION_SEPARATOR_(IN|OUT)PUT default to arg_separator.(in|out)put
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>0.3.0</release>
+        <api>0.3.0</api>
+      </version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <date>2009-09-05</date>
+      <license>BSD</license>
+      <notes>* Fixed #14399 (Errors in URL parsing (items #1 and #3))
+        * Fixed #14735 (Encode query string values)
+        * Fixed #15546 (Add adding __toString())
+        * Fixed #15367 (Use RFC 3986-compliant version of rawurlencode() in PHP &lt; 5.2)
+        * Fixed #14289 (Add __get() and __set())
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>0.2.0</release>
+        <api>0.2.0</api>
+      </version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <date>2008-06-18</date>
+      <license>BSD</license>
+      <notes>Major rewrite to comply with RFC3986 (bug 11574).
+        Much better support for resolving relative URLs.
+        WARNING: Method and property names has changed to reflect the terminology used in the RFC - THIS RELEASE IS NOT
+        BACKWARDS COMPATIBLE WITH VERSION 0.1.0.
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>0.1.0</release>
+        <api>0.1.0</api>
+      </version>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <date>2007-05-08</date>
+      <license>BSD</license>
+      <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
+    </release>
+  </changelog>
 </package>
