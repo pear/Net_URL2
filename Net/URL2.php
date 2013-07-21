@@ -340,7 +340,7 @@ class Net_URL2
 
         $authority = '';
 
-        if ($this->_userinfo !== false) {
+        if (strlen($this->_userinfo)) {
             $authority .= $this->_userinfo . '@';
         }
 
