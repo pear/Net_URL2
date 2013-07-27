@@ -53,6 +53,21 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting an empty userinfo part
+     * Also: Regression test for Bug #20013
+     * @link https://pear.php.net/bugs/bug.php?id=20013
+     */
+    public function testSetEmptyUserinfo() {
+        $url = new Net_URL2('http://@www.example.com/');
+        $this->assertSame('http://www.example.com/', $url->getURL());
+
+        $url = new Net_URL2('http://www.example.com/');
+        $this->assertSame('http://www.example.com/', $url->getURL());
+        $url->setUserinfo('');
+        $this->assertSame('http://www.example.com/', $url->getURL());
+    }
+
+    /**
      * Tests setQueryVariable().
      */
     public function testSetQueryVariable() {
