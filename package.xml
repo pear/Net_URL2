@@ -36,7 +36,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <release>stable</release>
     <api>stable</api>
   </stability>
-  <license uri="http://opensource.org/licenses/BSD-2-Clause">BSD 2-clause "Simplified" License</license>
+  <license uri="http://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
     * Fixed Bug #20013: getNormalizedURL() adds leading "@" chars in the Authority
     * Fixed Bug #20016: Wrong data in 6d4f4dd "Package.xml preparation."
@@ -88,7 +88,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <release>stable</release>
         <api>stable</api>
       </stability>
-      <license uri="http://opensource.org/licenses/BSD-2-Clause">BSD 2-clause "Simplified" License</license>
+      <license uri="http://spdx.org/licenses/BSD-2-Clause">BSD-2-Clause</license>
       <notes>
         * Fixed Bug #19176: resolve() does not merge the path if the base path is empty
         * Fixed Bug #19315: removeDotSegments("0") not working
@@ -106,7 +106,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <release>stable</release>
         <api>stable</api>
       </stability>
-      <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+      <license uri="http://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
       <notes>
         * Fixed the version of the release. Follow the convention for Package2.
         * Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
@@ -123,7 +123,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <api>stable</api>
       </stability>
       <date>2011-10-20</date>
-      <license>BSD</license>
+      <license>BSD-3-Clause</license>
       <notes>
         * Fixed Bug #17036: Problem with parsed query string
         * Fixed Bug #17087: setOption() function is gone
@@ -144,7 +144,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <api>beta</api>
       </stability>
       <date>2011-02-22</date>
-      <license>BSD</license>
+      <license>BSD-3-Clause</license>
       <notes>
         * BC break: Removed setOption() to avoid undefined behaviour (bug #16674)
         * Fixed Bug #16854: Invalid package.xml making it impossible to install with Pyrus
@@ -162,7 +162,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <api>beta</api>
       </stability>
       <date>2009-09-05</date>
-      <license>BSD</license>
+      <license>BSD-3-Clause</license>
       <notes>
         * Fixed #14399 (Errors in URL parsing (items #1 and #3))
         * Fixed #14735 (Encode query string values)
@@ -181,7 +181,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <api>beta</api>
       </stability>
       <date>2008-06-18</date>
-      <license>BSD</license>
+      <license>BSD-3-Clause</license>
       <notes>
         * Major rewrite to comply with RFC3986 (bug #11574).
         * Much better support for resolving relative URLs.
@@ -199,7 +199,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
         <api>beta</api>
       </stability>
       <date>2007-05-08</date>
-      <license>BSD</license>
+      <license>BSD-3-Clause</license>
       <notes>Convert to PHP5 only. PHP4 users should continue with version 1.0.15</notes>
     </release>
   </changelog>

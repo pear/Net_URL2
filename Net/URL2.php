@@ -38,7 +38,7 @@
  * @package   Net_URL2
  * @author    Christian Schmidt <schmidt@php.net>
  * @copyright 2007-2009 Peytz & Co. A/S
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @license   http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version   CVS: $Id$
  * @link      http://www.rfc-editor.org/rfc/rfc3986.txt
  */
@@ -50,7 +50,7 @@
  * @package   Net_URL2
  * @author    Christian Schmidt <schmidt@php.net>
  * @copyright 2007-2009 Peytz & Co. A/S
- * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @license   http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Net_URL2
  */
