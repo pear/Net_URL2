@@ -136,7 +136,6 @@ class Net_URL2
      * @param string $url     an absolute or relative URL
      * @param array  $options an array of OPTION_xxx constants
      *
-     * @return Net_URL2
      * @uses   self::parseUrl()
      */
     public function __construct($url, array $options = array())
