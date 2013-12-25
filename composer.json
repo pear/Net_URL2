@@ -1,8 +1,8 @@
 {
     "name": "pear/net_url2",
-    "description": "Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
+    "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
     "type": "library",
-    "keywords": [ "url", "uri", "networking", "RFC 3986" ],
+    "keywords": [ "pear", "net", "url", "uri", "networking", "RFC 3986" ],
     "homepage": "https://github.com/pear/Net_URL2",
     "license": "BSD-3-Clause",
     "authors": [
