@@ -3,6 +3,8 @@
 Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.),
 URL generation, and resolving of relative URLs.
 
+[![Build Status](https://travis-ci.org/pear/Net_URL2.png)](https://travis-ci.org/pear/Net_URL2)
+
 This package is [Pear Net_URL2] and has been migrated from [Pear SVN]
 
 Please report all new issues via the [PEAR bug tracker].
