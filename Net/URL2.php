@@ -907,10 +907,9 @@ class Net_URL2
      *
      * @param array  $data      An array, which has to be converted into
      *                          QUERY_STRING. Anything is possible.
-     * @param string $separator Separator
+     * @param string $separator Query variable separator, See {@link self::OPTION_SEPARATOR_OUTPUT}
      * @param string $key       For stacked values (arrays in an array).
      *
-     * @internal param string $separator See {@link self::OPTION_SEPARATOR_OUTPUT}
      * @return string
      */
     protected function buildQuery(array $data, $separator, $key = null)
