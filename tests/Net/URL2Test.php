@@ -363,7 +363,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public static function pathProvider()
+    public function pathProvider()
     {
         return array(
             //array('../foo/bar.php', '../foo/bar.php'),
