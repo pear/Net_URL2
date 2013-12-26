@@ -194,7 +194,7 @@ class Net_URL2
      * Returns the scheme, e.g. "http" or "urn", or false if there is no
      * scheme specified, i.e. if this is a relative URL.
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getScheme()
     {
@@ -222,7 +222,7 @@ class Net_URL2
      * Returns the user part of the userinfo part (the part preceding the first
      *  ":"), or false if there is no userinfo part.
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getUser()
     {
@@ -237,7 +237,7 @@ class Net_URL2
      * contain "@" in front of the hostname) or the userinfo part does not
      * contain ":".
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getPassword()
     {
@@ -250,7 +250,7 @@ class Net_URL2
      * Returns the userinfo part, or false if there is none, i.e. if the
      * authority part does not contain "@".
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getUserinfo()
     {
@@ -279,7 +279,7 @@ class Net_URL2
      * Returns the host part, or false if there is no authority part, e.g.
      * relative URLs.
      *
-     * @return  string|bool a hostname, an IP address, or false
+     * @return string|bool a hostname, an IP address, or false
      */
     public function getHost()
     {
@@ -304,7 +304,7 @@ class Net_URL2
      * Returns the port number, or false if there is no port number specified,
      * i.e. if the default port is to be used.
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getPort()
     {
@@ -433,7 +433,7 @@ class Net_URL2
     /**
      * Returns the fragment name, or false if "#" is not present in the URL.
      *
-     * @return  string|bool
+     * @return string|bool
      */
     public function getFragment()
     {
@@ -459,7 +459,7 @@ class Net_URL2
      * $_GET in a PHP script. If the URL does not contain a "?", an empty array
      * is returned.
      *
-     * @return  array
+     * @return array
      */
     public function getQueryVariables()
     {
@@ -566,7 +566,7 @@ class Net_URL2
     /**
      * Returns a string representation of this URL.
      *
-     * @return  string
+     * @return string
      */
     public function getURL()
     {
@@ -597,8 +597,8 @@ class Net_URL2
     /**
      * Returns a string representation of this URL.
      *
-     * @return  string
-     * @see toString()
+     * @return string
+     * @see https://php.net/language.oop5.magic#object.tostring
      */
     public function __toString()
     {
@@ -609,7 +609,7 @@ class Net_URL2
      * Returns a normalized string representation of this URL. This is useful
      * for comparison of URLs.
      *
-     * @return  string
+     * @return string
      */
     public function getNormalizedURL()
     {
@@ -619,9 +619,13 @@ class Net_URL2
     }
 
     /**
-     * Returns a normalized Net_URL2 instance.
+     * Normalizes the URL
      *
-     * @return  Net_URL2
+     * See RFC 3986, Section 6.  Normalization and Comparison
+     *
+     * @link https://tools.ietf.org/html/rfc3986#section-6
+     *
+     * @return void
      */
     public function normalize()
     {
@@ -647,7 +651,7 @@ class Net_URL2
         }
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
-        // Normalize percentage-encoded unreserved character (RFC 3986, section 6.2.2.2)
+        // Normalize percentage-encoded unreserved characters (section 6.2.2.2)
         list($this->_userinfo, $this->_host, $this->_path)
             = preg_replace_callback(
                 '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
@@ -669,6 +673,7 @@ class Net_URL2
      * @param array $matches as by preg_replace_callback
      *
      * @return string
+     * @see Net_URL2::normalize
      */
     private static function _normalizeCallback($matches)
     {
@@ -678,7 +683,7 @@ class Net_URL2
     /**
      * Returns whether this instance represents an absolute URL.
      *
-     * @return  bool
+     * @return bool
      */
     public function isAbsolute()
     {
@@ -892,7 +897,7 @@ class Net_URL2
      *
      * @param string $optionName The name of the option to retrieve
      *
-     * @return  mixed
+     * @return mixed
      */
     public function getOption($optionName)
     {
@@ -906,7 +911,7 @@ class Net_URL2
      *
      * @param array  $data      An array, which has to be converted into
      *                          QUERY_STRING. Anything is possible.
-     * @param string $separator Query variable separator, See {@link self::OPTION_SEPARATOR_OUTPUT}
+     * @param string $separator Separator {@link self::OPTION_SEPARATOR_OUTPUT}
      * @param string $key       For stacked values (arrays in an array).
      *
      * @return string
@@ -935,7 +940,7 @@ class Net_URL2
     }
 
     /**
-     * This method uses a funky regex to parse the url into the designated parts.
+     * This method uses a regex to parse the url into the designated parts.
      *
      * @param string $url URL
      *

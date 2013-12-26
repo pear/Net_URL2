@@ -1,4 +1,16 @@
 <?php
+/**
+ * Net_URL2, a class representing a URL as per RFC 3986.
+ *
+ * PHP version 5
+ *
+ * @category Networking
+ * @package  Net_URL2
+ * @author   Some Pear Developers <pear@php.net>
+ * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @link     http://www.rfc-editor.org/rfc/rfc3986.txt
+ */
+
 // Call Net_URL2Test::main() if this source file is executed directly.
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Net_URL2Test::main');
@@ -17,47 +29,58 @@ require_once $classFile;
 
 /**
  * Test class for Net_URL2.
+ *
+ * @category Networking
+ * @package  Net_URL2
+ * @author   Some Pear Developers <pear@php.net>
+ * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @version  Release: @package_version@
+ * @link     http://pear.php.net/package/Net_URL2
  */
 class Net_URL2Test extends PHPUnit_Framework_TestCase
 {
     /**
      * Runs the test methods of this class.
      *
-     * @access public
-     * @static
+     * @return void
      */
     public static function main()
     {
         require_once 'PHPUnit/TextUI/TestRunner.php';
 
         $suite  = new PHPUnit_Framework_TestSuite('Net_URL2Test');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        PHPUnit_TextUI_TestRunner::run($suite);
     }
 
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      *
-     * @access protected
+     * @return void
      */
-    protected function setUp() {
+    protected function setUp()
+    {
     }
 
     /**
      * Tears down the fixture, for example, close a network connection.
      * This method is called after a test is executed.
      *
-     * @access protected
+     * @return void
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
     }
 
     /**
      * Tests setting an empty userinfo part
      * Also: Regression test for Bug #20013
+     *
+     * @return void
      * @link https://pear.php.net/bugs/bug.php?id=20013
      */
-    public function testSetEmptyUserinfo() {
+    public function testSetEmptyUserinfo()
+    {
         $url = new Net_URL2('http://@www.example.com/');
         $this->assertSame('http://www.example.com/', $url->getURL());
 
@@ -69,60 +92,94 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
 
     /**
      * Tests setQueryVariable().
+     *
+     * @return void
      */
-    public function testSetQueryVariable() {
+    public function testSetQueryVariable()
+    {
+
         $url = new Net_URL2('http://www.example.com/');
-        $url->setQueryVariable('pear','fun');
+        $url->setQueryVariable('pear', 'fun');
         $this->assertEquals($url->getURL(), 'http://www.example.com/?pear=fun');
     }
 
     /**
      * Tests setQueryVariables().
+     *
+     * @return void
      */
-    public function testSetQueryVariables() {
+    public function testSetQueryVariables()
+    {
+
         $url = new Net_URL2('http://www.example.com/');
-        $url->setQueryVariables(array('pear'=>'fun'));
+        $url->setQueryVariables(array('pear' => 'fun'));
         $this->assertEquals('http://www.example.com/?pear=fun', $url->getURL());
-        $url->setQueryVariables(array('pear'=>'fun for sure'));
-        $this->assertEquals('http://www.example.com/?pear=fun%20for%20sure', $url->getURL());
+        $url->setQueryVariables(array('pear' => 'fun for sure'));
+        $this->assertEquals(
+            'http://www.example.com/?pear=fun%20for%20sure', $url->getURL()
+        );
     }
 
     /**
      * Tests unsetQueryVariable()
+     *
+     * @return void
      */
-    public function testUnsetQueryVariable() {
-        $url = new Net_URL2('http://www.example.com/?name=david&pear=fun&fish=slippery');
-        $url->unsetQueryVariable('pear');
-        $this->assertEquals($url->getURL(), 'http://www.example.com/?name=david&fish=slippery');
-        $url->unsetQueryVariable('name');
-        $this->assertEquals($url->getURL(), 'http://www.example.com/?fish=slippery');
-        $url->unsetQueryVariable('fish');
-        $this->assertEquals($url->getURL(), 'http://www.example.com/');
+    public function testUnsetQueryVariable()
+    {
+        $url = new Net_URL2(
+            'http://www.example.com/?name=david&pear=fun&fish=slippery'
+        );
+
+        $removes = array(
+            'pear' => 'http://www.example.com/?name=david&fish=slippery',
+            'name' => 'http://www.example.com/?fish=slippery',
+            'fish' => 'http://www.example.com/',
+        );
+
+        foreach ($removes as $name => $expected) {
+            $url->unsetQueryVariable($name);
+            $this->assertEquals($expected, $url);
+        }
     }
 
     /**
      * Tests setQuery().
+     *
+     * @return void
      */
-    public function testSetQuery() {
+    public function testSetQuery()
+    {
+
         $url = new Net_URL2('http://www.example.com/');
         $url->setQuery('flapdoodle&dilly%20all%20day');
-        $this->assertEquals($url->getURL(), 'http://www.example.com/?flapdoodle&dilly%20all%20day');
+        $this->assertEquals(
+            $url->getURL(), 'http://www.example.com/?flapdoodle&dilly%20all%20day'
+        );
     }
 
     /**
      * Tests getQuery().
+     *
+     * @return void
      */
-    public function testGetQuery() {
+    public function testGetQuery()
+    {
+
         $url = new Net_URL2('http://www.example.com/?foo');
-        $this->assertEquals($url->getQuery(),'foo');
+        $this->assertEquals($url->getQuery(), 'foo');
         $url = new Net_URL2('http://www.example.com/?pear=fun&fruit=fruity');
-        $this->assertEquals($url->getQuery(),'pear=fun&fruit=fruity');
+        $this->assertEquals($url->getQuery(), 'pear=fun&fruit=fruity');
     }
 
     /**
      * Tests setScheme().
+     *
+     * @return void
      */
-    public function testSetScheme() {
+    public function testSetScheme()
+    {
+
         $url = new Net_URL2('http://www.example.com/');
         $url->setScheme('ftp');
         $this->assertEquals($url->getURL(), 'ftp://www.example.com/');
@@ -132,8 +189,12 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
 
     /**
      * Tests setting the fragment.
+     *
+     * @return void
      */
-    public function testSetFragment() {
+    public function testSetFragment()
+    {
+
         $url = new Net_URL2('http://www.example.com/');
         $url->setFragment('pear');
         $this->assertEquals('http://www.example.com/#pear', $url->getURL());
@@ -141,67 +202,73 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
 
     /**
      * Test the resolve() function.
+     *
+     * @return void
      */
     public function testResolve()
     {
         // Examples from RFC 3986, section 5.4.
         // relative URL => absolute URL
-        $tests = array(
-            'g:h'           =>  'g:h',
-            'g'             =>  'http://a/b/c/g',
-            './g'           =>  'http://a/b/c/g',
-            'g/'            =>  'http://a/b/c/g/',
-            '/g'            =>  'http://a/g',
-            '//g'           =>  'http://g',
-            '?y'            =>  'http://a/b/c/d;p?y',
-            'g?y'           =>  'http://a/b/c/g?y',
-            '#s'            =>  'http://a/b/c/d;p?q#s',
-            'g#s'           =>  'http://a/b/c/g#s',
-            'g?y#s'         =>  'http://a/b/c/g?y#s',
-            ';x'            =>  'http://a/b/c/;x',
-            'g;x'           =>  'http://a/b/c/g;x',
-            'g;x?y#s'       =>  'http://a/b/c/g;x?y#s',
-            ''              =>  'http://a/b/c/d;p?q',
-            '.'             =>  'http://a/b/c/',
-            './'            =>  'http://a/b/c/',
-            '..'            =>  'http://a/b/',
-            '../'           =>  'http://a/b/',
-            '../g'          =>  'http://a/b/g',
-            '../..'         =>  'http://a/',
-            '../../'        =>  'http://a/',
-            '../../g'       =>  'http://a/g',
-            '../../../g'    =>  'http://a/g',
-            '../../../../g' =>  'http://a/g',
-            '/./g'          =>  'http://a/g',
-            '/../g'         =>  'http://a/g',
-            'g.'            =>  'http://a/b/c/g.',
-            '.g'            =>  'http://a/b/c/.g',
-            'g..'           =>  'http://a/b/c/g..',
-            '..g'           =>  'http://a/b/c/..g',
-            './../g'        =>  'http://a/b/g',
-            './g/.'         =>  'http://a/b/c/g/',
-            'g/./h'         =>  'http://a/b/c/g/h',
-            'g/../h'        =>  'http://a/b/c/h',
-            'g;x=1/./y'     =>  'http://a/b/c/g;x=1/y',
-            'g;x=1/../y'    =>  'http://a/b/c/y',
-            'g?y/./x'       =>  'http://a/b/c/g?y/./x',
-            'g?y/../x'      =>  'http://a/b/c/g?y/../x',
-            'g#s/./x'       =>  'http://a/b/c/g#s/./x',
-            'g#s/../x'      =>  'http://a/b/c/g#s/../x',
-            'http:g'        =>  'http:g',
+        $tests   = array(
+            'g:h'           => 'g:h',
+            'g'             => 'http://a/b/c/g',
+            './g'           => 'http://a/b/c/g',
+            'g/'            => 'http://a/b/c/g/',
+            '/g'            => 'http://a/g',
+            '//g'           => 'http://g',
+            '?y'            => 'http://a/b/c/d;p?y',
+            'g?y'           => 'http://a/b/c/g?y',
+            '#s'            => 'http://a/b/c/d;p?q#s',
+            'g#s'           => 'http://a/b/c/g#s',
+            'g?y#s'         => 'http://a/b/c/g?y#s',
+            ';x'            => 'http://a/b/c/;x',
+            'g;x'           => 'http://a/b/c/g;x',
+            'g;x?y#s'       => 'http://a/b/c/g;x?y#s',
+            ''              => 'http://a/b/c/d;p?q',
+            '.'             => 'http://a/b/c/',
+            './'            => 'http://a/b/c/',
+            '..'            => 'http://a/b/',
+            '../'           => 'http://a/b/',
+            '../g'          => 'http://a/b/g',
+            '../..'         => 'http://a/',
+            '../../'        => 'http://a/',
+            '../../g'       => 'http://a/g',
+            '../../../g'    => 'http://a/g',
+            '../../../../g' => 'http://a/g',
+            '/./g'          => 'http://a/g',
+            '/../g'         => 'http://a/g',
+            'g.'            => 'http://a/b/c/g.',
+            '.g'            => 'http://a/b/c/.g',
+            'g..'           => 'http://a/b/c/g..',
+            '..g'           => 'http://a/b/c/..g',
+            './../g'        => 'http://a/b/g',
+            './g/.'         => 'http://a/b/c/g/',
+            'g/./h'         => 'http://a/b/c/g/h',
+            'g/../h'        => 'http://a/b/c/h',
+            'g;x=1/./y'     => 'http://a/b/c/g;x=1/y',
+            'g;x=1/../y'    => 'http://a/b/c/y',
+            'g?y/./x'       => 'http://a/b/c/g?y/./x',
+            'g?y/../x'      => 'http://a/b/c/g?y/../x',
+            'g#s/./x'       => 'http://a/b/c/g#s/./x',
+            'g#s/../x'      => 'http://a/b/c/g#s/../x',
+            'http:g'        => 'http:g',
         );
         $baseURL = 'http://a/b/c/d;p?q';
-        $base = new Net_URL2($baseURL);
+        $base    = new Net_URL2($baseURL);
         foreach ($tests as $relativeURL => $absoluteURL) {
-            $this->assertEquals($absoluteURL, $base->resolve($relativeURL)->getURL());
+            $this->assertEquals($absoluteURL, $base->resolve($relativeURL));
         }
 
-        $base = new Net_URL2($baseURL, array(Net_URL2::OPTION_STRICT => false));
+        $base        = new Net_URL2(
+            $baseURL, array(Net_URL2::OPTION_STRICT => false)
+        );
         $relativeURL = 'http:g';
-        $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL)->getURL());
+        $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL));
     }
 
     /**
+     * Test UrlEncoding
+     *
      * @return void
      * @link   http://pear.php.net/bugs/bug.php?id=18267
      */
@@ -209,12 +276,13 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         $url = new Net_URL2('http://localhost/bug.php');
         $url->setQueryVariables(
-            array(
-                'indexed' => array('first value', 'second value', array('foo', 'bar'))
-            )
+            array('indexed' => array(
+                    'first value', 'second value', array('foo', 'bar'),
+            ))
         );
         $this->assertEquals(
-            'http://localhost/bug.php?indexed[0]=first%20value&indexed[1]=second%20value&indexed[2][0]=foo&indexed[2][1]=bar',
+            'http://localhost/bug.php?indexed[0]=first%20value&indexed[1]'.
+            '=second%20value&indexed[2][0]=foo&indexed[2][1]=bar',
             strval($url)
         );
     }
@@ -257,6 +325,11 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Brackets for array query variables
+     *
+     * @return void
+     */
     public function testUseBrackets()
     {
         $url = new Net_URL2('http://example.org/');
@@ -267,6 +340,11 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Do not use brackets for query variables passed as array
+     *
+     * @return void
+     */
     public function testDontUseBrackets()
     {
         $url = new Net_URL2(
@@ -297,6 +375,12 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test removal of dot segments
+     *
+     * @param string $path      Path
+     * @param string $assertion Assertion
+     *
+     * @return void
      * @dataProvider pathProvider
      */
     public function testRemoveDotSegments($path, $assertion)
@@ -314,8 +398,9 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     public function testQueryVariables()
     {
         $queryString = 'start=10&test[0][first][1.1][20]=coucou';
-        $url = new Net_URL2('?'.$queryString);
-        $vars = array(); parse_str($url->getQuery(), $vars);
+        $url         = new Net_URL2('?' . $queryString);
+        $vars        = array();
+        parse_str($url->getQuery(), $vars);
 
         $this->assertEquals('10', $vars['start']);
         $this->assertEquals('coucou', $vars['test'][0]['first']['1.1'][20]);
@@ -330,7 +415,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function test19176()
     {
-        $foo = new Net_URL2('http://www.example.com');
+        $foo  = new Net_URL2('http://www.example.com');
         $test = $foo->resolve('test.html')->getURL();
         $this->assertEquals('http://www.example.com/test.html', $test);
     }
@@ -347,10 +432,10 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $actual = Net_URL2::removeDotSegments('0');
         $this->assertSame('0', $actual);
 
-        $nonStringObject = (object) array();
+        $nonStringObject = (object)array();
         try {
             Net_URL2::removeDotSegments($nonStringObject);
-        } catch(PHPUnit_Framework_Error $error) {
+        } catch (PHPUnit_Framework_Error $error) {
             $this->addToAssertionCount(1);
         }
 
@@ -381,8 +466,10 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             array('HTTP://www.EXAMPLE.com/', 'http://www.example.com/'),
 
             // Example from RFC 3986 6.2.3.:
-            array('http://example.com',   'http://example.com/',
-                  'http://example.com:/', 'http://example.com:80/'),
+            array(
+                'http://example.com', 'http://example.com/',
+                'http://example.com:/', 'http://example.com:80/'
+            ),
         );
     }
 
@@ -406,7 +493,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $url = new Net_Url2($url);
             $url->normalize();
             if ($index) {
-                $this->assertEquals((string) $last, (string) $url);
+                $this->assertEquals((string)$last, (string)$url);
             }
             $last = $url;
         }
