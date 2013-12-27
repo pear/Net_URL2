@@ -38,9 +38,9 @@
  * @package   Net_URL2
  * @author    Christian Schmidt <schmidt@php.net>
  * @copyright 2007-2009 Peytz & Co. A/S
- * @license   http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license   https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version   CVS: $Id$
- * @link      http://www.rfc-editor.org/rfc/rfc3986.txt
+ * @link      https://tools.ietf.org/html/rfc3986
  */
 
 /**
@@ -50,9 +50,9 @@
  * @package   Net_URL2
  * @author    Christian Schmidt <schmidt@php.net>
  * @copyright 2007-2009 Peytz & Co. A/S
- * @license   http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license   https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version   Release: @package_version@
- * @link      http://pear.php.net/package/Net_URL2
+ * @link      https://pear.php.net/package/Net_URL2
  */
 class Net_URL2
 {

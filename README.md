@@ -11,7 +11,7 @@ Please report all new issues via the [PEAR bug tracker].
 
 On Packagist as [pear/net_url2].
 
-[Pear Net_URL2]: http://pear.php.net/package/Net_URL2
+[Pear Net_URL2]: https://pear.php.net/package/Net_URL2
 [Pear SVN]: https://svn.php.net/repository/pear/packages/Net_URL2
 [PEAR bug tracker]: https://pear.php.net/bugs/search.php?cmd=display&package_name%5B%5D=Net_URL2
 [pear/net_url2]: https://packagist.org/packages/pear/net_url2

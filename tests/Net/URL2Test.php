@@ -7,8 +7,8 @@
  * @category Networking
  * @package  Net_URL2
  * @author   Some Pear Developers <pear@php.net>
- * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
- * @link     http://www.rfc-editor.org/rfc/rfc3986.txt
+ * @license  https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @link     https://tools.ietf.org/html/rfc3986
  */
 
 if (strstr('@package_version@', '@package')) {
@@ -24,9 +24,9 @@ if (strstr('@package_version@', '@package')) {
  * @category Networking
  * @package  Net_URL2
  * @author   Some Pear Developers <pear@php.net>
- * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license  https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/Net_URL2
+ * @link     https://pear.php.net/package/Net_URL2
  */
 class Net_URL2Test extends PHPUnit_Framework_TestCase
 {
@@ -228,7 +228,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * Test UrlEncoding
      *
      * @return void
-     * @link   http://pear.php.net/bugs/bug.php?id=18267
+     * @link   https://pear.php.net/bugs/bug.php?id=18267
      */
     public function testUrlEncoding()
     {
@@ -351,7 +351,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * the parsing works indeed.
      *
      * @return void
-     * @link   http://pear.php.net/bugs/bug.php?id=17036
+     * @link   https://pear.php.net/bugs/bug.php?id=17036
      */
     public function testQueryVariables()
     {

@@ -20,7 +20,7 @@
         }
     ],
     "support": {
-        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Net_URL2",
+        "issues": "https://pear.php.net/bugs/search.php?cmd=display&package_name[]=Net_URL2",
         "source": "https://github.com/pear/Net_URL2"
     },
     "require": {

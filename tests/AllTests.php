@@ -7,8 +7,8 @@
  * @category Networking
  * @package  Net_URL2
  * @author   Some Pear Developers <pear@php.net>
- * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
- * @link     http://www.rfc-editor.org/rfc/rfc3986.txt
+ * @license  https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @link     https://tools.ietf.org/html/rfc3986
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
@@ -27,9 +27,9 @@ require_once 'Net/URL2Test.php';
  * @category Networking
  * @package  Net_URL2
  * @author   Some Pear Developers <pear@php.net>
- * @license  http://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
+ * @license  https://spdx.org/licenses/BSD-3-Clause BSD-3-Clause
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/Net_URL2
+ * @link     https://pear.php.net/package/Net_URL2
  */
 class Net_URL2_AllTests
 {

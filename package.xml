@@ -42,7 +42,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <release>stable</release>
     <api>stable</api>
   </stability>
-  <license uri="http://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
+  <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
     * Fixed Bug #20013: getNormalizedURL() adds leading "@" chars in the Authority
     * Fixed Bug #20016: Wrong data in 6d4f4dd "Package.xml preparation."
