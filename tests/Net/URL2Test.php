@@ -528,4 +528,23 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $url->setAuthority($host);
         $this->assertSame($host, $url->getAuthority());
     }
+
+    /**
+     * This is a regression test to test that setting "0" as path
+     * does not break normalize().
+     *
+     * It was reported as Bug #20157 on 2013-12-27 23:42 UTC that
+     * normalize() with "0" as path would not work.
+     *
+     * @covers Net_URL2::normalize
+     * @return void
+     */
+    public function test20157()
+    {
+        $subject = 'http://example.com';
+        $url = new Net_URL2($subject);
+        $url->setPath('0');
+        $url->normalize();
+        $this->assertSame("$subject/0", (string)$url);
+    }
 }
