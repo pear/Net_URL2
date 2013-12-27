@@ -310,11 +310,13 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * A dataProvider for {@link self::testRemoveDotSegments()}.
+     * A dataProvider for pairs of paths with dot segments and
+     * their form when removed.
      *
+     * @see testRemoveDotSegments
      * @return array
      */
-    public function pathProvider()
+    public function providePath()
     {
         // The numbers behind are in reference to sections
         // in RFC 3986 5.2.4. Remove Dot Segments
@@ -345,8 +347,8 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @param string $path      Path
      * @param string $assertion Assertion
      *
+     * @dataProvider providePath
      * @return void
-     * @dataProvider pathProvider
      */
     public function testRemoveDotSegments($path, $assertion)
     {
@@ -450,8 +452,10 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * data provider of equivalent URL pairs.
+     * data provider of list of equivalent URLs.
      *
+     * @see testNormalize
+     * @see testConstructSelf
      * @return array
      */
     public function provideEquivalentUrlLists()
@@ -497,7 +501,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $url = new Net_Url2($url);
             $url->normalize();
             if ($index) {
-                $this->assertEquals((string)$last, (string)$url);
+                $this->assertSame((string)$last, (string)$url);
             }
             $last = $url;
         }
