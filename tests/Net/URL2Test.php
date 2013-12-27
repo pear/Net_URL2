@@ -316,12 +316,26 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function pathProvider()
     {
+        // The numbers behind are in reference to sections
+        // in RFC 3986 5.2.4. Remove Dot Segments
         return array(
-            //array('../foo/bar.php', '../foo/bar.php'),
+            array('../', ''),   // 2. A.
+            array('./', ''),    // 2. A.
+            array('/./', '/'),  // 2. B.
+            array('/.', '/'),   // 2. B.
+            array('/../', '/'), // 2. C.
+            array('/..', '/'),  // 2. C.
+            array('..', ''),    // 2. D.
+            array('.', ''),     // 2. D.
+            array('a', 'a'),    // 2. E.
+            array('/a', '/a'),  // 2. E.
+            array('/a/b/c/./../../g', '/a/g'),    // 3.
+            array('mid/content=5/../6', 'mid/6'), // 3.
+            array('../foo/bar.php', 'foo/bar.php'),
             array('/foo/../bar/boo.php', '/bar/boo.php'),
             array('/boo/..//foo//bar.php', '//foo//bar.php'),
             array('/./foo/././bar.php', '/foo/bar.php'),
-            //array('./.', '/'),
+            array('./.', ''),
         );
     }
 
