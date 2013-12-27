@@ -32,10 +32,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <active>no</active>
   </lead>
 
-  <date>2013-12-24</date>
-  <time>18:12:00</time>
+  <date>2013-12-27</date>
+  <time>19:16:00</time>
   <version>
-    <release>2.0.1</release>
+    <release>2.0.2</release>
     <api>2.0.0</api>
   </version>
   <stability>
@@ -44,10 +44,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </stability>
   <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
-    * Fixed Bug #20013: getNormalizedURL() adds leading "@" chars in the Authority
-    * Fixed Bug #20016: Wrong data in 6d4f4dd "Package.xml preparation."
-    * Fixed Bug #19176: resolve() does not merge the path if the base path is empty
-    * Fixed Bug #19315: removeDotSegments("0") not working
+    * Fixed #19684: Redirects containing spaces do not work
+    * Fixed diverse coding style violations and misc. minor issues
+    * Improved source package distribution
+    * Added support for Travis CI
   </notes>
 
   <contents>
@@ -85,6 +85,26 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <date>2013-12-27</date>
+      <time>19:16:00</time>
+      <version>
+        <release>2.0.2</release>
+        <api>2.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
+      <notes>
+        * Fixed #19684: Redirects containing spaces do not work
+        * Fixed diverse coding style violations and misc. minor issues
+        * Improved source package distribution
+        * Added support for Travis CI
+      </notes>
+    </release>
+
     <release>
       <date>2013-12-24</date>
       <time>18:12:00</time>
