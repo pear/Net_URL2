@@ -367,15 +367,18 @@ class Net_URL2
         $this->_userinfo = false;
         $this->_host     = false;
         $this->_port     = false;
-        if (preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $reg)) {
-            if ($reg[1]) {
-                $this->_userinfo = $reg[2];
-            }
 
-            $this->_host = $reg[3];
-            if (isset($reg[5])) {
-                $this->_port = $reg[5];
-            }
+        if (!preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $matches)) {
+            return $this;
+        }
+
+        if ($matches[1]) {
+            $this->_userinfo = $matches[2];
+        }
+
+        $this->_host = $matches[3];
+        if (isset($matches[5])) {
+            $this->_port = $matches[5];
         }
         return $this;
     }
