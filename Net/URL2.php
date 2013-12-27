@@ -333,7 +333,7 @@ class Net_URL2
      */
     public function getAuthority()
     {
-        if (!$this->_host) {
+        if (false === $this->_host) {
             return false;
         }
 

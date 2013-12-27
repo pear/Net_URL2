@@ -502,4 +502,30 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $last = $url;
         }
     }
+
+    /**
+     * This is a regression test to test that using the
+     * host-name "0" does work with getAuthority()
+     *
+     * It was reported as Bug #20156 on 2013-12-27 22:56 UTC
+     * that setAuthority() with "0" as host would not work
+     *
+     * @covers Net_URL2::setAuthority
+     * @covers Net_URL2::getAuthority
+     * @covers Net_URL2::setHost
+     * @return void
+     */
+    public function test20156()
+    {
+        $url = new Net_URL2('http://user:pass@example.com:127/');
+        $host = '0';
+        $url->setHost($host);
+        $this->assertSame('user:pass@0:127', $url->getAuthority());
+
+        $url->setHost(false);
+        $this->assertSame(false, $url->getAuthority());
+
+        $url->setAuthority($host);
+        $this->assertSame($host, $url->getAuthority());
+    }
 }
