@@ -662,8 +662,16 @@ class Net_URL2
         $this->_path = self::removeDotSegments($this->_path);
 
         // Scheme based normalization (RFC 3986, section 6.2.3)
-        if ($this->_host && !$this->_path) {
+        if ($this->_host && '' === $this->_path) {
             $this->_path = '/';
+        }
+
+        // path should start with '/' if there is authority (section 3.3.)
+        if (strlen($this->getAuthority())
+            && strlen($this->_path)
+            && $this->_path[0] !== '/'
+        ) {
+            $this->_path = '/' . $this->_path;
         }
     }
 
