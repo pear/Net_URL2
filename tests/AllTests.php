@@ -20,6 +20,7 @@ require_once 'PHPUnit/Autoload.php';
 chdir(dirname(__FILE__) .  '/../');
 
 require_once 'Net/URL2Test.php';
+require_once 'Net/URL2.php';
 
 /**
  * Test class for Net_URL2.

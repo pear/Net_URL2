@@ -11,13 +11,6 @@
  * @link     https://tools.ietf.org/html/rfc3986
  */
 
-if (strstr('@package_version@', '@package')) {
-    // we run from a svn checkout
-    include_once dirname(__FILE__) . '/../../Net/URL2.php';
-} else {
-    include_once'Net/URL2.php';
-}
-
 /**
  * Test class for Net_URL2.
  *
