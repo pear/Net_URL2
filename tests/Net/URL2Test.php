@@ -518,6 +518,26 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * This is a coverage test to invoke __get and __set
+     *
+     * @covers Net_URL2::__get
+     * @covers Net_URL2::__set
+     * @return void
+     */
+    public function testMagicSetGet()
+    {
+        $url = new Net_URL2('');
+
+        $property = 'authority';
+        $url->$property = $value = 'value';
+        $this->assertEquals($value, $url->$property);
+
+        $property = 'unsetProperty';
+        $url->$property = $value;
+        $this->assertEquals(false, $url->$property);
+    }
+
+    /**
      * This is a regression test to test that using the
      * host-name "0" does work with getAuthority()
      *
