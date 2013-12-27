@@ -11,21 +11,12 @@
  * @link     http://www.rfc-editor.org/rfc/rfc3986.txt
  */
 
-// Call Net_URL2Test::main() if this source file is executed directly.
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Net_URL2Test::main');
-}
-
-require_once 'PHPUnit/Autoload.php';
-
-$classFile = '';
 if (strstr('@package_version@', '@package')) {
     // we run from a svn checkout
-    $classFile .= dirname(__FILE__) . '/../../Net/URL2.php';
+    include_once dirname(__FILE__) . '/../../Net/URL2.php';
 } else {
-    $classFile .= 'Net/URL2.php';
+    include_once'Net/URL2.php';
 }
-require_once $classFile;
 
 /**
  * Test class for Net_URL2.
@@ -39,39 +30,6 @@ require_once $classFile;
  */
 class Net_URL2Test extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        require_once 'PHPUnit/TextUI/TestRunner.php';
-
-        $suite  = new PHPUnit_Framework_TestSuite('Net_URL2Test');
-        PHPUnit_TextUI_TestRunner::run($suite);
-    }
-
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @return void
-     */
-    protected function setUp()
-    {
-    }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @return void
-     */
-    protected function tearDown()
-    {
-    }
-
     /**
      * Tests setting an empty userinfo part
      * Also: Regression test for Bug #20013
@@ -537,9 +495,4 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $last = $url;
         }
     }
-}
-
-// Call Net_URL2Test::main() if this source file is executed directly.
-if (PHPUnit_MAIN_METHOD == 'Net_URL2Test::main') {
-    Net_URL2Test::main();
 }
