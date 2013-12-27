@@ -210,7 +210,7 @@ class Net_URL2
      *                            URL
      *
      * @return $this
-     * @see    getScheme()
+     * @see    getScheme
      */
     public function setScheme($scheme)
     {
@@ -408,7 +408,7 @@ class Net_URL2
      * is not present in the URL.
      *
      * @return  string|bool
-     * @see     self::getQueryVariables()
+     * @see     getQueryVariables
      */
     public function getQuery()
     {
@@ -422,7 +422,7 @@ class Net_URL2
      * @param string|bool $query a query string, e.g. "foo=1&bar=2"
      *
      * @return $this
-     * @see    self::setQueryVariables()
+     * @see    setQueryVariables
      */
     public function setQuery($query)
     {
@@ -501,7 +501,7 @@ class Net_URL2
                     $return[$key][$idx] = $value;
                 }
             } elseif (!$this->getOption(self::OPTION_USE_BRACKETS)
-                      && !empty($return[$key])
+                && !empty($return[$key])
             ) {
                 $return[$key]   = (array) $return[$key];
                 $return[$key][] = $value;
@@ -614,7 +614,7 @@ class Net_URL2
      * Returns a string representation of this URL.
      *
      * @return string
-     * @see https://php.net/language.oop5.magic#object.tostring
+     * @link https://php.net/language.oop5.magic#object.tostring
      */
     public function __toString()
     {
@@ -697,7 +697,8 @@ class Net_URL2
      * @param array $matches as by preg_replace_callback
      *
      * @return string
-     * @see Net_URL2::normalize
+     * @see normalize
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private static function _normalizeCallback($matches)
     {
@@ -991,7 +992,7 @@ class Net_URL2
      * @return void
      * @uses   self::$_scheme, self::setAuthority(), self::$_path, self::$_query,
      *         self::$_fragment
-     * @see    self::__construct()
+     * @see    __construct
      */
     protected function parseUrl($url)
     {
@@ -1021,6 +1022,7 @@ class Net_URL2
      * @param string $url URL
      *
      * @return string
+     * @see parseUrl
      */
     private function _encodeData($url)
     {
@@ -1036,7 +1038,8 @@ class Net_URL2
      * @param array $matches Matches
      *
      * @return string
-     * @see Net_URL2::_encodeData
+     * @see _encodeData
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function _encodeCallback(array $matches)
     {
