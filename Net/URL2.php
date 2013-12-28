@@ -752,42 +752,44 @@ class Net_URL2
             $target->setAuthority($reference->getAuthority());
             $target->_path  = self::removeDotSegments($reference->_path);
             $target->_query = $reference->_query;
-        } else {
-            $authority = $reference->getAuthority();
-            if ($authority !== false) {
-                $target->setAuthority($authority);
-                $target->_path  = self::removeDotSegments($reference->_path);
-                $target->_query = $reference->_query;
-            } else {
-                if ($reference->_path == '') {
-                    $target->_path = $this->_path;
-                    if ($reference->_query !== false) {
-                        $target->_query = $reference->_query;
-                    } else {
-                        $target->_query = $this->_query;
-                    }
-                } else {
-                    if (substr($reference->_path, 0, 1) == '/') {
-                        $target->_path = self::removeDotSegments($reference->_path);
-                    } else {
-                        // Merge paths (RFC 3986, section 5.2.3)
-                        if ($this->_host !== false && $this->_path == '') {
-                            $target->_path = '/' . $reference->_path;
-                        } else {
-                            $i = strrpos($this->_path, '/');
-                            if ($i !== false) {
-                                $target->_path = substr($this->_path, 0, $i + 1);
-                            }
-                            $target->_path .= $reference->_path;
-                        }
-                        $target->_path = self::removeDotSegments($target->_path);
-                    }
-                    $target->_query = $reference->_query;
-                }
-                $target->setAuthority($this->getAuthority());
-            }
-            $target->_scheme = $this->_scheme;
+            $target->_fragment = $reference->_fragment;
+            return $target;
         }
+
+        $authority = $reference->getAuthority();
+        if ($authority !== false) {
+            $target->setAuthority($authority);
+            $target->_path  = self::removeDotSegments($reference->_path);
+            $target->_query = $reference->_query;
+        } else {
+            if ($reference->_path == '') {
+                $target->_path = $this->_path;
+                if ($reference->_query !== false) {
+                    $target->_query = $reference->_query;
+                } else {
+                    $target->_query = $this->_query;
+                }
+            } else {
+                if (substr($reference->_path, 0, 1) == '/') {
+                    $target->_path = self::removeDotSegments($reference->_path);
+                } else {
+                    // Merge paths (RFC 3986, section 5.2.3)
+                    if ($this->_host !== false && $this->_path == '') {
+                        $target->_path = '/' . $reference->_path;
+                    } else {
+                        $i = strrpos($this->_path, '/');
+                        if ($i !== false) {
+                            $target->_path = substr($this->_path, 0, $i + 1);
+                        }
+                        $target->_path .= $reference->_path;
+                    }
+                    $target->_path = self::removeDotSegments($target->_path);
+                }
+                $target->_query = $reference->_query;
+            }
+            $target->setAuthority($this->getAuthority());
+        }
+        $target->_scheme = $this->_scheme;
 
         $target->_fragment = $reference->_fragment;
 
