@@ -565,4 +565,22 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $resolved = $base->resolve('#world');
         $this->assertSame('myfile.html#world', (string) $resolved);
     }
+
+    /**
+     * This is a regression test to ensure that authority and path are properly
+     * combined when the path does not start with a slash which is the separator
+     * character between authority and path.
+     *
+     * It was reported as Bug #20159 2013-12-28 17:18 UTC that authority
+     * would not be terminated by slash
+     *
+     * @covers Net_URL2::getUrl
+     * @return void
+     */
+    public function test20159()
+    {
+        $url = new Net_URL2('index.html');
+        $url->setHost('example.com');
+        $this->assertSame('//example.com/index.html', (string) $url);
+    }
 }
