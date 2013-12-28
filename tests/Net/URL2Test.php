@@ -215,6 +215,16 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         );
         $relativeURL = 'http:g';
         $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL));
+
+        // resolving a relative to a relative URL throws an exception
+        $base = new Net_URL2('news.html?category=arts');
+        $this->addToAssertionCount(1);
+        try {
+            $base->resolve('../arts.html#section-2.4');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not thrown.');
     }
 
     /**
