@@ -556,6 +556,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * references would not be resolved to non-absolute base URI
      *
      * @covers Net_URL2::resolve
+     * @covers Net_URL2::_isFragmentOnly
      * @return void
      */
     public function test20158()

@@ -712,8 +712,10 @@ class Net_URL2
         if (!$reference instanceof Net_URL2) {
             $reference = new self($reference);
         }
-        if (!$this->isAbsolute()) {
-            throw new Exception('Base-URL must be absolute');
+        if (!$reference->_isFragmentOnly() && !$this->isAbsolute()) {
+            throw new Exception(
+                'Base-URL must be absolute if reference is not fragment-only'
+            );
         }
 
         // A non-strict parser may ignore a scheme in the reference if it is
@@ -770,6 +772,24 @@ class Net_URL2
         $target->_fragment = $reference->_fragment;
 
         return $target;
+    }
+
+    /**
+     * URL is fragment-only
+     *
+     * @return bool
+     */
+    private function _isFragmentOnly()
+    {
+        return (
+            $this->_fragment !== false
+            && $this->_scheme === false
+            && $this->_userinfo === false
+            && $this->_host === false
+            && $this->_port === false
+            && $this->_path === ''
+            && $this->_query === false
+        );
     }
 
     /**
