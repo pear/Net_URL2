@@ -55,6 +55,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
       <dir name="docs">
         <file baseinstalldir="Net" name="example.php" role="doc" />
         <file baseinstalldir="Net" name="6470.php" role="doc" />
+        <file baseinstalldir="Net" name="BSD-3-CLAUSE-Heyes" role="doc" />
       </dir>
       <!-- //docs -->
       <dir name="tests">
