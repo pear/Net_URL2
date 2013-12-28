@@ -11,10 +11,6 @@
  * @link     https://tools.ietf.org/html/rfc3986
  */
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Net_URL2_AllTests::main');
-}
-
 require_once 'PHPUnit/Autoload.php';
 
 chdir(dirname(__FILE__) .  '/../');
@@ -60,6 +56,4 @@ class Net_URL2_AllTests
     }
 }
 
-if (PHPUnit_MAIN_METHOD == 'Net_URL2_AllTests::main') {
-    Net_URL2_AllTests::main();
-}
+Net_URL2_AllTests::main();
