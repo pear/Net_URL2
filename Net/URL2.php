@@ -227,7 +227,7 @@ class Net_URL2
     public function getUser()
     {
         return $this->_userinfo !== false
-            ? preg_replace('@:.*$@', '', $this->_userinfo)
+            ? preg_replace('(:.*$)', '', $this->_userinfo)
             : false;
     }
 
@@ -367,7 +367,7 @@ class Net_URL2
         $this->_userinfo = false;
         $this->_host     = false;
         $this->_port     = false;
-        if (preg_match('@^(([^\@]*)\@)?([^:]+)(:(\d*))?$@', $authority, $reg)) {
+        if (preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $reg)) {
             if ($reg[1]) {
                 $this->_userinfo = $reg[2];
             }
@@ -463,9 +463,9 @@ class Net_URL2
      */
     public function getQueryVariables()
     {
-        $pattern = '/[' .
-                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT), '/') .
-                   ']/';
+        $pattern = '([' .
+                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT)) .
+                   '])';
         $parts   = preg_split($pattern, $this->_query, -1, PREG_SPLIT_NO_EMPTY);
         $return  = array();
 
@@ -483,7 +483,7 @@ class Net_URL2
             $value = rawurldecode($value);
 
             if ($this->getOption(self::OPTION_USE_BRACKETS)
-                && preg_match('#^(.*)\[([0-9a-z_-]*)\]#i', $key, $matches)
+                && preg_match('(^(.*)\[([0-9a-zA-Z_-]*)\])', $key, $matches)
             ) {
 
                 $key = $matches[1];
@@ -670,7 +670,7 @@ class Net_URL2
         // Normalize percentage-encoded unreserved characters (section 6.2.2.2)
         list($this->_userinfo, $this->_host, $this->_path)
             = preg_replace_callback(
-                '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                '((?:%[0-9a-fA-Z]{2})+)', array($this, '_normalizeCallback'),
                 array($this->_userinfo, $this->_host, $this->_path)
             );
 
@@ -700,7 +700,7 @@ class Net_URL2
      * @see normalize
      * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private static function _normalizeCallback($matches)
+    private function _normalizeCallback($matches)
     {
         return self::urlencode(urldecode($matches[0]));
     }
@@ -999,7 +999,7 @@ class Net_URL2
         // The regular expression is copied verbatim from RFC 3986, appendix B.
         // The expression does not validate the URL but matches any string.
         preg_match(
-            '!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
+            '(^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)',
             $url, $matches
         );
 
@@ -1027,7 +1027,7 @@ class Net_URL2
     private function _encodeData($url)
     {
         return preg_replace_callback(
-            '~[\x0-\x20\x22\x3C\x3E\x7F-\xFF]+~',
+            '([\x-\x20\x22\x3C\x3E\x7F-\xFF]+)',
             array($this, '_encodeCallback'), $url
         );
     }
