@@ -538,6 +538,24 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests Net_URL2 ctors URL parameter works with objects implementing
+     * __toString().
+     *
+     * @dataProvider provideEquivalentUrlLists
+     * @coversNothing
+     * @return void
+     */
+    public function testConstructSelf()
+    {
+        $urls = func_get_args();
+        foreach ($urls as $url) {
+            $urlA = new Net_URL2($url);
+            $urlB = new Net_URL2($urlA);
+            $this->assertSame((string) $urlA, (string) $urlB);
+        }
+    }
+
+    /**
      * This is a regression test to test that using the
      * host-name "0" does work with getAuthority()
      *
