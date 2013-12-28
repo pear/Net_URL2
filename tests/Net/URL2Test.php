@@ -547,4 +547,21 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $url->normalize();
         $this->assertSame("$subject/0", (string)$url);
     }
+
+    /**
+     * This is a regression test to ensure that fragment-only references can be
+     * resolved to a non-absolute Base-URI.
+     *
+     * It was reported as Bug #20158 2013-12-28 14:49 UTC that fragment-only
+     * references would not be resolved to non-absolute base URI
+     *
+     * @covers Net_URL2::resolve
+     * @return void
+     */
+    public function test20158()
+    {
+        $base = new Net_URL2('myfile.html');
+        $resolved = $base->resolve('#world');
+        $this->assertSame('myfile.html#world', (string) $resolved);
+    }
 }
