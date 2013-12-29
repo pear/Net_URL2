@@ -556,6 +556,19 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * This is a feature test to see that the userinfo's data is getting
+     * encoded as outlined in #19684.
+     *
+     * @covers Net_URL2::setAuthority
+     * @return void
+     */
+    public function testEncodeDataUserinfoAuthority()
+    {
+        $url = new Net_URL2('http://john doe:secret@example.com/');
+        $this->assertSame('http://john%20doe:secret@example.com/', (string) $url);
+    }
+
+    /**
      * This is a regression test to test that using the
      * host-name "0" does work with getAuthority()
      *

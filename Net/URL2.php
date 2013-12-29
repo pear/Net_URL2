@@ -373,7 +373,7 @@ class Net_URL2
         }
 
         if ($matches[1]) {
-            $this->_userinfo = $matches[2];
+            $this->_userinfo = $this->_encodeData($matches[2]);
         }
 
         $this->_host = $matches[3];
