@@ -577,11 +577,7 @@ class Net_URL2
             $url .= $this->_scheme . ':';
         }
 
-        $authority = $this->getAuthority();
-        if ($authority !== false) {
-            $url .= '//' . $authority;
-        }
-        $url .= $this->_path;
+        $url .= $this->_buildAuthorityAndPath($this->getAuthority(), $this->_path);
 
         if ($this->_query !== false) {
             $url .= '?' . $this->_query;
@@ -592,6 +588,26 @@ class Net_URL2
         }
 
         return $url;
+    }
+
+    /**
+     * Put authority and path together, wrapping authority
+     * into proper separators/terminators.
+     *
+     * @param string|bool $authority authority
+     * @param string      $path      path
+     *
+     * @return string
+     */
+    private function _buildAuthorityAndPath($authority, $path)
+    {
+        if ($authority === false) {
+            return $path;
+        }
+
+        $terminator = ($path !== '' && $path[0] !== '/') ? '/' : '';
+
+        return '//' . $authority . $terminator . $path;
     }
 
     /**
