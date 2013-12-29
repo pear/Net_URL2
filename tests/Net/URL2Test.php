@@ -215,6 +215,16 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         );
         $relativeURL = 'http:g';
         $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL));
+
+        // resolving a relative to a relative URL throws an exception
+        $base = new Net_URL2('news.html?category=arts');
+        $this->addToAssertionCount(1);
+        try {
+            $base->resolve('../arts.html#section-2.4');
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail('Expected exception not thrown.');
     }
 
     /**
@@ -310,11 +320,13 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * A dataProvider for {@link self::testRemoveDotSegments()}.
+     * A dataProvider for pairs of paths with dot segments and
+     * their form when removed.
      *
+     * @see testRemoveDotSegments
      * @return array
      */
-    public function pathProvider()
+    public function providePath()
     {
         // The numbers behind are in reference to sections
         // in RFC 3986 5.2.4. Remove Dot Segments
@@ -345,8 +357,8 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @param string $path      Path
      * @param string $assertion Assertion
      *
+     * @dataProvider providePath
      * @return void
-     * @dataProvider pathProvider
      */
     public function testRemoveDotSegments($path, $assertion)
     {
@@ -450,8 +462,10 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * data provider of equivalent URL pairs.
+     * data provider of list of equivalent URLs.
      *
+     * @see testNormalize
+     * @see testConstructSelf
      * @return array
      */
     public function provideEquivalentUrlLists()
@@ -497,9 +511,141 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             $url = new Net_Url2($url);
             $url->normalize();
             if ($index) {
-                $this->assertEquals((string)$last, (string)$url);
+                $this->assertSame((string)$last, (string)$url);
             }
             $last = $url;
         }
+    }
+
+    /**
+     * This is a coverage test to invoke __get and __set
+     *
+     * @covers Net_URL2::__get
+     * @covers Net_URL2::__set
+     * @return void
+     */
+    public function testMagicSetGet()
+    {
+        $url = new Net_URL2('');
+
+        $property = 'authority';
+        $url->$property = $value = 'value';
+        $this->assertEquals($value, $url->$property);
+
+        $property = 'unsetProperty';
+        $url->$property = $value;
+        $this->assertEquals(false, $url->$property);
+    }
+
+    /**
+     * Tests Net_URL2 ctors URL parameter works with objects implementing
+     * __toString().
+     *
+     * @dataProvider provideEquivalentUrlLists
+     * @coversNothing
+     * @return void
+     */
+    public function testConstructSelf()
+    {
+        $urls = func_get_args();
+        foreach ($urls as $url) {
+            $urlA = new Net_URL2($url);
+            $urlB = new Net_URL2($urlA);
+            $this->assertSame((string) $urlA, (string) $urlB);
+        }
+    }
+
+    /**
+     * This is a feature test to see that the userinfo's data is getting
+     * encoded as outlined in #19684.
+     *
+     * @covers Net_URL2::setAuthority
+     * @return void
+     */
+    public function testEncodeDataUserinfoAuthority()
+    {
+        $url = new Net_URL2('http://john doe:secret@example.com/');
+        $this->assertSame('http://john%20doe:secret@example.com/', (string) $url);
+    }
+
+    /**
+     * This is a regression test to test that using the
+     * host-name "0" does work with getAuthority()
+     *
+     * It was reported as Bug #20156 on 2013-12-27 22:56 UTC
+     * that setAuthority() with "0" as host would not work
+     *
+     * @covers Net_URL2::setAuthority
+     * @covers Net_URL2::getAuthority
+     * @covers Net_URL2::setHost
+     * @return void
+     */
+    public function test20156()
+    {
+        $url = new Net_URL2('http://user:pass@example.com:127/');
+        $host = '0';
+        $url->setHost($host);
+        $this->assertSame('user:pass@0:127', $url->getAuthority());
+
+        $url->setHost(false);
+        $this->assertSame(false, $url->getAuthority());
+
+        $url->setAuthority($host);
+        $this->assertSame($host, $url->getAuthority());
+    }
+
+    /**
+     * This is a regression test to test that setting "0" as path
+     * does not break normalize().
+     *
+     * It was reported as Bug #20157 on 2013-12-27 23:42 UTC that
+     * normalize() with "0" as path would not work.
+     *
+     * @covers Net_URL2::normalize
+     * @return void
+     */
+    public function test20157()
+    {
+        $subject = 'http://example.com';
+        $url = new Net_URL2($subject);
+        $url->setPath('0');
+        $url->normalize();
+        $this->assertSame("$subject/0", (string)$url);
+    }
+
+    /**
+     * This is a regression test to ensure that fragment-only references can be
+     * resolved to a non-absolute Base-URI.
+     *
+     * It was reported as Bug #20158 2013-12-28 14:49 UTC that fragment-only
+     * references would not be resolved to non-absolute base URI
+     *
+     * @covers Net_URL2::resolve
+     * @covers Net_URL2::_isFragmentOnly
+     * @return void
+     */
+    public function test20158()
+    {
+        $base = new Net_URL2('myfile.html');
+        $resolved = $base->resolve('#world');
+        $this->assertSame('myfile.html#world', (string) $resolved);
+    }
+
+    /**
+     * This is a regression test to ensure that authority and path are properly
+     * combined when the path does not start with a slash which is the separator
+     * character between authority and path.
+     *
+     * It was reported as Bug #20159 2013-12-28 17:18 UTC that authority
+     * would not be terminated by slash
+     *
+     * @covers Net_URL2::getUrl
+     * @return void
+     */
+    public function test20159()
+    {
+        $url = new Net_URL2('index.html');
+        $url->setHost('example.com');
+        $this->assertSame('//example.com/index.html', (string) $url);
     }
 }

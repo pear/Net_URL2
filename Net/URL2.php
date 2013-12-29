@@ -210,7 +210,7 @@ class Net_URL2
      *                            URL
      *
      * @return $this
-     * @see    getScheme()
+     * @see    getScheme
      */
     public function setScheme($scheme)
     {
@@ -227,7 +227,7 @@ class Net_URL2
     public function getUser()
     {
         return $this->_userinfo !== false
-            ? preg_replace('@:.*$@', '', $this->_userinfo)
+            ? preg_replace('(:.*$)', '', $this->_userinfo)
             : false;
     }
 
@@ -333,7 +333,7 @@ class Net_URL2
      */
     public function getAuthority()
     {
-        if (!$this->_host) {
+        if (false === $this->_host) {
             return false;
         }
 
@@ -367,15 +367,18 @@ class Net_URL2
         $this->_userinfo = false;
         $this->_host     = false;
         $this->_port     = false;
-        if (preg_match('@^(([^\@]*)\@)?([^:]+)(:(\d*))?$@', $authority, $reg)) {
-            if ($reg[1]) {
-                $this->_userinfo = $reg[2];
-            }
 
-            $this->_host = $reg[3];
-            if (isset($reg[5])) {
-                $this->_port = $reg[5];
-            }
+        if (!preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $matches)) {
+            return $this;
+        }
+
+        if ($matches[1]) {
+            $this->_userinfo = $this->_encodeData($matches[2]);
+        }
+
+        $this->_host = $matches[3];
+        if (isset($matches[5])) {
+            $this->_port = $matches[5];
         }
         return $this;
     }
@@ -408,7 +411,7 @@ class Net_URL2
      * is not present in the URL.
      *
      * @return  string|bool
-     * @see     self::getQueryVariables()
+     * @see     getQueryVariables
      */
     public function getQuery()
     {
@@ -422,7 +425,7 @@ class Net_URL2
      * @param string|bool $query a query string, e.g. "foo=1&bar=2"
      *
      * @return $this
-     * @see    self::setQueryVariables()
+     * @see    setQueryVariables
      */
     public function setQuery($query)
     {
@@ -463,9 +466,9 @@ class Net_URL2
      */
     public function getQueryVariables()
     {
-        $pattern = '/[' .
-                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT), '/') .
-                   ']/';
+        $pattern = '([' .
+                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT)) .
+                   '])';
         $parts   = preg_split($pattern, $this->_query, -1, PREG_SPLIT_NO_EMPTY);
         $return  = array();
 
@@ -483,7 +486,7 @@ class Net_URL2
             $value = rawurldecode($value);
 
             if ($this->getOption(self::OPTION_USE_BRACKETS)
-                && preg_match('#^(.*)\[([0-9a-z_-]*)\]#i', $key, $matches)
+                && preg_match('(^(.*)\[([0-9a-zA-Z_-]*)\])', $key, $matches)
             ) {
 
                 $key = $matches[1];
@@ -501,7 +504,7 @@ class Net_URL2
                     $return[$key][$idx] = $value;
                 }
             } elseif (!$this->getOption(self::OPTION_USE_BRACKETS)
-                      && !empty($return[$key])
+                && !empty($return[$key])
             ) {
                 $return[$key]   = (array) $return[$key];
                 $return[$key][] = $value;
@@ -577,11 +580,7 @@ class Net_URL2
             $url .= $this->_scheme . ':';
         }
 
-        $authority = $this->getAuthority();
-        if ($authority !== false) {
-            $url .= '//' . $authority;
-        }
-        $url .= $this->_path;
+        $url .= $this->_buildAuthorityAndPath($this->getAuthority(), $this->_path);
 
         if ($this->_query !== false) {
             $url .= '?' . $this->_query;
@@ -595,10 +594,30 @@ class Net_URL2
     }
 
     /**
+     * Put authority and path together, wrapping authority
+     * into proper separators/terminators.
+     *
+     * @param string|bool $authority authority
+     * @param string      $path      path
+     *
+     * @return string
+     */
+    private function _buildAuthorityAndPath($authority, $path)
+    {
+        if ($authority === false) {
+            return $path;
+        }
+
+        $terminator = ($path !== '' && $path[0] !== '/') ? '/' : '';
+
+        return '//' . $authority . $terminator . $path;
+    }
+
+    /**
      * Returns a string representation of this URL.
      *
      * @return string
-     * @see https://php.net/language.oop5.magic#object.tostring
+     * @link https://php.net/language.oop5.magic#object.tostring
      */
     public function __toString()
     {
@@ -654,7 +673,7 @@ class Net_URL2
         // Normalize percentage-encoded unreserved characters (section 6.2.2.2)
         list($this->_userinfo, $this->_host, $this->_path)
             = preg_replace_callback(
-                '/%[0-9a-f]{2}/i', array('self', '_normalizeCallback'),
+                '((?:%[0-9a-fA-Z]{2})+)', array($this, '_normalizeCallback'),
                 array($this->_userinfo, $this->_host, $this->_path)
             );
 
@@ -662,8 +681,16 @@ class Net_URL2
         $this->_path = self::removeDotSegments($this->_path);
 
         // Scheme based normalization (RFC 3986, section 6.2.3)
-        if ($this->_host && !$this->_path) {
+        if ($this->_host && '' === $this->_path) {
             $this->_path = '/';
+        }
+
+        // path should start with '/' if there is authority (section 3.3.)
+        if (strlen($this->getAuthority())
+            && strlen($this->_path)
+            && $this->_path[0] !== '/'
+        ) {
+            $this->_path = '/' . $this->_path;
         }
     }
 
@@ -673,9 +700,10 @@ class Net_URL2
      * @param array $matches as by preg_replace_callback
      *
      * @return string
-     * @see Net_URL2::normalize
+     * @see normalize
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
-    private static function _normalizeCallback($matches)
+    private function _normalizeCallback($matches)
     {
         return self::urlencode(urldecode($matches[0]));
     }
@@ -704,8 +732,10 @@ class Net_URL2
         if (!$reference instanceof Net_URL2) {
             $reference = new self($reference);
         }
-        if (!$this->isAbsolute()) {
-            throw new Exception('Base-URL must be absolute');
+        if (!$reference->_isFragmentOnly() && !$this->isAbsolute()) {
+            throw new Exception(
+                'Base-URL must be absolute if reference is not fragment-only'
+            );
         }
 
         // A non-strict parser may ignore a scheme in the reference if it is
@@ -722,46 +752,66 @@ class Net_URL2
             $target->setAuthority($reference->getAuthority());
             $target->_path  = self::removeDotSegments($reference->_path);
             $target->_query = $reference->_query;
-        } else {
-            $authority = $reference->getAuthority();
-            if ($authority !== false) {
-                $target->setAuthority($authority);
-                $target->_path  = self::removeDotSegments($reference->_path);
-                $target->_query = $reference->_query;
-            } else {
-                if ($reference->_path == '') {
-                    $target->_path = $this->_path;
-                    if ($reference->_query !== false) {
-                        $target->_query = $reference->_query;
-                    } else {
-                        $target->_query = $this->_query;
-                    }
-                } else {
-                    if (substr($reference->_path, 0, 1) == '/') {
-                        $target->_path = self::removeDotSegments($reference->_path);
-                    } else {
-                        // Merge paths (RFC 3986, section 5.2.3)
-                        if ($this->_host !== false && $this->_path == '') {
-                            $target->_path = '/' . $reference->_path;
-                        } else {
-                            $i = strrpos($this->_path, '/');
-                            if ($i !== false) {
-                                $target->_path = substr($this->_path, 0, $i + 1);
-                            }
-                            $target->_path .= $reference->_path;
-                        }
-                        $target->_path = self::removeDotSegments($target->_path);
-                    }
-                    $target->_query = $reference->_query;
-                }
-                $target->setAuthority($this->getAuthority());
-            }
-            $target->_scheme = $this->_scheme;
+            $target->_fragment = $reference->_fragment;
+            return $target;
         }
+
+        $authority = $reference->getAuthority();
+        if ($authority !== false) {
+            $target->setAuthority($authority);
+            $target->_path  = self::removeDotSegments($reference->_path);
+            $target->_query = $reference->_query;
+        } else {
+            if ($reference->_path == '') {
+                $target->_path = $this->_path;
+                if ($reference->_query !== false) {
+                    $target->_query = $reference->_query;
+                } else {
+                    $target->_query = $this->_query;
+                }
+            } else {
+                if (substr($reference->_path, 0, 1) == '/') {
+                    $target->_path = self::removeDotSegments($reference->_path);
+                } else {
+                    // Merge paths (RFC 3986, section 5.2.3)
+                    if ($this->_host !== false && $this->_path == '') {
+                        $target->_path = '/' . $reference->_path;
+                    } else {
+                        $i = strrpos($this->_path, '/');
+                        if ($i !== false) {
+                            $target->_path = substr($this->_path, 0, $i + 1);
+                        }
+                        $target->_path .= $reference->_path;
+                    }
+                    $target->_path = self::removeDotSegments($target->_path);
+                }
+                $target->_query = $reference->_query;
+            }
+            $target->setAuthority($this->getAuthority());
+        }
+        $target->_scheme = $this->_scheme;
 
         $target->_fragment = $reference->_fragment;
 
         return $target;
+    }
+
+    /**
+     * URL is fragment-only
+     *
+     * @return bool
+     */
+    private function _isFragmentOnly()
+    {
+        return (
+            $this->_fragment !== false
+            && $this->_scheme === false
+            && $this->_userinfo === false
+            && $this->_host === false
+            && $this->_port === false
+            && $this->_path === ''
+            && $this->_query === false
+        );
     }
 
     /**
@@ -947,14 +997,14 @@ class Net_URL2
      * @return void
      * @uses   self::$_scheme, self::setAuthority(), self::$_path, self::$_query,
      *         self::$_fragment
-     * @see    self::__construct()
+     * @see    __construct
      */
     protected function parseUrl($url)
     {
         // The regular expression is copied verbatim from RFC 3986, appendix B.
         // The expression does not validate the URL but matches any string.
         preg_match(
-            '!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!',
+            '(^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)',
             $url, $matches
         );
 
@@ -977,11 +1027,12 @@ class Net_URL2
      * @param string $url URL
      *
      * @return string
+     * @see parseUrl
      */
     private function _encodeData($url)
     {
         return preg_replace_callback(
-            '~[\x0-\x20\x22\x3C\x3E\x7F-\xFF]+~',
+            '([\x-\x20\x22\x3C\x3E\x7F-\xFF]+)',
             array($this, '_encodeCallback'), $url
         );
     }
@@ -992,7 +1043,8 @@ class Net_URL2
      * @param array $matches Matches
      *
      * @return string
-     * @see Net_URL2::_encodeData
+     * @see _encodeData
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function _encodeCallback(array $matches)
     {
