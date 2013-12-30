@@ -851,12 +851,11 @@ class Net_URL2
                 $path = '';
             } else {
                 // Step 2.E
-                $i = strpos($path, '/');
-                if ($i === 0) {
-                    $i = strpos($path, '/', 1);
-                }
+                $i = strpos($path, '/', $path[0] === '/');
                 if ($i === false) {
-                    $i = strlen($path);
+                    $output .= $path;
+                    $path = '';
+                    break;
                 }
                 $output .= substr($path, 0, $i);
                 $path = substr($path, $i);
@@ -865,7 +864,7 @@ class Net_URL2
 
         if ($path !== '') {
             $message = sprintf(
-                'Unable to remove dot segments hit loop limit %d (left: %s)',
+                'Unable to remove dot segments; hit loop limit %d (left: %s)',
                 $j, var_export($path, true)
             );
             trigger_error($message, E_USER_WARNING);
