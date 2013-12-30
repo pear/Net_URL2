@@ -228,6 +228,44 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test resolve() loop limit warning
+     *
+     * @covers Net_URL2::resolve
+     * @return void
+     */
+    public function testResolveLoopLimit()
+    {
+        $limit    = 100;
+        $segments = str_repeat('a/', $limit);
+
+        @Net_URL2::removeDotSegments($segments . 'b/');
+
+        $this->_assertLastErrorContains(sprintf(' loop limit %d ', $limit + 1));
+        $this->_assertLastErrorContains(" (left: '/b/')");
+    }
+
+    /**
+     * Assert that there is a last error message and it contains needle.
+     *
+     * @param string $needle needle
+     *
+     * @return void
+     */
+    private function _assertLastErrorContains($needle)
+    {
+        $error = error_get_last();
+        $this->assertArrayHasKey('message', $error, 'there was an error previously');
+        $pos = strpos($error['message'], $needle);
+
+        $this->assertTrue(
+            false !== $pos,
+            sprintf(
+                'Last error message "%s" contains "%s"', $error['message'], $needle
+            )
+        );
+    }
+
+    /**
      * Test UrlEncoding
      *
      * @return void
@@ -237,12 +275,14 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         $url = new Net_URL2('http://localhost/bug.php');
         $url->setQueryVariables(
-            array('indexed' => array(
+            array(
+                'indexed' => array(
                     'first value', 'second value', array('foo', 'bar'),
-            ))
+                )
+            )
         );
         $this->assertEquals(
-            'http://localhost/bug.php?indexed[0]=first%20value&indexed[1]'.
+            'http://localhost/bug.php?indexed[0]=first%20value&indexed[1]' .
             '=second%20value&indexed[2][0]=foo&indexed[2][1]=bar',
             strval($url)
         );
@@ -331,17 +371,17 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         // The numbers behind are in reference to sections
         // in RFC 3986 5.2.4. Remove Dot Segments
         return array(
-            array('../', ''),   // 2. A.
-            array('./', ''),    // 2. A.
-            array('/./', '/'),  // 2. B.
-            array('/.', '/'),   // 2. B.
+            array('../', ''), // 2. A.
+            array('./', ''), // 2. A.
+            array('/./', '/'), // 2. B.
+            array('/.', '/'), // 2. B.
             array('/../', '/'), // 2. C.
-            array('/..', '/'),  // 2. C.
-            array('..', ''),    // 2. D.
-            array('.', ''),     // 2. D.
-            array('a', 'a'),    // 2. E.
-            array('/a', '/a'),  // 2. E.
-            array('/a/b/c/./../../g', '/a/g'),    // 3.
+            array('/..', '/'), // 2. C.
+            array('..', ''), // 2. D.
+            array('.', ''), // 2. D.
+            array('a', 'a'), // 2. E.
+            array('/a', '/a'), // 2. E.
+            array('/a/b/c/./../../g', '/a/g'), // 3.
             array('mid/content=5/../6', 'mid/6'), // 3.
             array('../foo/bar.php', 'foo/bar.php'),
             array('/foo/../bar/boo.php', '/bar/boo.php'),
@@ -452,7 +492,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $urlPart = parse_url($urlCorrect, PHP_URL_QUERY);
         $this->assertSame($urlPart, $url->getQuery());
 
-        $this->assertSame($urlCorrect, (string) $url);
+        $this->assertSame($urlCorrect, (string)$url);
 
         $input    = 'http://example.com/get + + to my nose/';
         $expected = 'http://example.com/get%20+%20+%20to%20my%20nose/';
@@ -531,11 +571,11 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         $url = new Net_URL2('');
 
-        $property = 'authority';
+        $property       = 'authority';
         $url->$property = $value = 'value';
         $this->assertEquals($value, $url->$property);
 
-        $property = 'unsetProperty';
+        $property       = 'unsetProperty';
         $url->$property = $value;
         $this->assertEquals(false, $url->$property);
     }
@@ -554,7 +594,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         foreach ($urls as $url) {
             $urlA = new Net_URL2($url);
             $urlB = new Net_URL2($urlA);
-            $this->assertSame((string) $urlA, (string) $urlB);
+            $this->assertSame((string)$urlA, (string)$urlB);
         }
     }
 
@@ -569,13 +609,13 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     public function testEncodeDataUserinfoAuthority()
     {
         $url = new Net_URL2('http://john doe:secret@example.com/');
-        $this->assertSame('http://john%20doe:secret@example.com/', (string) $url);
+        $this->assertSame('http://john%20doe:secret@example.com/', (string)$url);
 
         $url->setUserinfo('john doe');
-        $this->assertSame('http://john%20doe@example.com/', (string) $url);
+        $this->assertSame('http://john%20doe@example.com/', (string)$url);
 
         $url->setUserinfo('john doe', 'pa wd');
-        $this->assertSame('http://john%20doe:pa%20wd@example.com/', (string) $url);
+        $this->assertSame('http://john%20doe:pa%20wd@example.com/', (string)$url);
     }
 
     /**
@@ -592,7 +632,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function test20156()
     {
-        $url = new Net_URL2('http://user:pass@example.com:127/');
+        $url  = new Net_URL2('http://user:pass@example.com:127/');
         $host = '0';
         $url->setHost($host);
         $this->assertSame('user:pass@0:127', $url->getAuthority());
@@ -617,7 +657,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     public function test20157()
     {
         $subject = 'http://example.com';
-        $url = new Net_URL2($subject);
+        $url     = new Net_URL2($subject);
         $url->setPath('0');
         $url->normalize();
         $this->assertSame("$subject/0", (string)$url);
@@ -636,9 +676,9 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function test20158()
     {
-        $base = new Net_URL2('myfile.html');
+        $base     = new Net_URL2('myfile.html');
         $resolved = $base->resolve('#world');
-        $this->assertSame('myfile.html#world', (string) $resolved);
+        $this->assertSame('myfile.html#world', (string)$resolved);
     }
 
     /**
@@ -656,6 +696,6 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     {
         $url = new Net_URL2('index.html');
         $url->setHost('example.com');
-        $this->assertSame('//example.com/index.html', (string) $url);
+        $this->assertSame('//example.com/index.html', (string)$url);
     }
 }

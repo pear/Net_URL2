@@ -863,6 +863,14 @@ class Net_URL2
             }
         }
 
+        if ($path !== '') {
+            $message = sprintf(
+                'Unable to remove dot segments hit loop limit %d (left: %s)',
+                $j, var_export($path, true)
+            );
+            trigger_error($message, E_USER_WARNING);
+        }
+
         return $output;
     }
 
