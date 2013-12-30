@@ -488,6 +488,9 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
                 'http://example.com', 'http://example.com/',
                 'http://example.com:/', 'http://example.com:80/'
             ),
+
+            // Bug #20161: URLs with "0" as host fail to normalize with empty path
+            array('http://0/', 'http://0'),
         );
     }
 
