@@ -799,18 +799,19 @@ class Net_URL2
     /**
      * URL is fragment-only
      *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      * @return bool
      */
     private function _isFragmentOnly()
     {
         return (
             $this->_fragment !== false
-            && $this->_scheme === false
-            && $this->_userinfo === false
-            && $this->_host === false
-            && $this->_port === false
-            && $this->_path === ''
             && $this->_query === false
+            && $this->_path === ''
+            && $this->_port === false
+            && $this->_host === false
+            && $this->_userinfo === false
+            && $this->_scheme === false
         );
     }
 
