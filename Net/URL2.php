@@ -830,23 +830,24 @@ class Net_URL2
 
         // Make sure not to be trapped in an infinite loop due to a bug in this
         // method
+        $loopLimit = 256;
         $j = 0;
-        while ('' !== $path && $j++ < 100) {
-            if (substr($path, 0, 2) == './') {
+        while ('' !== $path && $j++ < $loopLimit) {
+            if (substr($path, 0, 2) === './') {
                 // Step 2.A
                 $path = substr($path, 2);
-            } elseif (substr($path, 0, 3) == '../') {
+            } elseif (substr($path, 0, 3) === '../') {
                 // Step 2.A
                 $path = substr($path, 3);
-            } elseif (substr($path, 0, 3) == '/./' || $path == '/.') {
+            } elseif (substr($path, 0, 3) === '/./' || $path === '/.') {
                 // Step 2.B
                 $path = '/' . substr($path, 3);
-            } elseif (substr($path, 0, 4) == '/../' || $path == '/..') {
+            } elseif (substr($path, 0, 4) === '/../' || $path === '/..') {
                 // Step 2.C
                 $path   = '/' . substr($path, 4);
                 $i      = strrpos($output, '/');
                 $output = $i === false ? '' : substr($output, 0, $i);
-            } elseif ($path == '.' || $path == '..') {
+            } elseif ($path === '.' || $path === '..') {
                 // Step 2.D
                 $path = '';
             } else {

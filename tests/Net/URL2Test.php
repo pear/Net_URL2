@@ -235,12 +235,12 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function testResolveLoopLimit()
     {
-        $limit    = 100;
-        $segments = str_repeat('a/', $limit);
+        $loopLimit = 256;
+        $segments  = str_repeat('a/', $loopLimit);
 
         @Net_URL2::removeDotSegments($segments . 'b/');
 
-        $this->_assertLastErrorContains(sprintf(' loop limit %d ', $limit + 1));
+        $this->_assertLastErrorContains(sprintf(' loop limit %d ', $loopLimit + 1));
         $this->_assertLastErrorContains(" (left: '/b/')");
     }
 
