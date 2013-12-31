@@ -264,6 +264,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     /**
      * Test the resolve() function throwing an exception with invalid data.
      *
+     * @covers Net_URL2::resolve
      * @return void
      */
     public function testResolveException()
@@ -277,23 +278,6 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             return;
         }
         $this->fail('Expected exception not thrown.');
-    }
-
-    /**
-     * Test resolve() loop limit warning
-     *
-     * @covers Net_URL2::resolve
-     * @return void
-     */
-    public function testResolveLoopLimit()
-    {
-        $loopLimit = 256;
-        $segments  = str_repeat('a/', $loopLimit);
-
-        @Net_URL2::removeDotSegments($segments . 'b/');
-
-        $this->_assertLastErrorContains(sprintf(' loop limit %d ', $loopLimit + 1));
-        $this->_assertLastErrorContains(" (left: '/b/')");
     }
 
     /**
@@ -450,11 +434,29 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @param string $assertion Assertion
      *
      * @dataProvider providePath
+     * @covers Net_URL2::removeDotSegments
      * @return void
      */
     public function testRemoveDotSegments($path, $assertion)
     {
         $this->assertEquals($assertion, Net_URL2::removeDotSegments($path));
+    }
+
+    /**
+     * Test removeDotSegments() loop limit warning
+     *
+     * @covers Net_URL2::removeDotSegments
+     * @return void
+     */
+    public function testRemoveDotSegmentsLoopLimit()
+    {
+        $loopLimit = 256;
+        $segments  = str_repeat('a/', $loopLimit);
+
+        @Net_URL2::removeDotSegments($segments . 'b/');
+
+        $this->_assertLastErrorContains(sprintf(' loop limit %d ', $loopLimit + 1));
+        $this->_assertLastErrorContains(" (left: '/b/')");
     }
 
     /**
