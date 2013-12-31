@@ -32,10 +32,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <active>no</active>
   </lead>
 
-  <date>2013-12-30</date>
-  <time>01:32:00</time>
+  <date>2013-12-31</date>
+  <time>01:59:00</time>
   <version>
-    <release>2.0.3</release>
+    <release>2.0.4</release>
     <api>2.0.0</api>
   </version>
   <stability>
@@ -44,13 +44,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </stability>
   <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
-    * Fixed #20156: setAuthority() flaw with "0" as host
-    * Fixed #20157: normalize() flaw with "0" as path
-    * Fixed #20158: Fragment-only references are not resolved to non-absolute base URI
-    * Fixed #20159: Authority not terminated by slash
-    * Fixed diverse coding style violations and misc. minor issues
-    * Increased code coverage
-    * Added support for Scrutinizer CI
+    * Fixed #20161: URLs with "0" as host fail to normalize with empty path
+    * A flaw in NetURL2::removeDotSegments() introduced in 2.0.1 has been fixed
+    * New: NetURL2::removeDotSegments() emits a warning on loop limit reach
+    * Url-segment maximum count raised from 100 to 256 (loop limit)
   </notes>
 
   <contents>
@@ -89,6 +86,26 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <date>2013-12-31</date>
+      <time>01:59:00</time>
+      <version>
+        <release>2.0.4</release>
+        <api>2.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
+      <notes>
+        * Fixed #20161: URLs with "0" as host fail to normalize with empty path
+        * A flaw in NetURL2::removeDotSegments() introduced in 2.0.1 has been fixed
+        * New: NetURL2::removeDotSegments() emits a warning on loop limit reach
+        * Url-segment maximum count raised from 100 to 256 (loop limit)
+      </notes>
+    </release>
+
     <release>
       <date>2013-12-30</date>
       <time>01:32:00</time>
