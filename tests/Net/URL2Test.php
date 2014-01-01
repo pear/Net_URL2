@@ -152,70 +152,122 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the resolve() function.
+     * A dataProvider for paths that are solved to a base URI.
+     *
+     * @see testResolveUrls
+     * @return array
+     */
+    public function provideResolveUrls()
+    {
+        return array(
+            array(
+                // Examples from RFC 3986, section 5.4.
+                // relative base-URI, (URL => absolute URL), [(options)]
+                'http://a/b/c/d;p?q',
+                array(
+                    'g:h'           => 'g:h',
+                    'g'             => 'http://a/b/c/g',
+                    './g'           => 'http://a/b/c/g',
+                    'g/'            => 'http://a/b/c/g/',
+                    '/g'            => 'http://a/g',
+                    '//g'           => 'http://g',
+                    '?y'            => 'http://a/b/c/d;p?y',
+                    'g?y'           => 'http://a/b/c/g?y',
+                    '#s'            => 'http://a/b/c/d;p?q#s',
+                    'g#s'           => 'http://a/b/c/g#s',
+                    'g?y#s'         => 'http://a/b/c/g?y#s',
+                    ';x'            => 'http://a/b/c/;x',
+                    'g;x'           => 'http://a/b/c/g;x',
+                    'g;x?y#s'       => 'http://a/b/c/g;x?y#s',
+                    ''              => 'http://a/b/c/d;p?q',
+                    '.'             => 'http://a/b/c/',
+                    './'            => 'http://a/b/c/',
+                    '..'            => 'http://a/b/',
+                    '../'           => 'http://a/b/',
+                    '../g'          => 'http://a/b/g',
+                    '../..'         => 'http://a/',
+                    '../../'        => 'http://a/',
+                    '../../g'       => 'http://a/g',
+                    '../../../g'    => 'http://a/g',
+                    '../../../../g' => 'http://a/g',
+                    '/./g'          => 'http://a/g',
+                    '/../g'         => 'http://a/g',
+                    'g.'            => 'http://a/b/c/g.',
+                    '.g'            => 'http://a/b/c/.g',
+                    'g..'           => 'http://a/b/c/g..',
+                    '..g'           => 'http://a/b/c/..g',
+                    './../g'        => 'http://a/b/g',
+                    './g/.'         => 'http://a/b/c/g/',
+                    'g/./h'         => 'http://a/b/c/g/h',
+                    'g/../h'        => 'http://a/b/c/h',
+                    'g;x=1/./y'     => 'http://a/b/c/g;x=1/y',
+                    'g;x=1/../y'    => 'http://a/b/c/y',
+                    'g?y/./x'       => 'http://a/b/c/g?y/./x',
+                    'g?y/../x'      => 'http://a/b/c/g?y/../x',
+                    'g#s/./x'       => 'http://a/b/c/g#s/./x',
+                    'g#s/../x'      => 'http://a/b/c/g#s/../x',
+                    'http:g'        => 'http:g',
+                ),
+            ),
+            array(
+                'http://a/b/c/d;p?q',
+                array('http:g' => 'http://a/b/c/g'),
+                array('::OPTION_STRICT' => false)
+            ),
+        );
+    }
+
+    /**
+     * Test the resolve() function to resolve URLs to each other.
+     *
+     * @param string $baseURL               base-URI
+     * @param array  $relativeAbsolutePairs url-pairs, relative => resolved
+     * @param array  $options               Net_URL2 options
+     *
+     * @dataProvider provideResolveUrls
+     * @covers Net_URL2::resolve
+     * @return void
+     */
+    public function testResolveUrls($baseURL, array $relativeAbsolutePairs,
+        array $options = array()
+    ) {
+        $options = $this->_translateOptionData($options);
+        $base    = new Net_URL2($baseURL, $options);
+        $count = count($relativeAbsolutePairs);
+        $this->assertGreaterThan(0, $count, 'relative-absolute-pairs data is empty');
+        foreach ($relativeAbsolutePairs as $relativeURL => $absoluteURL) {
+            $this->assertSame($absoluteURL, (string) $base->resolve($relativeURL));
+        }
+    }
+
+    /**
+     * Helper method to turn options with strings as the constant names
+     * (to allow to externalize the fixtures) into a concrete options
+     * array that uses the values from the Net_URL2 class constants.
+     *
+     * @param array $options options
+     *
+     * @return array
+     */
+    private function _translateOptionData(array $options)
+    {
+        // translate string option-names to class constant starting with a colon.
+        foreach ($options as $name => $value) {
+            if ($name[0] === ':') {
+                unset($options[$name]);
+                $options[constant("Net_URL2$name")] = $value;
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Test the resolve() function throwing an exception with invalid data.
      *
      * @return void
      */
-    public function testResolve()
+    public function testResolveException()
     {
-        // Examples from RFC 3986, section 5.4.
-        // relative URL => absolute URL
-        $tests   = array(
-            'g:h'           => 'g:h',
-            'g'             => 'http://a/b/c/g',
-            './g'           => 'http://a/b/c/g',
-            'g/'            => 'http://a/b/c/g/',
-            '/g'            => 'http://a/g',
-            '//g'           => 'http://g',
-            '?y'            => 'http://a/b/c/d;p?y',
-            'g?y'           => 'http://a/b/c/g?y',
-            '#s'            => 'http://a/b/c/d;p?q#s',
-            'g#s'           => 'http://a/b/c/g#s',
-            'g?y#s'         => 'http://a/b/c/g?y#s',
-            ';x'            => 'http://a/b/c/;x',
-            'g;x'           => 'http://a/b/c/g;x',
-            'g;x?y#s'       => 'http://a/b/c/g;x?y#s',
-            ''              => 'http://a/b/c/d;p?q',
-            '.'             => 'http://a/b/c/',
-            './'            => 'http://a/b/c/',
-            '..'            => 'http://a/b/',
-            '../'           => 'http://a/b/',
-            '../g'          => 'http://a/b/g',
-            '../..'         => 'http://a/',
-            '../../'        => 'http://a/',
-            '../../g'       => 'http://a/g',
-            '../../../g'    => 'http://a/g',
-            '../../../../g' => 'http://a/g',
-            '/./g'          => 'http://a/g',
-            '/../g'         => 'http://a/g',
-            'g.'            => 'http://a/b/c/g.',
-            '.g'            => 'http://a/b/c/.g',
-            'g..'           => 'http://a/b/c/g..',
-            '..g'           => 'http://a/b/c/..g',
-            './../g'        => 'http://a/b/g',
-            './g/.'         => 'http://a/b/c/g/',
-            'g/./h'         => 'http://a/b/c/g/h',
-            'g/../h'        => 'http://a/b/c/h',
-            'g;x=1/./y'     => 'http://a/b/c/g;x=1/y',
-            'g;x=1/../y'    => 'http://a/b/c/y',
-            'g?y/./x'       => 'http://a/b/c/g?y/./x',
-            'g?y/../x'      => 'http://a/b/c/g?y/../x',
-            'g#s/./x'       => 'http://a/b/c/g#s/./x',
-            'g#s/../x'      => 'http://a/b/c/g#s/../x',
-            'http:g'        => 'http:g',
-        );
-        $baseURL = 'http://a/b/c/d;p?q';
-        $base    = new Net_URL2($baseURL);
-        foreach ($tests as $relativeURL => $absoluteURL) {
-            $this->assertEquals($absoluteURL, $base->resolve($relativeURL));
-        }
-
-        $base        = new Net_URL2(
-            $baseURL, array(Net_URL2::OPTION_STRICT => false)
-        );
-        $relativeURL = 'http:g';
-        $this->assertEquals('http://a/b/c/g', $base->resolve($relativeURL));
-
         // resolving a relative to a relative URL throws an exception
         $base = new Net_URL2('news.html?category=arts');
         $this->addToAssertionCount(1);
