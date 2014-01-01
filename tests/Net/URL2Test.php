@@ -460,18 +460,94 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * A dataProvider for query strings and their array representation
+     *
+     * @see testGetQueryVariables
+     * @return array
+     */
+    public function provideQueryStrings()
+    {
+        // If the second (expected) value is set or not null, parse_str() differs.
+        // Notes on PHP differences with each entry/block
+        return array(
+            // Net_URL2::getQueryVariables() non-bracket mode
+            array('test=1&t%65st=%41&extra=',
+                array('test' => array('1', 'A'), 'extra' => ''),
+                array('::OPTION_USE_BRACKETS' => false)),
+            array(''),
+            array('='),
+            array('key'),
+            array('key='),
+            array('=value'),
+            array('k=v'),
+            // no space as var-name in PHP (array()):
+            array(' ',   array(' ' => '' )),
+            array(' =v', array(' ' => 'v')),
+            array('key=value'),
+            // PHP replaces ".", " " and "[" in name replaced by "_":
+            array('key.=value' , array('key.'  => 'value')),
+            array('key =value' , array('key '  => 'value')),
+            array('key[=value' , array('key['  => 'value')),
+            array("key\0=value", array("key\0" => 'value')),
+            array('key]=value'),
+            array('key[]=value'),
+            array('[]=value'),
+            array(']=value'),
+            array(']]=value'),
+            // PHP drops variables that are an open bracket only
+            array('[=value', array('[' => 'value')),
+            // PHP drops spaces in brackets:
+            array('key[ ]=value', array('key'  => array(' ' => 'value'))),
+            // PHP replaces space " " in name by "_"
+            array('key []=1'    , array('key ' => array('1'           ))) ,
+            // PHP does not support "\0" in var-names:
+            array("key[\0]=value"   , array('key' => array("\0" => 'value'  ))),
+            array("key[a\0]=value"  , array('key' => array("a\0" => 'value' ))),
+            array("key[a\0b]=value" , array('key' => array("a\0b" => 'value'))),
+            array('var[]=1&var[0][]=2'),
+            array('key[] []=1'),
+            array('key[] [] []=1'),
+            array('key[] [] []'),
+            array('key[] [] []=[] []'),
+            array('[] [] []=[] []'),
+        );
+    }
+
+    /**
      * Test parsing of query variables
      *
-     * @covers Net_URL2::getQueryVariables
+     * @param string $query    string
+     * @param mixed  $expected null to test against parse_str() behavior
+     * @param array  $options  Net_URL2 options
+     *
+     * @dataProvider provideQueryStrings
+     * @covers       Net_URL2::getQueryVariables
+     * @covers       Net_URL2::_queryArrayByKey
+     * @covers       Net_URL2::_queryArrayByBrackets
+     * @covers       Net_URL2::_queryKeyBracketOffset
      * @return void
      */
-    public function testQueryVariables()
-    {
-        $url = new Net_URL2('', array(Net_URL2::OPTION_USE_BRACKETS => false));
+    public function testGetQueryVariables($query, $expected = null,
+        array $options = array()
+    ) {
+        $options = $this->_translateOptionData($options);
 
-        $url->setQuery('test=1&t%65st=%41&extra=');
-        $expected = array('test' => array('1', 'A'), 'extra' => '');
+        $url = new Net_URL2('', $options);
+
+        if ($expected === null) {
+            // parse_str() is in PHP before copy on write, therefore
+            // it uses pass-by-reference for $expected to return
+            // the array
+            parse_str($query, $expected);
+        }
+
+        // Xdebug: If breakpoints are ignored, see Xdebug Issue 0000924
+        $url->setQuery($query);
         $actual = $url->getQueryVariables();
+
+        // Do two assertions, because the first one shows a more nice diff in case
+        // it fails and the second one is actually strict which is what has to be
+        // tested.
         $this->assertEquals($expected, $actual);
         $this->assertSame($expected, $actual);
     }
