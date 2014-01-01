@@ -485,35 +485,144 @@ class Net_URL2
             }
             $value = rawurldecode($value);
 
-            if ($this->getOption(self::OPTION_USE_BRACKETS)
-                && preg_match('(^(.*)\[([0-9a-zA-Z_-]*)\])', $key, $matches)
-            ) {
-
-                $key = $matches[1];
-                $idx = $matches[2];
-
-                // Ensure is an array
-                if (empty($return[$key]) || !is_array($return[$key])) {
-                    $return[$key] = array();
-                }
-
-                // Add data
-                if ($idx === '') {
+            if ($this->getOption(self::OPTION_USE_BRACKETS)) {
+                $return = $this->_queryArrayByKey($key, $value, $return);
+            } else {
+                if (isset($return[$key])) {
+                    $return[$key]  = (array) $return[$key];
                     $return[$key][] = $value;
                 } else {
-                    $return[$key][$idx] = $value;
+                    $return[$key] = $value;
                 }
-            } elseif (!$this->getOption(self::OPTION_USE_BRACKETS)
-                && !empty($return[$key])
-            ) {
-                $return[$key]   = (array) $return[$key];
-                $return[$key][] = $value;
-            } else {
-                $return[$key] = $value;
             }
         }
 
         return $return;
+    }
+
+    /**
+     * Parse a single query key=value pair into an existing php array
+     *
+     * @param string $key   query-key
+     * @param string $value query-value
+     * @param array  $array of existing query variables (if any)
+     *
+     * @return mixed
+     */
+    private function _queryArrayByKey($key, $value, array $array = array())
+    {
+        if (!strlen($key)) {
+            return $array;
+        }
+
+        $offset = $this->_queryKeyBracketOffset($key);
+        if ($offset === false) {
+            $name = $key;
+        } else {
+            $name = substr($key, 0, $offset);
+        }
+
+        if (!strlen($name)) {
+            return $array;
+        }
+
+        if (!$offset) {
+            // named value
+            $array[$name] = $value;
+        } else {
+            // array
+            $brackets = substr($key, $offset);
+            if (!isset($array[$name])) {
+                $array[$name] = null;
+            }
+            $array[$name] = $this->_queryArrayByBrackets(
+                $brackets, $value, $array[$name]
+            );
+        }
+
+        return $array;
+    }
+
+    /**
+     * Parse a key-buffer to place value in array
+     *
+     * @param string $buffer to consume all keys from
+     * @param string $value  to be set/add
+     * @param array  $array  to traverse and set/add value in
+     *
+     * @throws Exception
+     * @return array
+     */
+    private function _queryArrayByBrackets($buffer, $value, array $array = null)
+    {
+        $entry = &$array;
+
+        for ($iteration = 0; strlen($buffer); $iteration++) {
+            $open = $this->_queryKeyBracketOffset($buffer);
+            if ($open !== 0) {
+                // Opening bracket [ must exist at offset 0, if not, there is
+                // no bracket to parse and the value dropped.
+                // if this happens in the first iteration, this is flawed, see
+                // as well the second exception below.
+                if ($iteration) {
+                    break;
+                }
+                // @codeCoverageIgnoreStart
+                throw new Exception(
+                    'Net_URL2 Internal Error: '. __METHOD__ .'(): ' .
+                    'Opening bracket [ must exist at offset 0'
+                );
+                // @codeCoverageIgnoreEnd
+            }
+
+            $close = strpos($buffer, ']', 1);
+            if (!$close) {
+                // this error condition should never be reached as this is a
+                // private method and bracket pairs are checked beforehand.
+                // See as well the first exception for the opening bracket.
+                // @codeCoverageIgnoreStart
+                throw new Exception(
+                    'Net_URL2 Internal Error: '. __METHOD__ .'(): ' .
+                    'Closing bracket ] must exist, not found'
+                );
+                // @codeCoverageIgnoreEnd
+            }
+
+            $index = substr($buffer, 1, $close - 1);
+            if (strlen($index)) {
+                $entry = &$entry[$index];
+            } else {
+                if (!is_array($entry)) {
+                    $entry = array();
+                }
+                $entry[] = &$new;
+                $entry = &$new;
+                unset($new);
+            }
+            $buffer = substr($buffer, $close + 1);
+        }
+
+        $entry = $value;
+
+        return $array;
+    }
+
+    /**
+     * Query-key has brackets ("...[]")
+     *
+     * @param string $key query-key
+     *
+     * @return bool|int offset of opening bracket, false if no brackets
+     */
+    private function _queryKeyBracketOffset($key)
+    {
+        if (false !== $open = strpos($key, '[')
+            and false === strpos($key, ']', $open + 1)
+        ) {
+            $open = false;
+        }
+
+        return $open;
     }
 
     /**
