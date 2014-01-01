@@ -478,6 +478,30 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * This is a regression test to test that Net_URL2::getQueryVariables() does
+     * not have a problem with nested array values in form of stacked brackets and
+     * was reported as Bug #17036 on 2010-01-26 15:48 UTC that there would be
+     * a problem with parsed query string.
+     *
+     * @link   https://pear.php.net/bugs/bug.php?id=17036
+     * @covers Net_URL2::getQueryVariables
+     * @return void
+     */
+    public function test17036()
+    {
+        $queryString = 'start=10&test[0][first][1.1][20]=coucou';
+        $url         = new Net_URL2('?' . $queryString);
+        $vars = $url->getQueryVariables();
+
+        $expected = array();
+        $expected['start'] = '10';
+        $expected['test'][0]['first']['1.1'][20] = 'coucou';
+
+        $this->assertEquals($expected, $vars); // give nice diff in case of failuer
+        $this->assertSame($expected, $vars);   // strictly assert the premise
+    }
+
+    /**
      * This is a regression test to test that resolve() does
      * merge the path if the base path is empty as the opposite
      * was reported as Bug #19176 on 2011-12-31 02:07 UTC
