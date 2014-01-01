@@ -460,21 +460,20 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * This is some example code from a bugreport. Trying to proof that
-     * the parsing works indeed.
+     * Test parsing of query variables
      *
+     * @covers Net_URL2::getQueryVariables
      * @return void
-     * @link   https://pear.php.net/bugs/bug.php?id=17036
      */
     public function testQueryVariables()
     {
-        $queryString = 'start=10&test[0][first][1.1][20]=coucou';
-        $url         = new Net_URL2('?' . $queryString);
-        $vars        = array();
-        parse_str($url->getQuery(), $vars);
+        $url = new Net_URL2('', array(Net_URL2::OPTION_USE_BRACKETS => false));
 
-        $this->assertEquals('10', $vars['start']);
-        $this->assertEquals('coucou', $vars['test'][0]['first']['1.1'][20]);
+        $url->setQuery('test=1&t%65st=%41&extra=');
+        $expected = array('test' => array('1', 'A'), 'extra' => '');
+        $actual = $url->getQueryVariables();
+        $this->assertEquals($expected, $actual);
+        $this->assertSame($expected, $actual);
     }
 
     /**
