@@ -275,6 +275,8 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         try {
             $base->resolve('../arts.html#section-2.4');
         } catch (Exception $e) {
+            $expected = 'Base-URL must be absolute if reference is not fragment-onl';
+            $this->assertStringStartsWith($expected, $e->getMessage());
             return;
         }
         $this->fail('Expected exception not thrown.');
