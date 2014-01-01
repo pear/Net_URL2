@@ -466,26 +466,24 @@ class Net_URL2
      */
     public function getQueryVariables()
     {
-        $pattern = '([' .
-                   preg_quote($this->getOption(self::OPTION_SEPARATOR_INPUT)) .
-                   '])';
-        $parts   = preg_split($pattern, $this->_query, -1, PREG_SPLIT_NO_EMPTY);
+        $separator   = $this->getOption(self::OPTION_SEPARATOR_INPUT);
+        $encodeKeys  = $this->getOption(self::OPTION_ENCODE_KEYS);
+        $useBrackets = $this->getOption(self::OPTION_USE_BRACKETS);
+
         $return  = array();
 
-        foreach ($parts as $part) {
-            if (strpos($part, '=') !== false) {
-                list($key, $value) = explode('=', $part, 2);
-            } else {
-                $key   = $part;
-                $value = null;
-            }
+        for ($part = strtok($this->_query, $separator);
+            strlen($part);
+            $part = strtok($separator)
+        ) {
+            list($key, $value) = explode('=', $part, 2) + array(1 => '');
 
-            if ($this->getOption(self::OPTION_ENCODE_KEYS)) {
+            if ($encodeKeys) {
                 $key = rawurldecode($key);
             }
             $value = rawurldecode($value);
 
-            if ($this->getOption(self::OPTION_USE_BRACKETS)) {
+            if ($useBrackets) {
                 $return = $this->_queryArrayByKey($key, $value, $return);
             } else {
                 if (isset($return[$key])) {
