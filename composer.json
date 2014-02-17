@@ -2,7 +2,14 @@
     "name": "pear/net_url2",
     "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
     "type": "library",
-    "keywords": [ "pear", "net", "url", "uri", "networking", "RFC 3986" ],
+    "keywords": [
+        "pear",
+        "net",
+        "url",
+        "uri",
+        "networking",
+        "RFC 3986"
+    ],
     "homepage": "https://github.com/pear/Net_URL2",
     "license": "BSD-3-Clause",
     "authors": [
@@ -24,14 +31,23 @@
         "source": "https://github.com/pear/Net_URL2"
     },
     "require": {
-        "php": ">=5.1.4"
+        "php": ">=5.1.4",
+        "pear/pear_exception": "*"
     },
     "autoload": {
-        "psr-0": { "Net_URL2": "" }
+        "psr-0": {
+            "Net_URL2": ""
+        }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
         }
+    },
+    "include-path": [
+        "./"
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "*"
     }
 }
