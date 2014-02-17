@@ -31,12 +31,11 @@
         "source": "https://github.com/pear/Net_URL2"
     },
     "require": {
-        "php": ">=5.1.4",
-        "pear/pear_exception": "*"
+        "php": ">=5.1.4"
     },
     "autoload": {
         "psr-0": {
-            "Net_URL2": ""
+            "Net": ""
         }
     },
     "extra": {
