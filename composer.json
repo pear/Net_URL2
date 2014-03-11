@@ -27,7 +27,7 @@
         "php": ">=5.1.4"
     },
     "autoload": {
-        "psr-0": { "Net_URL2": "" }
+        "psr-0": { "Net": "./" }
     },
     "extra": {
         "branch-alias": {
