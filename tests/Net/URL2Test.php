@@ -853,4 +853,37 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
         $url->setHost('example.com');
         $this->assertSame('//example.com/index.html', (string)$url);
     }
+
+    /**
+     * This is a regression test to test that using the file:// URI scheme with
+     * an empty (default) hostname has the empty authority preserved when the
+     * full URL is build.
+     *
+     * It was reported as Bug #20304 on 2014-06-21 00:06 UTC
+     * that file:// URI are crippled.
+     *
+     * Tests with a default authority for the "file" URI scheme
+     *
+     * @covers Net_URL2::getURL
+     * @return void
+     * @link https://pear.php.net/bugs/bug.php?id=20304
+     */
+    public function test20304()
+    {
+        $file = 'file:///path/to/file';
+        $url = new Net_URL2($file);
+        $this->assertSame($file, (string) $url);
+
+        $file = 'file://localhost/path/to/file';
+        $url = new Net_URL2($file);
+        $this->assertSame($file, (string) $url);
+
+        $file = 'file://user@/path/to/file';
+        $url = new Net_URL2($file);
+        $this->assertSame($file, (string) $url);
+
+        $file = 'FILE:///path/to/file';
+        $url = new Net_URL2($file);
+        $this->assertSame($file, (string) $url);
+    }
 }
