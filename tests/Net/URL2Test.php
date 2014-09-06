@@ -42,6 +42,31 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests an URL with no userinfo and normalization
+     *
+     * Also: Regression test for Bug #20385
+     *
+     * @covers Net_URL2::getUserinfo
+     * @covers Net_URL2::normalize
+     * @covers Net_URL2::getNormalizedURL
+     * @return void
+     * @link https://pear.php.net/bugs/bug.php?id=20385
+     */
+    public function testNoUserinfoAndNormalize()
+    {
+        $testUrl = 'http://www.example.com/';
+
+        $url = new Net_URL2($testUrl);
+        $this->assertFalse($url->getUserinfo());
+
+        $url->normalize();
+        $this->assertFalse($url->getUserinfo());
+
+        $this->assertEquals($testUrl, $url->getURL());
+        $this->assertEquals($testUrl, $url->getNormalizedURL());
+    }
+
+    /**
      * Tests setQueryVariable().
      *
      * @return void
