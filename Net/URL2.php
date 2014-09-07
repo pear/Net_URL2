@@ -271,7 +271,12 @@ class Net_URL2
         if ($password !== false) {
             $userinfo .= ':' . $password;
         }
-        $this->_userinfo = $this->_encodeData($userinfo);
+
+        if ($userinfo !== false) {
+            $userinfo = $this->_encodeData($userinfo);
+        }
+
+        $this->_userinfo = $userinfo;
         return $this;
     }
 
