@@ -378,7 +378,7 @@ class Net_URL2
             return $this;
         }
 
-        if (!preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $matches)) {
+        if (!preg_match('(^(([^\@]*)\@)?(.+?)(:(\d*))?$)', $authority, $matches)) {
             return $this;
         }
 
@@ -387,7 +387,8 @@ class Net_URL2
         }
 
         $this->_host = $matches[3];
-        if (isset($matches[5])) {
+
+        if (isset($matches[5]) && strlen($matches[5])) {
             $this->_port = $matches[5];
         }
         return $this;
