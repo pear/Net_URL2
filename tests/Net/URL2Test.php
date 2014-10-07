@@ -610,6 +610,56 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * data provider of host and port
+     *
+     * @return array
+     * @see testHostAndPort
+     */
+    public function provideHostAndPort()
+    {
+        return array(
+            array('[::1]', '[::1]', false),
+            array('[::1]:', '[::1]', false),
+            array('[::1]:128', '[::1]', '128'),
+            array('127.0.0.1', '127.0.0.1', false),
+            array('127.0.0.1:', '127.0.0.1', false),
+            array('127.0.0.1:128', '127.0.0.1', '128'),
+            array('localhost', 'localhost', false),
+            array('localhost:', 'localhost', false),
+            array('localhost:128', 'localhost', '128'),
+        );
+    }
+
+    /**
+     * test that an authority containing host and port maps to expected host and port
+     *
+     * This is also a regression test to test that using ip-literals works along-
+     * side ipv4 and reg-name hosts incl. port numbers
+     *
+     * It was reported as Bug #20423 on 2014-10-06 18:25 UTC that
+     * http://[::1]// URI drops the host
+     *
+     * @param string      $authority    string
+     * @param string      $expectedHost string
+     * @param string|bool $expectedPort string or FALSE
+     *
+     * @return void
+     * @dataProvider provideHostAndPort
+     * @covers       Net_URL2::setAuthority()
+     * @link         https://pear.php.net/bugs/bug.php?id=20423
+     * @link         http://tools.ietf.org/html/rfc3986#section-3.2.2
+     * @link         http://tools.ietf.org/html/rfc3986#section-3.2
+     * @link         http://tools.ietf.org/html/rfc3986#section-3.2.3
+     */
+    public function testHostAndPort($authority, $expectedHost, $expectedPort)
+    {
+        $uri = "http://{$authority}";
+        $url = new Net_URL2($uri);
+        $this->assertSame($expectedHost, $url->getHost());
+        $this->assertSame($expectedPort, $url->getPort());
+    }
+
+    /**
      * This is a regression test to test that Net_URL2::getQueryVariables() does
      * not have a problem with nested array values in form of stacked brackets and
      * was reported as Bug #17036 on 2010-01-26 15:48 UTC that there would be
