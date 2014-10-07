@@ -32,10 +32,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <active>no</active>
   </lead>
 
-  <date>2014-09-07</date>
-  <time>08:34:00</time>
+  <date>2014-10-07</date>
+  <time>23:25:00</time>
   <version>
-    <release>2.0.7</release>
+    <release>2.0.8</release>
     <api>2.0.0</api>
   </version>
   <stability>
@@ -44,8 +44,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </stability>
   <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
-    * Fixed #20385: Incorrect normalization of userinfo
-    * Fixed #20399: Setting userinfo to FALSE not transparent
+    * Fixed #20420: Inconsistent setAuthority and getAuthority
+    * Fixed #20423: URI with IPv6 or IPvFuture not parsed
+    * Imp: Test for RFC 3986 Section 1.1.2 Examples
   </notes>
 
   <contents>
@@ -84,6 +85,25 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <date>2014-10-07</date>
+      <time>23:25:00</time>
+      <version>
+        <release>2.0.8</release>
+        <api>2.0.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
+      <notes>
+        * Fixed #20420: Inconsistent setAuthority and getAuthority
+        * Fixed #20423: URI with IPv6 or IPvFuture not parsed
+        * Imp: Test for RFC 3986 Section 1.1.2 Examples
+      </notes>
+    </release>
+
     <release>
       <date>2014-09-07</date>
       <time>08:34:00</time>
