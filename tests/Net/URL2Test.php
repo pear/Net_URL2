@@ -453,6 +453,42 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * A dataProvider for example URIs from RFC 3986 Section 1.1.2
+     *
+     * @return array
+     * @link http://tools.ietf.org/html/rfc3986#section-1.1.2
+     * @see  testExampleUri
+     */
+    public function provideExampleUri()
+    {
+        return array(
+            array('ftp://ftp.is.co.za/rfc/rfc1808.txt'),
+            array('http://www.ietf.org/rfc/rfc2396.txt'),
+            array('ldap://[2001:db8::7]/c=GB?objectClass?one'),
+            array('mailto:John.Doe@example.com'),
+            array('news:comp.infosystems.www.servers.unix'),
+            array('tel:+1-816-555-1212'),
+            array('telnet://192.0.2.16:80/'),
+            array('urn:oasis:names:specification:docbook:dtd:xml:4.1.2'),
+        );
+    }
+
+    /**
+     * test that Net_URL2 works with the example URIs from RFC 3986 Section 1.1.2
+     *
+     * @param string $uri example URI
+     *
+     * @return       void
+     * @dataProvider provideExampleUri
+     * @link         http://tools.ietf.org/html/rfc3986#section-1.1.2
+     */
+    public function testExampleUri($uri)
+    {
+        $url = new Net_URL2($uri);
+        $this->assertSame($uri, $url->__toString());
+    }
+
+    /**
      * A dataProvider for pairs of paths with dot segments and
      * their form when removed.
      *
