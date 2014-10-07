@@ -24,6 +24,28 @@
 class Net_URL2Test extends PHPUnit_Framework_TestCase
 {
     /**
+     * Tests setting a zero-length string and false as authority
+     * Also: Regression test for Bug #20420
+     *
+     * @covers Net_URL2::setAuthority
+     * @return void
+     * @link https://pear.php.net/bugs/bug.php?id=20420
+     */
+    public function testSetEmptyAuthority()
+    {
+        $url = new Net_URL2('http://www.example.com/');
+        $url->setAuthority('');
+        $this->assertSame('', $url->getAuthority());
+        $this->assertSame('', $url->getHost());
+        $this->assertSame(false, $url->getPort());
+        $this->assertSame(false, $url->getUserinfo());
+        $this->assertSame(false, $url->getUser());
+
+        $url->setAuthority(false);
+        $this->assertSame(false, $url->getAuthority());
+    }
+
+    /**
      * Tests setting an empty userinfo part
      * Also: Regression test for Bug #20013 and Bug #20399
      *
