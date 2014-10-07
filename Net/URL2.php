@@ -373,6 +373,11 @@ class Net_URL2
         $this->_host     = false;
         $this->_port     = false;
 
+        if ('' === $authority) {
+            $this->_host = $authority;
+            return $this;
+        }
+
         if (!preg_match('(^(([^\@]*)\@)?([^:]+)(:(\d*))?$)', $authority, $matches)) {
             return $this;
         }
