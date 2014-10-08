@@ -877,6 +877,48 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * data provider of uri and normal URIs
+     *
+     * @return array
+     * @see testComponentRecompositionAndNormalization
+     */
+    public function provideComposedAndNormalized()
+    {
+        return array(
+            array(''),
+            array('http:g'),
+            array('user@host'),
+            array('mailto:user@host'),
+        );
+    }
+
+    /**
+     * Tests Net_URL2 RFC 3986 5.3. Component Recomposition in the light
+     * of normalization
+     *
+     * This is also a regression test to test that a missing authority works well
+     * with normalization
+     *
+     * It was reported as Bug #20418 on 2014-10-02 22:10 UTC that there is an
+     * Incorrect normalization of URI with missing authority
+     *
+     * @param string $uri URI
+     *
+     * @return       void
+     * @covers       Net_URL2::getUrl()
+     * @covers       Net_URL2::normalize()
+     * @dataProvider provideComposedAndNormalized
+     * @link         https://pear.php.net/bugs/bug.php?id=20418
+     */
+    public function testComponentRecompositionAndNormalization($uri)
+    {
+        $url = new Net_URL2($uri);
+        $this->assertSame($uri, $url->getURL());
+        $url->normalize();
+        $this->assertSame($uri, $url->getURL());
+    }
+
+    /**
      * Tests Net_URL2 ctors URL parameter works with objects implementing
      * __toString().
      *
