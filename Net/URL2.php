@@ -794,12 +794,13 @@ class Net_URL2
 
         // Normalize case of %XX percentage-encodings (RFC 3986, section 6.2.2.1)
         // Normalize percentage-encoded unreserved characters (section 6.2.2.2)
-        list($this->_host, $this->_path)
-            = $this->_normalize(array($this->_host, $this->_path));
-
-        if ($this->_userinfo !== false) {
-            $this->_userinfo = $this->_normalize($this->_userinfo);
+        $fields = array(&$this->_userinfo, &$this->_host, &$this->_path);
+        foreach ($fields as &$field) {
+            if ($field !== false) {
+                $field = $this->_normalize("$field");
+            }
         }
+        unset($field);
 
         // Path segment normalization (RFC 3986, section 6.2.2.3)
         $this->_path = self::removeDotSegments($this->_path);
