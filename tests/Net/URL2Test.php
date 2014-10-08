@@ -481,10 +481,13 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @return       void
      * @dataProvider provideExampleUri
      * @link         http://tools.ietf.org/html/rfc3986#section-1.1.2
+     * @see          testComponentRecompositionAndNormalization
      */
     public function testExampleUri($uri)
     {
         $url = new Net_URL2($uri);
+        $this->assertSame($uri, $url->__toString());
+        $url->normalize();
         $this->assertSame($uri, $url->__toString());
     }
 
@@ -909,6 +912,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @covers       Net_URL2::normalize()
      * @dataProvider provideComposedAndNormalized
      * @link         https://pear.php.net/bugs/bug.php?id=20418
+     * @see          testExampleUri
      */
     public function testComponentRecompositionAndNormalization($uri)
     {
