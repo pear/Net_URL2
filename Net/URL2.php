@@ -1173,12 +1173,14 @@ class Net_URL2
 
     /**
      * Encode characters that might have been forgotten to encode when passing
-     * in an URL. Applied onto Path and Query.
+     * in an URL. Applied onto Userinfo, Path and Query.
      *
      * @param string $url URL
      *
      * @return string
      * @see parseUrl
+     * @see setAuthority
+     * @link https://pear.php.net/bugs/bug.php?id=20425
      */
     private function _encodeData($url)
     {
