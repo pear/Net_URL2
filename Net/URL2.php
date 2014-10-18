@@ -68,6 +68,12 @@ class Net_URL2
     const OPTION_USE_BRACKETS = 'use_brackets';
 
     /**
+     * Drop zero-based integer sequences in query using PHP's [] notation. Default
+     * is true.
+     */
+    const OPTION_DROP_SEQUENCE = 'drop_sequence';
+
+    /**
      * URL-encode query variable keys. Default is true.
      */
     const OPTION_ENCODE_KEYS = 'encode_keys';
@@ -90,6 +96,7 @@ class Net_URL2
     private $_options = array(
         self::OPTION_STRICT           => true,
         self::OPTION_USE_BRACKETS     => true,
+        self::OPTION_DROP_SEQUENCE    => true,
         self::OPTION_ENCODE_KEYS      => true,
         self::OPTION_SEPARATOR_INPUT  => '&',
         self::OPTION_SEPARATOR_OUTPUT => '&',
@@ -1120,12 +1127,17 @@ class Net_URL2
     protected function buildQuery(array $data, $separator, $key = null)
     {
         $query = array();
+        $drop_names = (
+            $this->_options[self::OPTION_DROP_SEQUENCE] === true
+            && array_keys($data) === array_keys(array_values($data))
+        );
         foreach ($data as $name => $value) {
             if ($this->getOption(self::OPTION_ENCODE_KEYS) === true) {
                 $name = rawurlencode($name);
             }
             if ($key !== null) {
                 if ($this->getOption(self::OPTION_USE_BRACKETS) === true) {
+                    $drop_names && $name = '';
                     $name = $key . '[' . $name . ']';
                 } else {
                     $name = $key;
