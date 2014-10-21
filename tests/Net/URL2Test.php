@@ -366,8 +366,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      */
     public function testUrlEncoding()
     {
-        $options = array(Net_URL2::OPTION_DROP_SEQUENCE => false);
-        $url     = new Net_URL2('http://localhost/bug.php', $options);
+        $url = new Net_URL2('http://localhost/bug.php');
         $url->setQueryVariables(
             array(
                 'indexed' => array(
@@ -423,24 +422,16 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
     /**
      * Brackets for array query variables
      *
-     * Also text to not encode zero based integer sequence into brackets
-     *
      * @return void
-     *
-     * @link https://pear.php.net/bugs/bug.php?id=20427
      */
     public function testUseBrackets()
     {
         $url = new Net_URL2('http://example.org/');
-        $url->setQueryVariables(array('foo' => array('bar', 'baz')));
-        $expected = 'http://example.org/?foo[]=bar&foo[]=baz';
-        $this->assertEquals($expected, $url->getURL());
-
-        $options = array(Net_URL2::OPTION_DROP_SEQUENCE => false);
-        $url     = new Net_URL2('http://example.org/', $options);
         $url->setQueryVariables(array('foo' => array('bar', 'foobar')));
-        $expected = 'http://example.org/?foo[0]=bar&foo[1]=foobar';
-        $this->assertEquals($expected, $url->getURL());
+        $this->assertEquals(
+            'http://example.org/?foo[0]=bar&foo[1]=foobar',
+            strval($url)
+        );
     }
 
     /**
