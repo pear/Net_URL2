@@ -764,7 +764,7 @@ class Net_URL2
     {
         $url = clone $this;
         $url->normalize();
-        return $url->getUrl();
+        return $url->getURL();
     }
 
     /**
