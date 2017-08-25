@@ -36,6 +36,9 @@
     "autoload": {
         "classmap": ["Net/URL2.php"]
     },
+    "include-path": [
+        "./"
+    ],
     "extra": {
         "branch-alias": {
             "dev-master": "2.2.x-dev"
