@@ -549,7 +549,7 @@ class Net_URL2
             // array
             $brackets = substr($key, $offset);
             if (!isset($array[$name])) {
-                $array[$name] = null;
+                $array[$name] = array();
             }
             $array[$name] = $this->_queryArrayByBrackets(
                 $brackets, $value, $array[$name]
@@ -569,7 +569,7 @@ class Net_URL2
      * @throws Exception
      * @return array
      */
-    private function _queryArrayByBrackets($buffer, $value, array $array = null)
+    private function _queryArrayByBrackets($buffer, $value, array $array)
     {
         $entry = &$array;
 
