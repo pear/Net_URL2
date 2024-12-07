@@ -25,4 +25,4 @@ jobs:
           ini-values: include_path=.:/usr/share/php:pear/usr/share/php
       - name: Run tests
         run: |
-          pear run-tests -d tests/
+          pear run-tests -r tests/
