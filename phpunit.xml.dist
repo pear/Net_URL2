@@ -1,4 +1,4 @@
-<phpunit bootstrap="Net/URL2.php"
+<phpunit bootstrap="tests/bootstrap.php"
          colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
