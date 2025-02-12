@@ -24,6 +24,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           ini-values: include_path=.:/usr/share/php:pear/usr/share/php
-      - name: Run tests
-        run: |
-          pear run-tests -r tests/
+          tools: composer:2.2
+      - name: Make
+        run: make

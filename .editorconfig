@@ -1,0 +1,21 @@
+# https://editorconfig.org/
+
+root = true
+
+[Makefile]
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+
+[*.php]
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+charset = utf-8
+indent_size = 4
+indent_style = space
+
+[*.xml]
+end_of_line = lf
+indent_size = 2
+indent_style = space

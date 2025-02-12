@@ -1,6 +1,9 @@
 # pear related
 /Net_URL2-*.tgz
 
+# php build related
+/.php*
+
 # composer related
 vendor/
 /composer.lock

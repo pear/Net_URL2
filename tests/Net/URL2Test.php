@@ -212,7 +212,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @see testResolveUrls
      * @return array
      */
-    public function provideResolveUrls()
+    public static function provideResolveUrls()
     {
         return array(
             array(
@@ -283,6 +283,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @covers Net_URL2::resolve
      * @return void
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideResolveUrls')]
     public function testResolveUrls($baseURL, array $relativeAbsolutePairs,
         array $options = array()
     ) {
@@ -468,7 +469,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @link http://tools.ietf.org/html/rfc3986#section-1.1.2
      * @see  testExampleUri
      */
-    public function provideExampleUri()
+    public static function provideExampleUri()
     {
         return array(
             array('ftp://ftp.is.co.za/rfc/rfc1808.txt'),
@@ -492,6 +493,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @link         http://tools.ietf.org/html/rfc3986#section-1.1.2
      * @see          testComponentRecompositionAndNormalization
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideExampleUri')]
     public function testExampleUri($uri)
     {
         $url = new Net_URL2($uri);
@@ -507,7 +509,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @see testRemoveDotSegments
      * @return array
      */
-    public function providePath()
+    public static function providePath()
     {
         // The numbers behind are in reference to sections
         // in RFC 3986 5.2.4. Remove Dot Segments
@@ -542,6 +544,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @covers Net_URL2::removeDotSegments
      * @return void
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('providePath')]
     public function testRemoveDotSegments($path, $assertion)
     {
         $this->assertEquals($assertion, Net_URL2::removeDotSegments($path));
@@ -570,7 +573,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @see testGetQueryVariables
      * @return array
      */
-    public function provideQueryStrings()
+    public static function provideQueryStrings()
     {
         // If the second (expected) value is set or not null, parse_str() differs.
         // Notes on PHP differences with each entry/block
@@ -632,6 +635,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @covers       Net_URL2::_queryKeyBracketOffset
      * @return void
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideQueryStrings')]
     public function testGetQueryVariables($query, $expected = null,
         array $options = array()
     ) {
@@ -663,7 +667,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @return array
      * @see testHostAndPort
      */
-    public function provideHostAndPort()
+    public static function provideHostAndPort()
     {
         return array(
             array('[::1]', '[::1]', false),
@@ -699,6 +703,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @link         http://tools.ietf.org/html/rfc3986#section-3.2
      * @link         http://tools.ietf.org/html/rfc3986#section-3.2.3
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideHostAndPort')]
     public function testHostAndPort($authority, $expectedHost, $expectedPort)
     {
         $uri = "http://{$authority}";
@@ -762,6 +767,8 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
             Net_URL2::removeDotSegments($nonStringObject);
         } catch (PHPUnit_Framework_Error $error) {
             $this->addToAssertionCount(1);
+        } catch (Throwable $error) {
+            $this->addToAssertionCount(1);
         }
 
         if (!isset($error)) {
@@ -816,7 +823,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @see testConstructSelf
      * @return array
      */
-    public function provideEquivalentUrlLists()
+    public static function provideEquivalentUrlLists()
     {
         return array(
             // String equivalence:
@@ -853,6 +860,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      *
      * @dataProvider provideEquivalentUrlLists
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideEquivalentUrlLists')]
     public function testNormalize()
     {
         $urls = func_get_args();
@@ -897,7 +905,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @return array
      * @see testComponentRecompositionAndNormalization
      */
-    public function provideComposedAndNormalized()
+    public static function provideComposedAndNormalized()
     {
         return array(
             array(''),
@@ -926,6 +934,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @link         https://pear.php.net/bugs/bug.php?id=20418
      * @see          testExampleUri
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideComposedAndNormalized')]
     public function testComponentRecompositionAndNormalization($uri)
     {
         $url = new Net_URL2($uri);
@@ -942,6 +951,7 @@ class Net_URL2Test extends PHPUnit_Framework_TestCase
      * @coversNothing
      * @return void
      */
+    #[PHPUnit\Framework\Attributes\DataProvider('provideEquivalentUrlLists')]
     public function testConstructSelf()
     {
         $urls = func_get_args();

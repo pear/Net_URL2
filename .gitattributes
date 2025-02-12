@@ -1,4 +1,5 @@
 /.* export-ignore
+/Makefile export-ignore
 /docs/*.php export-ignore
 /tests/ export-ignore
 /package.xml export-ignore
