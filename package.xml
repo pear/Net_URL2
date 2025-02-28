@@ -44,6 +44,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </stability>
   <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
+    * Fix: Remove executable bit on *.php files
     * Fix: libpcre2 10.45 compat: _encodeData \x shorthand for \x00 (Request #29032)
     * Fix: PHP 8.4 compat: URL2: Make $array non optional in _queryArrayByBrackets (Bug #28649)
     * Imp: Update CI to GitHub Actions
