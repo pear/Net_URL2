@@ -32,10 +32,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <active>no</active>
   </lead>
 
-  <date>2017-08-25</date>
+  <date>2025-03-11</date>
   <time>00:00:00</time>
   <version>
-    <release>2.2.2</release>
+    <release>2.2.3-dev</release>
     <api>2.1.0</api>
   </version>
   <stability>
@@ -44,7 +44,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
   </stability>
   <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
   <notes>
-    * Fix: Set composer include path to keep other packages working
+    * Fix: PHP 8.4 compat: URL2: Make $array non optional in _queryArrayByBrackets (Bug #28649)
+    * Imp: Update CI to GitHub Actions
+    * Imp: Exclude dev files from Composer package
   </notes>
 
   <contents>
@@ -118,7 +120,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fix: Correct case of method call name
       </notes>
     </release>
-
     <release>
       <date>2015-04-18</date>
       <time>19:00:00</time>
@@ -135,7 +136,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Changed composer autoloader to classmap, fixes include path pollution
       </notes>
     </release>
-
     <release>
       <date>2014-12-27</date>
       <time>14:00:00</time>
@@ -152,7 +152,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed #20473: Normalize query and fragment broken
       </notes>
     </release>
-
     <release>
       <date>2014-10-21</date>
       <time>18:09:00</time>
@@ -185,7 +184,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Removed: OPTION_DROP_SEQUENCE
       </notes>
     </release>
-
     <release>
       <date>2014-10-18</date>
       <time>08:39:00</time>
@@ -202,7 +200,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * New: OPTION_DROP_SEQUENCE
       </notes>
     </release>
-
     <release>
       <date>2014-10-09</date>
       <time>22:12:00</time>
@@ -220,7 +217,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fix: Documentation problem
       </notes>
     </release>
-
     <release>
       <date>2014-10-08</date>
       <time>15:52:00</time>
@@ -239,7 +235,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Upd: Travis CI - PHP 5.6 added
       </notes>
     </release>
-
     <release>
       <date>2014-10-07</date>
       <time>23:25:00</time>
@@ -258,7 +253,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Imp: Test for RFC 3986 Section 1.1.2 Examples
       </notes>
     </release>
-
     <release>
       <date>2014-09-07</date>
       <time>08:34:00</time>
@@ -276,7 +270,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed #20399: Setting userinfo to FALSE not transparent
       </notes>
     </release>
-
     <release>
       <date>2014-07-21</date>
       <time>00:03:00</time>
@@ -293,7 +286,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed #20304: file:// URI gets crippled
       </notes>
     </release>
-
     <release>
       <date>2014-01-01</date>
       <time>21:59:00</time>
@@ -312,7 +304,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Increased code coverage
       </notes>
     </release>
-
     <release>
       <date>2013-12-31</date>
       <time>01:59:00</time>
@@ -332,7 +323,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Url-segment maximum count raised from 100 to 256 (loop limit)
       </notes>
     </release>
-
     <release>
       <date>2013-12-30</date>
       <time>01:32:00</time>
@@ -355,7 +345,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Added support for Scrutinizer CI
       </notes>
     </release>
-
     <release>
       <date>2013-12-27</date>
       <time>19:16:00</time>
@@ -375,7 +364,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Added support for Travis CI
       </notes>
     </release>
-
     <release>
       <date>2013-12-24</date>
       <time>18:12:00</time>
@@ -395,7 +383,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed Bug #19315: removeDotSegments("0") not working
       </notes>
     </release>
-
     <release>
       <date>2011-10-20</date>
       <time>10:43:00</time>
@@ -413,7 +400,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed Bug #18917: URL2.php moved to ./Net/Net (davidc)
       </notes>
     </release>
-
     <release>
       <version>
         <release>1.0.0</release>
@@ -434,7 +420,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
         * Fixed Bug #14399: Fixed multiple bugs in Net_URL2 (Missing setOption value, unused properties, etc.)
       </notes>
     </release>
-
     <release>
       <version>
         <release>0.3.1</release>
