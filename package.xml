@@ -32,10 +32,10 @@
     <active>no</active>
   </lead>
 
-  <date>2025-03-12</date>
+  <date>2025-03-24</date>
   <time>00:00:00</time>
   <version>
-    <release>2.2.3-dev</release>
+    <release>2.2.3</release>
     <api>2.1.0</api>
   </version>
   <stability>
@@ -87,6 +87,26 @@
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <date>2025-03-24</date>
+      <time>00:00:00</time>
+      <version>
+        <release>2.2.3</release>
+        <api>2.1.0</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="https://spdx.org/licenses/BSD-3-Clause">BSD-3-Clause</license>
+      <notes>
+        * Fix: Remove executable bit on *.php files
+        * Fix: libpcre2 10.45 compat: _encodeData \x shorthand for \x00 (Request #29032)
+        * Fix: PHP 8.4 compat: URL2: Make $array non optional in _queryArrayByBrackets (Bug #28649)
+        * Imp: Update CI to GitHub Actions
+        * Imp: Exclude dev files from Composer package
+      </notes>
+    </release>
     <release>
       <date>2017-08-25</date>
       <time>00:00:00</time>
