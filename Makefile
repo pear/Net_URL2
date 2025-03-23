@@ -11,12 +11,19 @@ vendor/bin/php% : composer.json
 	$(COMPOSERCMD) install
 	touch -c $@
 
-build: vendor/bin/phpunit
+build-main: vendor/bin/phpunit
 	pear version
 	$(PHP) $<
 	pear run-tests -r tests/
 
+build-composer:
+	$(COMPOSERCMD:%-q=%) --version
+	$(COMPOSERCMD:%-q=%) validate --strict
+
+build: build-main build-composer
+
 all: build
+.PHONY: build build-main build-composer
 
 clean:
 	rm -f -- $(wildcard .php*)
